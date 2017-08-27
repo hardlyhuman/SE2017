@@ -76,32 +76,24 @@ WSGI_APPLICATION = 'SE2017.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
-    # Running on production App Engine, so connect to Google Cloud SQL using
-    # the unix socket at /cloudsql/<your-cloudsql-connection string>
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'HOST': '/cloudsql/se2017-177706:asia-east1:se2017',
-            'NAME': 'se2017',
-            'USER': 'root',
-            'PASSWORD': 'dr.chs@se2017',
+            'HOST': '<Cloud host url>',
+            'NAME': '<projectname>',
+            'USER': '<username>',
+            'PASSWORD': '<password>',
         }
     }
 else:
-    # Running locally so connect to either a local MySQL instance or connect to
-    # Cloud SQL via the proxy. To start the proxy via command line:
-    #
-    #     $ cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:3306
-    #
-    # See https://cloud.google.com/sql/docs/mysql-connect-proxy
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'HOST': '127.0.0.1',
             'PORT': '8080',
-	    'NAME': 'se2017',
-            'USER': 'root',
-            'PASSWORD': 'dr.chs@se2017',
+	    'NAME': '<projectname>',
+            'USER': '<username>',
+            'PASSWORD': '<password>',
         }
     }
 

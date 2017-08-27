@@ -4,9 +4,10 @@
   min-height:250px;
 }
 .navigation{
-    float: left;
-    width: 100%;
+    float: right;
+    width: 80%;
     text-align: center;
+	position: relative;
 }
 .navigation ul{
     margin: 0;
@@ -107,4 +108,13 @@
 }
 .navigation ul li a:hover{
   color:goldenrod;
+}
+footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
 }

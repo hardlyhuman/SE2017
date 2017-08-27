@@ -103,7 +103,7 @@ else:
             'USER': 'root',
             'PASSWORD': 'dr.chs@se2017',
         }
-    }
+i    }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

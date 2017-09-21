@@ -27,32 +27,32 @@ class Roles(models.Model):
 	Role_ID=models.AutoField(primary_key=True)
 	Role_name=models.CharField(max_length=50,default="")
 	level=models.IntegerField(default=0)
-
-class Personnel(models.Model):
-	Person_ID=models.IntegerField(primary_key=True)
-	Person_Name=models.CharField(max_length=50,default="")
-	Role=models.ForeignKey(Roles,to_field='Role_ID',on_delete=models.CASCADE)#Make sure whether this has to be foreign key
-<<<<<<< HEAD
-i	Dept=models.ForeignKey(Department,to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too 
-=======
-	Dept=models.ForeignKey(Department,to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too 
->>>>>>> b999474ef17a537dd9e3541c298b2f5eeee5d46e
-
+	
 class Department(models.Model):
 	Dept_ID=models.AutoField(primary_key=True)
 	Dept_Name=models.CharField(max_length=50,default="")
 	Head_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
 
+class Personnel(models.Model):
+	Person_ID=models.IntegerField(primary_key=True)
+	Person_Name=models.CharField(max_length=50,default="")
+	Role=models.ForeignKey(Roles,to_field='Role_ID',on_delete=models.CASCADE)#Make sure whether this has to be foreign key
+
+	Dept=models.ForeignKey(Department,to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too 
+
+	Dept=models.ForeignKey(Department,to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too 
+
+
+
 class Courses(models.Model):
 	Course_ID=models.AutoField(primary_key=True)
 	Course_Name=models.CharField(max_length=50,default="")
-<<<<<<< HEAD
+
 	#Inst_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE) 
 	Course_description = models.CharField(max_length = 255, default = "")
 	Course_Credits = models.IntegerField()
 	Course_Status = models.BooleanField(initial = True)
-=======
->>>>>>> b999474ef17a537dd9e3541c298b2f5eeee5d46e
+
 
 class Attendance(models.Model):
 	Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
@@ -81,8 +81,6 @@ class Submissions(models.Model):
 	Assign_ID=models.ForeignKey(Assignment,to_field='Assign_ID',on_delete=models.CASCADE)
 	Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
 	Sub_Time=models.DateTimeField(default=datetime.datetime.now())
-<<<<<<< HEAD
-=======
 	Score=models.FloatField(default=0)
 
 class Instructors_Courses(models.Models):
@@ -107,4 +105,4 @@ class Student_Period(models.Model):
 	Student_ID=models.ForeignKey(Personnel,to_field='Person_ID')
 	Start_Year=models.IntegerField(default=2013)
 	End_Year=models.IntegerField(default=2017)
->>>>>>> b999474ef17a537dd9e3541c298b2f5eeee5d46e
+

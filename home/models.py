@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
+from compositekey import db
 import datetime
 '''
 	Check all the foreign key constraints and whether the on_delete CASCADE makes sense.
@@ -31,7 +32,11 @@ class Personnel(models.Model):
 	Person_ID=models.IntegerField(primary_key=True)
 	Person_Name=models.CharField(max_length=50,default="")
 	Role=models.ForeignKey(Roles,to_field='Role_ID',on_delete=models.CASCADE)#Make sure whether this has to be foreign key
+<<<<<<< HEAD
+i	Dept=models.ForeignKey(Department,to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too 
+=======
 	Dept=models.ForeignKey(Department,to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too 
+>>>>>>> b999474ef17a537dd9e3541c298b2f5eeee5d46e
 
 class Department(models.Model):
 	Dept_ID=models.AutoField(primary_key=True)
@@ -41,7 +46,13 @@ class Department(models.Model):
 class Courses(models.Model):
 	Course_ID=models.AutoField(primary_key=True)
 	Course_Name=models.CharField(max_length=50,default="")
-	Inst_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE) 
+<<<<<<< HEAD
+	#Inst_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE) 
+	Course_description = models.CharField(max_length = 255, default = "")
+	Course_Credits = models.IntegerField()
+	Course_Status = models.BooleanField(initial = True)
+=======
+>>>>>>> b999474ef17a537dd9e3541c298b2f5eeee5d46e
 
 class Attendance(models.Model):
 	Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
@@ -62,10 +73,38 @@ class LoginTable(models.Model):
 class Assignment(models.Model):
 	Assign_ID=models.AutoField(primary_key=True)
 	Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
-	Start_time=models.DateTimeField(default=datetime.datetime.now())
-	End_time=models.DateTimeField(default=(datetime.datetime.now()+datetime.timedelta(hours=24)))
+	Start_Time=models.DateTimeField(default=datetime.datetime.now())
+	End_Time=models.DateTimeField(default=(datetime.datetime.now()+datetime.timedelta(hours=24)))
 
 class Submissions(models.Model):
+    Sub_ID=db.MultiFieldPK('Assign_ID','Student_ID')
 	Assign_ID=models.ForeignKey(Assignment,to_field='Assign_ID',on_delete=models.CASCADE)
 	Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
 	Sub_Time=models.DateTimeField(default=datetime.datetime.now())
+<<<<<<< HEAD
+=======
+	Score=models.FloatField(default=0)
+
+class Instructors_Courses(models.Models):
+    IC_id=db.MultiFieldPK('Course_ID','Inst_ID')
+    Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
+    Inst_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
+    Start_Date=models.DateField(auto_now_add=True)
+    End_Date=models.DateField(auto_now_add=True)
+
+class Students_Courses(models.Models):
+    SC_ID=db.MultiFieldPK('Student_ID','Course_ID')
+    Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
+    Course_ID=models.ForeignKey(Courses,to_field='Cousre_ID',on_delete=models.CASCADE)
+    Reg_Date=models.DateField(auto_now_add=True)
+
+class Events(models.Models):
+    Event_ID=db.MultiFieldPK('Event_Date','Event_Name')
+    Event_Date=models.DateField(auto_now_add=True)
+    Event_Name=models.CharField(default='',max_length=50)
+
+class Student_Period(models.Model):
+	Student_ID=models.ForeignKey(Personnel,to_field='Person_ID')
+	Start_Year=models.IntegerField(default=2013)
+	End_Year=models.IntegerField(default=2017)
+>>>>>>> b999474ef17a537dd9e3541c298b2f5eeee5d46e

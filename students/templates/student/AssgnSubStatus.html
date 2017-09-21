@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    .container{
+    	display: inline-block;
+    }
+.block{
+	margin-left: 500px;
+	background: grey;
+}
+#course_name,#assign_no{
+	display: inline;
+}
+#course_name{
+	float: right;
+}
+#assign_no{
+	float: left;
+}
+</style>
+</head>
+<body>
+<div class="panel panel-default">
+  <div class="panel-body"><h1>View Submission Status</h1></div>
+</div>
+<div class="container">
+ <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example1
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><a href="#">HTML</a></li>
+    <li><a href="#">CSS</a></li>
+    <li><a href="#">JavaScript</a></li>
+  </ul>
+</div> 
+<br>
+<br>
+ <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example2
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><a href="#">HTML</a></li>
+    <li><a href="#">CSS</a></li>
+    <li><a href="#">JavaScript</a></li>
+  </ul>
+</div> 
+</div>
+<div>
+	<div class="row block" style="max-width: 400px;">
+	<div class="col-md-12 col-xs-12">
+	<p id="assign_no">Assignment No:</p>
+	<p id="course_name">Course Name</p>
+	<br>
+	<h3><p>Status:</p></h3>
+	<br>
+	<h4><p>Deadline:</p></h4>
+</div>
+</div>
+</div>          
+</body>
+</html>

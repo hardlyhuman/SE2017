@@ -90,10 +90,10 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'HOST': '127.0.0.1',
-            'PORT': '8080',
-	    'NAME': '<projectname>',
-            'USER': '<username>',
-            'PASSWORD': '<password>',
+            'PORT': '3306',
+	    'NAME': 'faculty',
+            'USER': 'root',
+            'PASSWORD': '9515844661',
         }
     }
 

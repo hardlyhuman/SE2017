@@ -61,7 +61,7 @@ class Attendance(models.Model):
 	Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
 	Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
 	Date_time=models.DateTimeField(default=datetime.datetime.now())
-	Marked=models.CharField(default="A")
+	Marked=models.CharField(default="A",max_length=1)
 
 class Documents(models.Model):
 	Doc_ID=models.AutoField(primary_key=True)
@@ -97,7 +97,7 @@ class Students_Courses(models.Model):
     #SC_ID=db.MultiFieldPK('Student_ID','Course_ID')
     SC_ID=models.AutoField(primary_key=True)
     Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
-    Course_ID=models.ForeignKey(Courses,to_field='Cousre_ID',on_delete=models.CASCADE)
+    Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
     Reg_Date=models.DateField(auto_now_add=True)
 
 class Events(models.Model):

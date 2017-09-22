@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
-#from compositekey import db
+from compositekey import db
 import datetime
 
 '''
@@ -41,19 +41,16 @@ class Personnel(models.Model):
         def __str__(self):
             return str((self.Person_Name))
 
+#	Dept=models.ForeignKey(Department,to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too 
 
 
 	
 class Department(models.Model):
 	Dept_ID=models.AutoField(primary_key=True)
 	Dept_Name=models.CharField(max_length=50,default="")
-<<<<<<< Updated upstream
 	#Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
         def __str__(self):
             return (self.Dept_Name)
-=======
-	Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE,default="")
->>>>>>> Stashed changes
 
 
 

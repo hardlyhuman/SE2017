@@ -2,6 +2,7 @@ from django.shortcuts import render, render_to_response
 from django.contrib.auth.decorators import login_required
 from django import template	
 from django.http import HttpResponse
+from .forms import PersonnelForm
 import datetime
 # Create your views here.
 PRIVATE_IPS_PREFIX = ('10.', '172.', '192.', )

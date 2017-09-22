@@ -1,5 +1,4 @@
 {% load static %}
-
 <link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}" />
 <body>
 <header>
@@ -7,77 +6,36 @@
 
 
 <div class="wrapper">
-<img src="{% static 'images/iiits-logo.png' %}"></img>
+  <img src="{% static 'images/iiits-logo.png' %}"></img>
 <nav class="navigation">
   <ul>
 	
     <li class="active">
-      <a href="#">Home</a>
+      <a href="index.html">Home</a>
 
     </li>
     
     <li>
-      <a href="">Academic Office</a>
-      <ul class="children sub-menu">
-        <li>
-          <a href="#">SubMenu 1</a>
-        </li>
-        <li>
-          <a href="#">SubMenu 2</a>
-        </li>
-        <li>
-          <a href="#">SubMenu 3</a>
-        </li>
-        <li>
-          <a href="#">SubMenu 4</a>
-        </li>
-      </ul>
+      <a href="#">Attendance</a>
     </li>
     <li>
-      <a href="">Faculty</a>
-      <ul class="children sub-menu">
-        <li>
-          <a href="#">SubMenu 1</a>
-        </li>
-        <li>
-          <a href="#">SubMenu 2</a>
-        </li>
-       
-      </ul>
+      <a href="#">Courses</a>
     </li>
     <li>
-      <a href="">Student</a>
-      <ul class="children sub-menu">
-        <li>
-          <a href="#">SubMenu 1</a>
-        </li>
-        <li>
-          <a href="#">SubMenu 2</a>
-        </li>
-        <li>
-          <a href="#">SubMenu 3</a>
-        </li>
-        <li>
-          <a href="#">SubMenu 4</a>
-        </li>
-        <li>
-          <a href="#">SubMenu 5</a>
-        </li>
-      </ul>
+      <a href="#">Grades</a>
     </li>
     <li >
-      <a href="#">IT Dept</a>
-    </li>
-	<li >
-      <a href="#">Reports and Analytics</a>
-	<ul class="children sub-menu">
-	  <li>
-          <a href="#">Reports</a>
+      <a href="">Events</a>
+      <ul class="children sub-menu">
+        <li>
+          <a href="#">Almanac</a>
         </li>
         <li>
-          <a href="#">Analytics</a>
-        </li></ul>
-    </li><li>
+          <a href="#">Timetable</a>
+        </li>
+      </ul>
+    </li>
+  <li>
    {% if user.is_authenticated %}
      <a href="#"> Hi {{ user.username }}!</a>
 	<ul class="children sub-menu">

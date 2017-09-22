@@ -21,7 +21,11 @@ urlpatterns = [
 	url(r'^$', include('home.urls'), name='home'),
     url(r'^login/',  auth_views.login, {'template_name': 'Login/login.html'}, name='login'),
 	url(r'^logout/$', auth_views.logout, {'template_name': 'Login/login.html'}, name='logout'),
+<<<<<<< Updated upstream
 	#url(r'^student/', include('students.urls'), name='student'),
+=======
+	#url(r'^student/', include('student.urls'), name='student'),
+>>>>>>> Stashed changes
     url(r'^admin/', admin.site.urls),
 	
 ]

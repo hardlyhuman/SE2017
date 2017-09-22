@@ -90,11 +90,19 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
+<<<<<<< Updated upstream
             'HOST': 'localhost',
             'NAME': 'faculty',
             'USER': 'root',
             'PASSWORD': 'swathi',
 
+=======
+            'HOST': '127.0.0.1',
+	    'PORT':'3306',
+	    'NAME':'se',
+            'USER':'root',
+	    'PASSWORD':'savitha',
+>>>>>>> Stashed changes
            
         }
     }

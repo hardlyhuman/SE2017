@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
+from django import forms
 #from compositekey import db
 import datetime
 
@@ -39,7 +40,8 @@ class Personnel(models.Model):
 
 	Dept=models.ForeignKey('Department',to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too 
         def __str__(self):
-            return str((self.Person_Name))
+		return str((self.Person_Name))
+	Password=models.CharField(max_length=100,default="")
 
 #	Dept=models.ForeignKey(Department,to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too 
 

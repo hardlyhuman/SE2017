@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'faculty'
 ]
 
 MIDDLEWARE = [
@@ -89,11 +90,12 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'HOST': '127.0.0.1',
-            'PORT': '8080',
-	    'NAME': '<projectname>',
-            'USER': '<username>',
-            'PASSWORD': '<password>',
+            'HOST': 'localhost',
+            'NAME': 'faculty',
+            'USER': 'root',
+            'PASSWORD': 'swathi',
+
+           
         }
     }
 
@@ -138,5 +140,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-
+MEDIA_URL='/AssignmentsFolder/'
+MEDIA_ROOT=os.path.join(BASE_DIR,'home/AssignmentsFolder')
 

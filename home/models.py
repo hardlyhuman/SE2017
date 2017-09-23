@@ -41,7 +41,7 @@ class Personnel(models.Model):
 
 	#Dept=models.ForeignKey(Department,on_delete=models.CASCADE)#Not sure about this too 
 
-#	Dept=models.ForeignKey('Department',to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too 
+	Dept=models.ForeignKey('Department',to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too 
         def __str__(self):
 		return str((self.Person_Name))
 	Password=models.CharField(max_length=100,default="")
@@ -54,7 +54,7 @@ class Department(models.Model):
 	Dept_ID=models.AutoField(primary_key=True)
 	Dept_Name=models.CharField(max_length=50,default="")
 
-	Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
+#	Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
 
 	#Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
         def __str__(self):
@@ -62,10 +62,10 @@ class Department(models.Model):
 
 
 	
-class Department(models.Model):
+'''class Department(models.Model):
 	Dept_ID=models.AutoField(primary_key=True)
 	Dept_Name=models.CharField(max_length=50,default="")
-	Head_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
+	Head_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)'''
 
 
 class Courses(models.Model):

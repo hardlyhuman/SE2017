@@ -29,15 +29,9 @@ class Roles(models.Model):
 	Role_ID=models.AutoField(primary_key=True)
 	Role_name=models.CharField(max_length=50,default="")
 	level=models.IntegerField(default=0)
-<<<<<<< HEAD
-<<<<<<< HEAD
-	
-=======
->>>>>>> origin/master
-=======
+
         def __str__(self):
             return (self.Role_name)
->>>>>>> origin/master
 
 
 class Personnel(models.Model):
@@ -45,10 +39,9 @@ class Personnel(models.Model):
 	Person_Name=models.CharField(max_length=50,default="")
 	Role=models.ForeignKey(Roles,to_field='Role_ID',on_delete=models.CASCADE)#Make sure whether this has to be foreign key
 
-<<<<<<< HEAD
 	#Dept=models.ForeignKey(Department,on_delete=models.CASCADE)#Not sure about this too 
-=======
-	Dept=models.ForeignKey('Department',to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too 
+
+#	Dept=models.ForeignKey('Department',to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too 
         def __str__(self):
 		return str((self.Person_Name))
 	Password=models.CharField(max_length=100,default="")
@@ -60,14 +53,13 @@ class Personnel(models.Model):
 class Department(models.Model):
 	Dept_ID=models.AutoField(primary_key=True)
 	Dept_Name=models.CharField(max_length=50,default="")
-<<<<<<< HEAD
+
 	Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
->>>>>>> origin/master
-=======
+
 	#Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
         def __str__(self):
             return (self.Dept_Name)
->>>>>>> origin/master
+
 
 	
 class Department(models.Model):
@@ -83,16 +75,10 @@ class Courses(models.Model):
 	#Inst_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE) 
 	Course_description = models.CharField(max_length = 255, default = "")
 	Course_Credits = models.IntegerField()
-<<<<<<< HEAD
 	Course_Status = models.BooleanField(default = True)
-=======
 	Course_Status = models.BooleanField(default= True)
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
         def __str__(self):
             return (self.Course_Name)
->>>>>>> origin/master
 
 
 class Attendance(models.Model):
@@ -121,11 +107,10 @@ class Assignment(models.Model):
             return str(self.Assign_ID)
 
 class Submissions(models.Model):
-<<<<<<< HEAD
-	Sub_ID=db.MultiFieldPK('Assign_ID','Student_ID')
-=======
+	#Sub_ID=db.MultiFieldPK('Assign_ID','Student_ID')
+
 	Sub_ID=models.AutoField(primary_key=True)
->>>>>>> origin/master
+
 	Assign_ID=models.ForeignKey(Assignment,to_field='Assign_ID',on_delete=models.CASCADE)
 	Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
 	Sub_Time=models.DateTimeField(default=datetime.datetime.now())

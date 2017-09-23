@@ -1,0 +1,11 @@
+{%extends "base.html"%}
+
+{% block content %}
+{% if list_of_courses %}
+<ul>
+{% for course in list_of_courses %}
+<li><a href="#">{{course.Course_Name}}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

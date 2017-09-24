@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^login/',  auth_views.login, {'template_name': 'Login/login.html'}, name='login'),
 	url(r'^logout/$', auth_views.logout, {'template_name': 'Login/login.html'}, name='logout'),
 	url(r'^student/', include('students.urls'), name='student'),
+	url(r'^faculty/', include('faculty.urls'), name='faculty'),
     url(r'^admin/', admin.site.urls),
 	
 ]

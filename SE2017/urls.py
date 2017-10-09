@@ -17,11 +17,26 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
+from django.contrib.auth.models import User
+from rest_framework import routers, serializers, viewsets
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ('url', 'username', 'email')
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
+
 urlpatterns = [
 	url(r'^$', include('home.urls'), name='home'),
     url(r'^login/',  auth_views.login, {'template_name': 'Login/login.html'}, name='login'),
 	url(r'^logout/$', auth_views.logout, {'template_name': 'Login/login.html'}, name='logout'),
 	#url(r'^student/', include('students.urls'), name='student'),
     url(r'^admin/', admin.site.urls),
-	
+	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

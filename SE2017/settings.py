@@ -32,13 +32,18 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
+<<<<<<< HEAD
     'rest_framework',
+=======
+    'students.apps.StudentsConfig',
+>>>>>>> upstream/dbdesign
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'faculty'
 ]
 
@@ -102,6 +107,7 @@ else:
             'NAME': 'se',
             'USER': 'root',
             'PASSWORD': 'savitha',
+
 
            
         }

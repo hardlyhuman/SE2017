@@ -1,6 +1,6 @@
 from django.shortcuts import render, render_to_response
 from django.contrib.auth.decorators import login_required
-from django import template	
+from django import template
 from django.http import HttpResponse
 from .forms import PersonnelForm
 import datetime
@@ -27,9 +27,5 @@ def index(request):
 		if len(proxies) > 0:
 			ip = proxies[0]
 	html = "IP: %s" % ip
-	
+
 	return render(request, "home/index.html", {'html': html,'now':now})
-
-
-
-

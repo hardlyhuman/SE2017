@@ -53,6 +53,7 @@ class Courses(models.Model):
     #Inst_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
     Course_description = models.CharField(max_length = 255, default = "")
     Course_Credits = models.IntegerField()
+    Course_Year=models.IntegerField()
     Course_Status = models.BooleanField(default = True)
     #Course_Status = models.BooleanField(default= True)
     def __str__(self):

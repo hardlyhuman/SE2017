@@ -84,7 +84,6 @@ class Assignment(models.Model):
     Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
     Start_Time=models.DateTimeField(default=utils.timezone.now)
     End_Time=models.DateTimeField(default=utils.timezone.now)
-    @property
     def __str__(self):
         return str(self.Assign_ID)
 

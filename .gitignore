@@ -67,6 +67,8 @@ docs/_build/
 # PyBuilder
 target/
 
+# Migrations
+home/migrations/
 # Jupyter Notebook
 .ipynb_checkpoints
 
@@ -96,6 +98,8 @@ ENV/
 
 # mkdocs documentation
 /site
+
+# Settings.py
 
 # mypy
 .mypy_cache/

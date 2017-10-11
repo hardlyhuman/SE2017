@@ -32,11 +32,8 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
-<<<<<<< HEAD
     'rest_framework',
-=======
     'students.apps.StudentsConfig',
->>>>>>> upstream/dbdesign
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

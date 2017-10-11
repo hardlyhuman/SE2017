@@ -26,6 +26,8 @@ admin.site.register(Courses)
 admin.site.register(Department)
 admin.site.register(Personnel)
 admin.site.register(Roles)
+admin.site.register(Attendance_Session)
+admin.site.register(Timetable)
 
 
 # Register your models here.

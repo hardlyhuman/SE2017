@@ -103,7 +103,7 @@ else:
             'HOST': 'localhost',
             'NAME': 'se',
             'USER': 'root',
-            'PASSWORD': 'sriamazingram',
+            'PASSWORD': 'nox11970502',
 
 
            

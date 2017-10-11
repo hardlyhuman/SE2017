@@ -12,7 +12,6 @@ class Roles(models.Model):
     Role_name=models.CharField(max_length=50,default="")
     level=models.IntegerField(default=0)
 
-    @property
     def __str__(self):
         return self.Role_name
 
@@ -23,7 +22,7 @@ class Personnel(models.Model):
     Role=models.ForeignKey(Roles,to_field='Role_ID',on_delete=models.CASCADE)#Make sure whether this has to be foreign key
     @property
     def __str__(self):
-        return self.LDAP.username
+        return str(self.LDAP.username)
     #Dept=models.ForeignKey(Department,on_delete=models.CASCADE)#Not sure about this too
 
     Dept=models.ForeignKey('Department',to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too
@@ -38,7 +37,6 @@ class Department(models.Model):
 #	Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
 
     #Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
-    @property
     def __str__(self):
         return self.Dept_Name
 
@@ -59,7 +57,7 @@ class Courses(models.Model):
     Course_Credits = models.IntegerField()
     Course_Status = models.BooleanField(default = True)
     #Course_Status = models.BooleanField(default= True)
-    @property
+
     def __str__(self):
         return self.Course_Name
 
@@ -92,7 +90,6 @@ class Assignment(models.Model):
 
 class Submissions(models.Model):
     #Sub_ID=db.MultiFieldPK('Assign_ID','Student_ID')
-
     Sub_ID=models.AutoField(primary_key=True)
 
     Assign_ID=models.ForeignKey(Assignment,to_field='Assign_ID',on_delete=models.CASCADE)
@@ -107,7 +104,6 @@ class Instructors_Courses(models.Model):
     Inst_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
     Start_Date=models.DateField(datetime.date(2017,1,1))
     End_Date=models.DateField(datetime.date(2017,1,1))
-    @property
     def __str__(self):
         return str((self.Inst_ID))
 class Students_Courses(models.Model):
@@ -116,7 +112,6 @@ class Students_Courses(models.Model):
     Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
     Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
     Reg_Date=models.DateField(datetime.date(2017,1,1))
-    @property
     def __str__(self):
         return str(self.Student_ID) + ' ' + str(self.Course_ID)
 

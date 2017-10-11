@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from home import urls
-
+from home.models import Courses
 
 # Create your views here.
 @login_required(login_url="/login/")
@@ -18,7 +18,8 @@ def ViewAttendance(request):
 
 @login_required(login_url="/login/")
 def CourseRegistration(request, year):
-
+    assert isinstance(year, object)
+    courses = Courses.objects.all().filter(batch = year)
     return render(request, 'student/CourseRegistration.html')
 
 

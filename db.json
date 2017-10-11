@@ -1,0 +1,1 @@
+[{"model": "home.roles", "pk": 1, "fields": {"Role_name": "Student", "level": 1}}, {"model": "home.department", "pk": 1, "fields": {"Dept_Name": "CSE"}}, {"model": "home.courses", "pk": 1, "fields": {"Course_Name": "SE", "Course_description": "Software Engineering", "Course_Credits": 4, "Course_Status": true}}

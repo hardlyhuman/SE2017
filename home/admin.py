@@ -27,6 +27,7 @@ admin.site.register(Department)
 admin.site.register(Personnel)
 admin.site.register(Roles)
 admin.site.register(Attendance_Session)
+admin.site.register(Attendance)
 admin.site.register(Timetable)
 
 

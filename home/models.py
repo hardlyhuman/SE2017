@@ -16,7 +16,7 @@ class Roles(models.Model):
 
 
 class Personnel(models.Model):
-    Person_ID=models.IntegerField(primary_key=True)
+    Person_ID=models.AutoField(primary_key=True)
     LDAP=models.OneToOneField(User, on_delete=models.CASCADE)
     Role=models.ForeignKey(Roles,to_field='Role_ID',on_delete=models.CASCADE)#Make sure whether this has to be foreign key
     def __str__(self):
@@ -58,22 +58,20 @@ class Courses(models.Model):
     def __str__(self):
         return self.Course_Name
 
-
-class Attendance(models.Model):
-    Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
-    Session_ID=models.ForeignKey('Attendance_Session',to_field='Session_ID',blank=True,null=True)
-    Date_time=models.DateTimeField(default=datetime.datetime.now())
-    Marked=models.CharField(default="A",max_length=1)
-
-
 class Attendance_Session(models.Model):
     Session_ID=models.AutoField(primary_key=True)
     Course_Slot=models.ForeignKey('Timetable',to_field='T_ID',on_delete=models.CASCADE)
     Date_time=models.DateTimeField(default=datetime.datetime.now())
     Status=models.IntegerField()
-    Location=models.CharField(max_length=50,default=True)
+    Location=models.CharField(max_length=50,blank=True)
     def __str__(self):
-        return self.Session_ID
+        return str(self.Session_ID)
+
+class Attendance(models.Model):
+    Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
+    ASession_ID=models.ForeignKey(Attendance_Session,to_field='Session_ID',blank=True,null=True)
+    Date_time=models.DateTimeField(default=datetime.datetime.now())
+    Marked=models.CharField(default="A",max_length=1)
 
 
 class Documents(models.Model):
@@ -92,7 +90,6 @@ class Assignment(models.Model):
     Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
     Start_Time=models.DateTimeField(default=utils.timezone.now)
     End_Time=models.DateTimeField(default=utils.timezone.now)
-    @property
     def __str__(self):
         return str(self.Assign_ID)
 
@@ -147,4 +144,4 @@ class Timetable(models.Model):
     Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
     Class_ID=models.CharField(max_length=10,default='')
     def __str__(self):
-        return self.T_ID
+        return str(self.T_ID)

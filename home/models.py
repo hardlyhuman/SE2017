@@ -21,12 +21,10 @@ class Roles(models.Model):
 
 @python_2_unicode_compatible
 class Personnel(models.Model):
-    Person_ID = models.IntegerField(primary_key=True)
-    LDAP = models.OneToOneField(User, on_delete=models.CASCADE)
-    Role = models.ForeignKey(Roles, to_field='Role_ID',
-                             on_delete=models.CASCADE)  # Make sure whether this has to be foreign key
+    Person_ID=models.AutoField(primary_key=True)
+    LDAP=models.OneToOneField(User, on_delete=models.CASCADE)
+    Role=models.ForeignKey(Roles,to_field='Role_ID',on_delete=models.CASCADE)#Make sure whether this has to be foreign key
 
-    @property
     def __str__(self):
         return self.LDAP.username
 
@@ -61,11 +59,9 @@ class Courses(models.Model):
     # Inst_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
     Course_description = models.CharField(max_length=255, default="")
     Course_Credits = models.IntegerField()
-
-    Course_Status = models.BooleanField(default=True)
-
-    # Course_Status = models.BooleanField(default= True)
-    @property
+    Course_Year=models.IntegerField()
+    Course_Status = models.BooleanField(default = True)
+    #Course_Status = models.BooleanField(default= True)
     def __str__(self):
         return self.Course_Name
 
@@ -83,9 +79,15 @@ class Attendance_Session(models.Model):
     Course_Slot=models.ForeignKey('Timetable',to_field='T_ID',on_delete=models.CASCADE)
     Date_time=models.DateTimeField(default=datetime.datetime.now())
     Status=models.IntegerField()
-    Location=models.CharField(max_length=50,default=True)
+    Location=models.CharField(max_length=50,blank=True)
     def __str__(self):
-        return self.Session_ID
+        return str(self.Session_ID)
+
+class Attendance(models.Model):
+    Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
+    ASession_ID=models.ForeignKey(Attendance_Session,to_field='Session_ID',blank=True,null=True)
+    Date_time=models.DateTimeField(default=datetime.datetime.now())
+    Marked=models.CharField(default="A",max_length=1)
 
 
 class Documents(models.Model):
@@ -101,13 +103,11 @@ class LoginTable(models.Model):
 
 @python_2_unicode_compatible
 class Assignment(models.Model):
-    Assign_ID = models.AutoField(primary_key=True)
-    Assignment_File = models.FileField(upload_to='AssignmentsFolder/', default="hello.pdf")
-    Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
-    Start_Time = models.DateTimeField(default=utils.timezone.now)
-    End_Time = models.DateTimeField(default=utils.timezone.now)
-
-    @property
+    Assign_ID=models.AutoField(primary_key=True)
+    Assignment_File = models.FileField(upload_to='AssignmentsFolder/',default="hello.pdf")
+    Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
+    Start_Time=models.DateTimeField(default=utils.timezone.now)
+    End_Time=models.DateTimeField(default=utils.timezone.now)
     def __str__(self):
         return str(self.Assign_ID)
 
@@ -178,4 +178,4 @@ class Timetable(models.Model):
     Class_ID=models.CharField(max_length=10,default='')
     @property
     def __str__(self):
-        return self.T_ID
+        return str(self.T_ID)

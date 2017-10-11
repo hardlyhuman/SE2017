@@ -119,6 +119,7 @@ class Submissions(models.Model):
     Assign_ID=models.ForeignKey(Assignment,to_field='Assign_ID',on_delete=models.CASCADE)
     Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
     Sub_Time=models.DateTimeField(default=utils.timezone.now)
+    Sub_Status = models.BooleanField(default=False)
     Score=models.FloatField(default=0)
 
 @python_2_unicode_compatible

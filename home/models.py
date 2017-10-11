@@ -20,7 +20,6 @@ class Personnel(models.Model):
     Person_ID=models.IntegerField(primary_key=True)
     LDAP=models.OneToOneField(User, on_delete=models.CASCADE)
     Role=models.ForeignKey(Roles,to_field='Role_ID',on_delete=models.CASCADE)#Make sure whether this has to be foreign key
-    @property
     def __str__(self):
         return str(self.LDAP.username)
     #Dept=models.ForeignKey(Department,on_delete=models.CASCADE)#Not sure about this too

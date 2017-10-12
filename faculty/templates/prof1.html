@@ -1,19 +1,76 @@
-<!DOCTYPE html>
 <html>
-	<body>
+<head>
+<style>
+#main{
+ padding: 0px, auto;
+    width: 500px;
+ margin-left:30px;
+margin-top:30px;
+ float:left;
+}
+#child-right{
+padding: 0px, auto;
+    float: right;
+    width: 500px;
+   
+  
+}
+</style>
 
-		<h1>Professor Name</h1>
-		<details>
-  <summary>Course1.</summary>
-  <p> Student Name1</p>
-  <p>Student Name2</p>
-</details>
-<details>
-  <summary>Course2.</summary>
-  <p> Student Name1</p>
-  <p>Student Name2</p>
-</details>
+</head>
+<body>
 
 
-	</body>
+<h1>Welcome {{Prof_Name}}</h1>
+<div id="child-right">
+<script>
+var courses=JSON.parse("{{Courses|escapejs}}");
+var coursedes=JSON.parse("{{Coursedes|escapejs}}");
+
+for(i=0;i<courses.length;i++)
+{
+document.write('<br>');
+ document.write('<a  href="http://127.0.0.1:8092/faculty/ViewRegisteredStudents?name='+courses[i]+'"> '+courses[i]+'</a>');
+document.write('<br><br>');
+document.write(coursedes[i]);
+document.write('<br>');
+}
+</script>
+</div>
+<br>
+<div id="main">
+<button id="Addass" class="float-left submit-button" >Add Assignment</button><br><br>
+<button id="Delass" class="float-left submit-button" >Delete Assignments</button><br><br>
+<button id="Editdes" class="float-left submit-button" >Edit Course Description</button><br><br>
+<button id="offercourses" class="float-left submit-button" >Offer Courses</button>
+</div>
+<script type="text/javascript">
+    document.getElementById("Addass").onclick = function () {
+        location.href = "http://127.0.0.1:8092/faculty/AddAssignment";
+    };
+document.getElementById("offercourses").onclick = function () {
+        location.href = "http://127.0.0.1:8092/faculty/offercourses";
+    };
+document.getElementById("Editdes").onclick = function () {
+        location.href = "http://127.0.0.1:8092/faculty/editdescription";
+    };
+ document.getElementById("Delass").onclick = function () {
+        location.href = "http://127.0.0.1:8092/faculty/Delass";
+    };
+</script>
+
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

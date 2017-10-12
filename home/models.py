@@ -17,7 +17,7 @@ class Roles(models.Model):
 
 
 class Personnel(models.Model):
-    Person_ID=models.IntegerField(primary_key=True)
+    Person_ID=models.AutoField(primary_key=True)
     LDAP=models.OneToOneField(User, on_delete=models.CASCADE)
     Role=models.ForeignKey(Roles,to_field='Role_ID',on_delete=models.CASCADE)#Make sure whether this has to be foreign key
     def __str__(self):
@@ -58,7 +58,7 @@ class Courses(models.Model):
     #Course_Status = models.BooleanField(default= True)
 
     def __str__(self):
-        return self.Course_Name
+        return str(self.Course_ID)
 
 
 class Attendance(models.Model):
@@ -115,7 +115,7 @@ class Students_Courses(models.Model):
 
 class Events(models.Model):
     Event_ID=models.AutoField(primary_key=True)
-    Event_Date=models.DateField(auto_now_add=True)
+    Event_Date=models.DateField()
     Event_Name=models.CharField(default='',max_length=50)
 
 class Student_Period(models.Model):

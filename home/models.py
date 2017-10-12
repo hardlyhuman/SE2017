@@ -171,3 +171,4 @@ class Timetable(models.Model):
     @property
     def __str__(self):
         return str(self.T_ID)
+=

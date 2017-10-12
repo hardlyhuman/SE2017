@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+
 env/
 build/
 develop-eggs/
@@ -69,6 +70,8 @@ target/
 
 # Migrations
 home/migrations/
+
+.idea/
 # Jupyter Notebook
 .ipynb_checkpoints
 

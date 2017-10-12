@@ -59,9 +59,8 @@ class Courses(models.Model):
     Course_Year=models.IntegerField()
     Course_Status = models.BooleanField(default = True)
     #Course_Status = models.BooleanField(default= True)
-
     def __str__(self):
-        return str(self.Course_ID)
+        return self.Course_Name
 
 class Attendance_Session(models.Model):
     Session_ID=models.AutoField(primary_key=True)
@@ -92,11 +91,13 @@ class LoginTable(models.Model):
 
 @python_2_unicode_compatible
 class Assignment(models.Model):
-    Assign_ID=models.AutoField(primary_key=True)
-    Assignment_File = models.FileField(upload_to='AssignmentsFolder/',default="hello.pdf")
-    Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
-    Start_Time=models.DateTimeField(default=utils.timezone.now)
-    End_Time=models.DateTimeField(default=utils.timezone.now)
+    Assign_ID = models.AutoField(primary_key=True)
+    Assignment_File = models.FileField(upload_to='AssignmentsFolder/', default="hello.pdf")
+    Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
+    Start_Time = models.DateTimeField(default=utils.timezone.now)
+    End_Time = models.DateTimeField(default=utils.timezone.now)
+
+    @property
     def __str__(self):
         return str(self.Assign_ID)
 
@@ -108,7 +109,6 @@ class Submissions(models.Model):
     Assign_ID=models.ForeignKey(Assignment,to_field='Assign_ID',on_delete=models.CASCADE)
     Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
     Sub_Time=models.DateTimeField(default=utils.timezone.now)
-    Sub_Status = models.BooleanField(default=False)
     Score=models.FloatField(default=0)
 
 @python_2_unicode_compatible

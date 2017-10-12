@@ -27,9 +27,19 @@ def ViewAttendance(request, StuId):
 
 @login_required(login_url="/login/")
 def CourseRegistration(request, year):
-    assert isinstance(year, object)
-    courses = Courses.objects.all().filter(batch=year)
-    return render(request, 'student/CourseRegistration.html')
+
+    """
+
+    :type year: int
+    """
+    c = []
+    course = Courses.objects.all().filter(Course_Year__courses=year)
+    for each in course:
+        c.append(each['Course_Name'])
+    return render(request, 'student/CourseRegistration.html', {'course': c})
+
+def register(request, year):
+    
 
 
 @login_required(login_url="/login/")

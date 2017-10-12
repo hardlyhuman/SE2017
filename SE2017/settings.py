@@ -32,7 +32,10 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
+<<<<<<< HEAD
     'rest_framework',
+=======
+>>>>>>> 47317ae1ba4ab10abd0e052e2ee6b7924e5b316b
     'students.apps.StudentsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'django_extensions',
     'faculty'
 ]
@@ -52,6 +56,12 @@ REST_FRAMEWORK = {
     ]
 }
 
+=======
+    'faculty',
+    'django_extensions'
+]
+
+>>>>>>> 47317ae1ba4ab10abd0e052e2ee6b7924e5b316b
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -103,10 +113,16 @@ else:
             'HOST': 'localhost',
             'NAME': 'se',
             'USER': 'root',
+<<<<<<< HEAD
             'PASSWORD': 'nox11970502',
 
 
            
+=======
+            'PASSWORD': 'ib_Harsha1',
+
+
+>>>>>>> 47317ae1ba4ab10abd0e052e2ee6b7924e5b316b
         }
     }
 
@@ -153,4 +169,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 MEDIA_URL='/AssignmentsFolder/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'home/AssignmentsFolder')
+<<<<<<< HEAD
 
+=======
+>>>>>>> 47317ae1ba4ab10abd0e052e2ee6b7924e5b316b

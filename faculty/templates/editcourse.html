@@ -2,30 +2,27 @@
 <style>
 .menu{
 position:relative;
-right:50px;
-}
-.upload{
-position:relative;
-right:40px;
+right:110px;
 }
 </style>
 </head>
-<center><h3>Upload Assignment </h3></center>
+<center><h3>Edit Course Description</h3></center><br><br>
+<br>
 <br>
 <center>
 <form action="" method="post" enctype="multipart/form-data">
   {% csrf_token %}
 <select  name="dropdown" class="menu">
-<option value="" hidden> choose course</option>	
+<option value="" selected="selected" hidden> choose course</option>	
 {% for course in Courses %}
 
 <option value="{{course}}" > {{course}}</option>
 
 {% endfor %}
 </select>
-
-        {{ form.as_p }}
-        <input type="submit" value="Upload"class="upload">
+<br><br>
+        <textarea rows="10" cols="50" name="coursedes">Enter Course Description...</textarea><br><br>
+        <input type="submit" value="Upload">
         <input type="reset" value="Reset">
     </form></center>
 

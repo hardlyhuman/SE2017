@@ -63,15 +63,6 @@ class Courses(models.Model):
     def __str__(self):
         return str(self.Course_ID)
 
-
-class Attendance(models.Model):
-    Student_ID = models.ForeignKey(Personnel, to_field='Person_ID', on_delete=models.CASCADE)
-    Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
-    Date_time = models.DateTimeField(default=datetime.datetime.now())
-    Marked = models.CharField(default="A", max_length=1)
-
-
-
 class Attendance_Session(models.Model):
     Session_ID=models.AutoField(primary_key=True)
     Course_Slot=models.ForeignKey('Timetable',to_field='T_ID',on_delete=models.CASCADE)
@@ -167,6 +158,5 @@ class Timetable(models.Model):
     End_time=models.TimeField(auto_now_add=True)
     Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
     Class_ID=models.CharField(max_length=10,default='')
-    @property
     def __str__(self):
         return str(self.T_ID)

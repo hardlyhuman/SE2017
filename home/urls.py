@@ -28,4 +28,8 @@ urlpatterns = [
     url(r'^event/(?P<pk>[0-9]+)/$',views.event),
     url(r'^add_view_SP/',views.add_view_SP),
     url(r'^SP/(?P<pk>[0-9]+)/$',views.SP),
+	url(r'^add_view_attendance/',views.add_view_attendance),
+    url(r'^attendance/(?P<pk>[0-9]+)/$',views.attendance),
+	url(r'^add_view_attendance_sessions/',views.add_view_attendance_sessions),
+	url(r'^add_view_timetable/',views.add_view_timetable),
 ]

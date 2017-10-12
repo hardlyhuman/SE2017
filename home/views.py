@@ -519,3 +519,83 @@ def SP(request, pk):
 	elif request.method == 'DELETE':
 		one_SP.delete()
 		return HttpResponse(status=204)
+
+@csrf_exempt
+def add_view_attendance(request):
+	"""
+	List all code snippets, or create a new snippet.
+	"""
+	if request.method == 'GET':
+		all_attendance = Attendance.objects.all()
+		serializer = AttendanceSerializer(all_attendance, many=True)
+		return JsonResponse(serializer.data, safe=False)
+
+	elif request.method == 'POST':
+		data = JSONParser().parse(request)
+		serializer = SPSerializer(data=data)
+		if serializer.is_valid():
+			serializer.save()
+			return JsonResponse(serializer.data, status=201)
+		return JsonResponse(serializer.errors, status=400)
+
+@csrf_exempt
+def attendance(request, SID):
+	"""
+	Retrieve, update or delete a code snippet.
+	"""
+	try:
+		one_attendance = Attendance.objects.filter(Student_ID=SID)
+	except Attendance.DoesNotExist:
+		return HttpResponse(status=404)
+
+	if request.method == 'GET':
+		serializer = AttendanceSerializer(one_attendance)
+		return JsonResponse(serializer.data)
+
+	elif request.method == 'PUT':
+		data = JSONParser().parse(request)
+		serializer = AttendanceSerializer(one_attendance, data=data)
+		if serializer.is_valid():
+			serializer.save()
+			return JsonResponse(serializer.data)
+		return JsonResponse(serializer.errors, status=400)
+
+	elif request.method == 'DELETE':
+		one_attendance.delete()
+		return HttpResponse(status=204)
+
+@csrf_exempt
+def add_view_attendance_sessions(request):
+	"""
+	List all code snippets, or create a new snippet.
+	"""
+	if request.method == 'GET':
+		all_attendance_sessions = Attendance_Session.objects.all()
+		serializer = Attendance_SessionSerializer(all_attendance_sessions, many=True)
+		return JsonResponse(serializer.data, safe=False)
+
+	elif request.method == 'POST':
+		data = JSONParser().parse(request)
+		serializer = Attendance_SessionSerializer(data=data)
+		if serializer.is_valid():
+			serializer.save()
+			return JsonResponse(serializer.data, status=201)
+		return JsonResponse(serializer.errors, status=400)
+
+@csrf_exempt
+def add_view_timetable(request):
+	"""
+	List all code snippets, or create a new snippet.
+	"""
+	if request.method == 'GET':
+		all_timetable = Timetable.objects.all()
+		serializer = TimetableSerializer(all_timetable, many=True)
+		return JsonResponse(serializer.data, safe=False)
+
+	elif request.method == 'POST':
+		data = JSONParser().parse(request)
+		serializer = TimetableSerializer(data=data)
+		if serializer.is_valid():
+			serializer.save()
+			return JsonResponse(serializer.data, status=201)
+		return JsonResponse(serializer.errors, status=400)

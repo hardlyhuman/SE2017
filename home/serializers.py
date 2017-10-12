@@ -20,7 +20,7 @@ class RolesSerializer(serializers.ModelSerializer):
 class CoursesSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Courses
-		fields=('Course_ID','Course_Name','Course_description','Course_Credits','Course_Status')
+		fields=('Course_ID','Course_Name','Course_description','Course_Credits','Course_Year','Course_Status')
 
 class DocumentsSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -56,3 +56,18 @@ class SPSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Student_Period
 		fields=('Student_ID','Start_Year','End_Year')
+
+class AttendanceSerializer(serializers.ModelSerializer):
+	class Meta:
+		model=Attendance
+		fields=('Student_ID','ASession_ID','Date_time','Marked')
+
+class Attendance_SessionSerializer(serializers.ModelSerializer):
+	class Meta:
+		model=Attendance_Session
+		fields=('Session_ID','Course_Slot','Date_time','Status','Location')
+
+class TimetableSerializer(serializers.ModelSerializer):
+	class Meta:
+		model=Timetable
+		fields=('T_days','Start_time','End_time','Course_ID','Class_ID')

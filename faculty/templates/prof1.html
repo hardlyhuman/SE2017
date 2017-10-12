@@ -30,7 +30,7 @@ var coursedes=JSON.parse("{{Coursedes|escapejs}}");
 for(i=0;i<courses.length;i++)
 {
 document.write('<br>');
- document.write('<a  href="http://127.0.0.1:8092/faculty/ViewRegisteredStudents?name='+courses[i]+'"> '+courses[i]+'</a>');
+ document.write('<a  href="../ViewRegisteredStudents?name='+courses[i]+'"> '+courses[i]+'</a>');
 document.write('<br><br>');
 document.write(coursedes[i]);
 document.write('<br>');
@@ -46,16 +46,16 @@ document.write('<br>');
 </div>
 <script type="text/javascript">
     document.getElementById("Addass").onclick = function () {
-        location.href = "http://127.0.0.1:8092/faculty/AddAssignment";
+        location.href = "{% url 'faculty:AddAssignment' %}";
     };
 document.getElementById("offercourses").onclick = function () {
-        location.href = "http://127.0.0.1:8092/faculty/offercourses";
+        location.href = "{% url 'faculty:OfferCourses' %}";
     };
 document.getElementById("Editdes").onclick = function () {
-        location.href = "http://127.0.0.1:8092/faculty/editdescription";
+        location.href = "{% url 'faculty:EditCourseDescription' %}";
     };
  document.getElementById("Delass").onclick = function () {
-        location.href = "http://127.0.0.1:8092/faculty/Delass";
+        location.href = "{% url 'faculty:Delass' %}";
     };
 </script>
 

@@ -15,7 +15,6 @@ class Roles(models.Model):
     Role_name = models.CharField(max_length=50, default="")
     level = models.IntegerField(default=0)
 
-    @property
     def __str__(self):
         return self.Role_name
 
@@ -24,9 +23,9 @@ class Personnel(models.Model):
     Person_ID=models.AutoField(primary_key=True)
     LDAP=models.OneToOneField(User, on_delete=models.CASCADE)
     Role=models.ForeignKey(Roles,to_field='Role_ID',on_delete=models.CASCADE)#Make sure whether this has to be foreign key
-
     def __str__(self):
-        return self.LDAP.username
+        return str(self.LDAP.username)
+    #Dept=models.ForeignKey(Department,on_delete=models.CASCADE)#Not sure about this too
 
     # Dept=models.ForeignKey(Department,on_delete=models.CASCADE)#Not sure about this too
 
@@ -43,9 +42,7 @@ class Department(models.Model):
 
     #	Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
 
-    # Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
-    @property
-
+    #Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
     def __str__(self):
         return self.Dept_Name
 
@@ -64,15 +61,6 @@ class Courses(models.Model):
     #Course_Status = models.BooleanField(default= True)
     def __str__(self):
         return self.Course_Name
-
-
-class Attendance(models.Model):
-    Student_ID = models.ForeignKey(Personnel, to_field='Person_ID', on_delete=models.CASCADE)
-    Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
-    Date_time = models.DateTimeField(default=datetime.datetime.now())
-    Marked = models.CharField(default="A", max_length=1)
-
-
 
 class Attendance_Session(models.Model):
     Session_ID=models.AutoField(primary_key=True)
@@ -103,58 +91,51 @@ class LoginTable(models.Model):
 
 @python_2_unicode_compatible
 class Assignment(models.Model):
-    Assign_ID=models.AutoField(primary_key=True)
-    Assignment_File = models.FileField(upload_to='AssignmentsFolder/',default="hello.pdf")
-    Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
-    Start_Time=models.DateTimeField(default=utils.timezone.now)
-    End_Time=models.DateTimeField(default=utils.timezone.now)
+    Assign_ID = models.AutoField(primary_key=True)
+    Assignment_File = models.FileField(upload_to='AssignmentsFolder/', default="hello.pdf")
+    Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
+    Start_Time = models.DateTimeField(default=utils.timezone.now)
+    End_Time = models.DateTimeField(default=utils.timezone.now)
+
+    @property
     def __str__(self):
         return str(self.Assign_ID)
 
 class Submissions(models.Model):
-
-    # Sub_ID=db.MultiFieldPK('Assign_ID','Student_ID')
+    #Sub_ID=db.MultiFieldPK('Assign_ID','Student_ID')
+    Sub_ID=models.AutoField(primary_key=True)
 
     Sub_ID=models.AutoField(primary_key=True)
     Assign_ID=models.ForeignKey(Assignment,to_field='Assign_ID',on_delete=models.CASCADE)
     Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
     Sub_Time=models.DateTimeField(default=utils.timezone.now)
-    Sub_Status = models.BooleanField(default=False)
     Score=models.FloatField(default=0)
 
 @python_2_unicode_compatible
 class Instructors_Courses(models.Model):
-
-    IC_id = models.AutoField(primary_key=True)
-    Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
-    Inst_ID = models.ForeignKey(Personnel, to_field='Person_ID', on_delete=models.CASCADE)
-    Start_Date = models.DateField(datetime.date(2017, 1, 1))
-    End_Date = models.DateField(datetime.date(2017, 1, 1))
-
-    @property
-
+    IC_id=models.AutoField(primary_key=True)
+    Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
+    Inst_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
+    Start_Date=models.DateField(datetime.date(2017,1,1))
+    End_Date=models.DateField(datetime.date(2017,1,1))
     def __str__(self):
         return str((self.Inst_ID))
 
 @python_2_unicode_compatible
 class Students_Courses(models.Model):
-
-    # SC_ID=db.MultiFieldPK('Student_ID','Course_ID')
-    SC_ID = models.AutoField(primary_key=True)
-    Student_ID = models.ForeignKey(Personnel, to_field='Person_ID', on_delete=models.CASCADE)
-    Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
-    Reg_Date = models.DateField(datetime.date(2017, 1, 1))
-
-    @property
+    #SC_ID=db.MultiFieldPK('Student_ID','Course_ID')
+    SC_ID=models.AutoField(primary_key=True)
+    Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
+    Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
+    Reg_Date=models.DateField(datetime.date(2017,1,1))
     def __str__(self):
         return str(self.Student_ID) + ' ' + str(self.Course_ID)
 
 
 class Events(models.Model):
-    Event_ID = models.AutoField(primary_key=True)
-    Event_Date = models.DateField(auto_now_add=True)
-    Event_Name = models.CharField(default='', max_length=50)
-
+    Event_ID=models.AutoField(primary_key=True)
+    Event_Date=models.DateField()
+    Event_Name=models.CharField(default='',max_length=50)
 
 class Student_Period(models.Model):
     Student_ID = models.ForeignKey(Personnel, to_field='Person_ID')
@@ -177,6 +158,5 @@ class Timetable(models.Model):
     End_time=models.TimeField(auto_now_add=True)
     Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
     Class_ID=models.CharField(max_length=10,default='')
-    @property
     def __str__(self):
         return str(self.T_ID)

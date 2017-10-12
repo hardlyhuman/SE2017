@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'faculty'
+    'faculty',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -93,7 +94,7 @@ else:
             'HOST': 'localhost',
             'NAME': 'se',
             'USER': 'root',
-            'PASSWORD': 'savitha',
+            'PASSWORD': 'ib_Harsha1',
 
 
         }

@@ -10,6 +10,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from .serializers import *
 from .models import *
+from django.contrib.auth import authenticate
 # Create your views here.
 PRIVATE_IPS_PREFIX = ('10.', '172.', '192.', )
 register = template.Library()
@@ -599,3 +600,15 @@ def add_view_timetable(request):
 			serializer.save()
 			return JsonResponse(serializer.data, status=201)
 		return JsonResponse(serializer.errors, status=400)
+
+@csrf_exempt
+def validate_user(request):
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(request,username=username,password=password)
+		if user is not None:
+			serializer = UserSerializer(user)
+			return JsonResponse(serializer.data,status=200)
+		else:
+			return HttpResponse(status=404)

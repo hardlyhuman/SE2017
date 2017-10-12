@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+<script>
+var ProfList='{{ProfList|escapejs}}';
+document.write('{{ProfList|escapejs}}');
+for( var i=0;i<ProfList.length;i++ ){
+if(i%2==0){
+	var x=i.toString();
+
+	'<a href="'#'">'+x+'</a>';
+}
+}
+</script>
+{% endblock %}
+
+
+

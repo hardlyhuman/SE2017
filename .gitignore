@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+
 env/
 build/
 develop-eggs/
@@ -67,6 +68,10 @@ docs/_build/
 # PyBuilder
 target/
 
+# Migrations
+home/migrations/
+
+.idea/
 # Jupyter Notebook
 .ipynb_checkpoints
 
@@ -96,6 +101,8 @@ ENV/
 
 # mkdocs documentation
 /site
+
+settings.py
 
 # mypy
 .mypy_cache/

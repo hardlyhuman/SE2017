@@ -91,7 +91,7 @@ else:
             'HOST': 'localhost',
             'NAME': 'se',
             'USER': 'root',
-            'PASSWORD': 'nox11970502',
+            'PASSWORD': 'PASSWORD',
 
 
         }

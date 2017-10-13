@@ -70,6 +70,7 @@ target/
 
 # Migrations
 home/migrations/
+home/migrations/*
 
 .idea/
 # Jupyter Notebook

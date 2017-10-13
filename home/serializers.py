@@ -45,7 +45,7 @@ class SubmissionsSerializer(serializers.ModelSerializer):
 class ICSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Instructors_Courses
-		fields=('IC_ID','Course_ID','Inst_ID','Start_Date','End_Date')
+		fields=('IC_id','Course_ID','Inst_ID','Start_Date','End_Date')
 
 class SCSerializer(serializers.ModelSerializer):
 	class Meta:

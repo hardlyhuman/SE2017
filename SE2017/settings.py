@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_extensions',
+#    'django_extensions',
     'faculty'
 ]
 
@@ -94,7 +94,7 @@ else:
             'HOST': 'localhost',
             'NAME': 'se2017',
             'USER': 'root',
-            'PASSWORD': '',
+            'PASSWORD': '5qlDevelop#r',
 
            
         }

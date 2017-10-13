@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-#    'django_extensions',
-    'faculty'
+    'faculty',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -92,6 +92,7 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'HOST': 'localhost',
+
             'NAME': 'se2017',
             'USER': 'root',
             'PASSWORD': '5qlDevelop#r',

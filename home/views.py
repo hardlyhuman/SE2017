@@ -11,7 +11,8 @@ from rest_framework.parsers import JSONParser
 from .serializers import *
 from .models import *
 from django.contrib.auth import authenticate
-
+from ldif3 import LDIFParser
+from pprint import pprint
 # Create your views here.
 PRIVATE_IPS_PREFIX = ('10.', '172.', '192.', )
 register = template.Library()

@@ -88,6 +88,9 @@ celerybeat-schedule
 # dotenv
 .env
 
+settings.py
+db.sqlite3
+
 # virtualenv
 .venv
 venv/

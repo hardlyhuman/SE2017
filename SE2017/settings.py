@@ -158,6 +158,7 @@ EMAIL_HOST_USER = 'ItDept.iiits@gmail.com'
 EMAIL_HOST_PASSWORD ='iiits@it123'
 EMAIL_PORT = 587
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 

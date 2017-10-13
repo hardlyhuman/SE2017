@@ -99,9 +99,9 @@ else:
             'ENGINE': 'django.db.backends.mysql',
             'HOST': 'localhost',
 
-            'NAME': 'se2017',
+            'NAME': 'se',
             'USER': 'root',
-            'PASSWORD': '5qlDevelop#r',
+            'PASSWORD': 'savitha',
 
            
         }

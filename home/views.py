@@ -2,6 +2,7 @@ from django.shortcuts import render, render_to_response
 from django.contrib.auth.decorators import login_required
 from django import template
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from .forms import PersonnelForm
 import datetime
 from django.http import HttpResponse, JsonResponse
@@ -13,6 +14,7 @@ from .models import *
 from django.contrib.auth import authenticate
 from ldif3 import LDIFParser
 from pprint import pprint
+from django.contrib.auth.models import User
 
 # Create your views here.
 PRIVATE_IPS_PREFIX = ('10.', '172.', '192.', )
@@ -20,8 +22,9 @@ register = template.Library()
 
 @login_required(login_url="login/")
 def index(request):
-	if user.personnel.Role.Role_name=="Faculty":
-		return http.HttpResponseRedirect('../faculty/ViewProfs')
+
+	if request.user.personnel.Role.Role_name=="Faculty":
+		return HttpResponseRedirect('../faculty/ViewProfs')
 	now = datetime.datetime.now()
 	remote_address = request.META.get('REMOTE_ADDR')
     # set the default value of the ip to be the REMOTE_ADDR if available

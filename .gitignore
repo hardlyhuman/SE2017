@@ -103,7 +103,5 @@ ENV/
 # mkdocs documentation
 /site
 
-settings.py
-
 # mypy
 .mypy_cache/

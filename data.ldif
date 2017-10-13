@@ -1,22 +1,4 @@
 
-# Entry 1: ou=faculty,ou=people,dc=iiits,dc=in
-dn: ou=faculty,ou=people,dc=iiits,dc=in
-description: All faculty in IIIT Sri City
-objectclass: organizationalUnit
-ou: faculty
-
-# Entry 2: ou=lecturers,ou=faculty,ou=people,dc=iiits,dc=in
-dn: ou=lecturers,ou=faculty,ou=people,dc=iiits,dc=in
-description: All lecturers in IIIT Sri City
-objectclass: organizationalUnit
-ou: lecturers
-
-# Entry 3: ou=prof,ou=faculty,ou=people,dc=iiits,dc=in
-dn: ou=prof,ou=faculty,ou=people,dc=iiits,dc=in
-description: All professors in IIIT Sri City
-objectclass: organizationalUnit
-ou: prof
-
 # Entry 4: uid=amitava.das,ou=prof,ou=faculty,ou=people,dc=iiits,dc=in
 dn: uid=amitava.das,ou=prof,ou=faculty,ou=people,dc=iiits,dc=in
 cn: Amitava Das

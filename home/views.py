@@ -667,7 +667,7 @@ def faculty_users(request):
 def student_users(request):
 	Start=2014
 	End=2018
-	for i in range(1):
+	for i in range(2):
 		DEPT=1
 		parser = LDIFParser(open('data'+str(i+1)+'.ldif', 'rb'))
 		for dn, Entry in parser.parse():

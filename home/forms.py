@@ -5,4 +5,4 @@ class PersonnelForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = Personnel
-        fields = ('Person_ID','Person_Name','Role','Dept','Password')
+        fields = ('Person_ID','Role','Dept')

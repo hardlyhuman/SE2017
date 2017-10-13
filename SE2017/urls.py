@@ -17,6 +17,11 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
+from django.contrib.auth.models import User
+from rest_framework import routers, serializers, viewsets
+
+
+
 urlpatterns = [
 	url(r'^$', include('home.urls'), name='home'),
     url(r'^login/',  auth_views.login, {'template_name': 'Login/login.html'}, name='login'),
@@ -24,5 +29,6 @@ urlpatterns = [
 	url(r'^student/', include('students.urls'), name='student'),
 	url(r'^faculty/', include('faculty.urls'), name='faculty'),
     url(r'^admin/', admin.site.urls),
-	
+    url(r'^api/',include('home.urls')),
+
 ]

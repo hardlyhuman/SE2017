@@ -30,4 +30,5 @@ urlpatterns = [
 	url(r'^faculty/', include('faculty.urls'), name='faculty'),
     url(r'^admin/', admin.site.urls),
     url(r'^api/',include('home.urls')),
+
 ]

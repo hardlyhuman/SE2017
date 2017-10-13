@@ -30,7 +30,11 @@ var coursedes=JSON.parse("{{Coursedes|escapejs}}");
 for(i=0;i<courses.length;i++)
 {
 document.write('<br>');
+<<<<<<< HEAD
+ document.write('<a  href="http://127.0.0.1:8092/faculty/ViewRegisteredStudents?name='+courses[i]+'"> '+courses[i]+'</a>');
+=======
  document.write('<a  href="../ViewRegisteredStudents?name='+courses[i]+'"> '+courses[i]+'</a>');
+>>>>>>> origin/master
 document.write('<br><br>');
 document.write(coursedes[i]);
 document.write('<br>');
@@ -46,6 +50,18 @@ document.write('<br>');
 </div>
 <script type="text/javascript">
     document.getElementById("Addass").onclick = function () {
+<<<<<<< HEAD
+        location.href = "http://127.0.0.1:8092/faculty/AddAssignment";
+    };
+document.getElementById("offercourses").onclick = function () {
+        location.href = "http://127.0.0.1:8092/faculty/offercourses";
+    };
+document.getElementById("Editdes").onclick = function () {
+        location.href = "http://127.0.0.1:8092/faculty/editdescription";
+    };
+ document.getElementById("Delass").onclick = function () {
+        location.href = "http://127.0.0.1:8092/faculty/Delass";
+=======
         location.href = "{% url 'faculty:AddAssignment' %}";
     };
 document.getElementById("offercourses").onclick = function () {
@@ -57,6 +73,7 @@ document.getElementById("Editdes").onclick = function () {
  document.getElementById("Delass").onclick = function () {
         location.href = "{% url 'faculty:Delass' %}";
 
+>>>>>>> origin/master
     };
 </script>
 

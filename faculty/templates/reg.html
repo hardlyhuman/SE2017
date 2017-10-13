@@ -1,0 +1,44 @@
+<head>
+<script type="text/javascript">
+    var datefield=document.createElement("input")
+    datefield.setAttribute("type", "date")
+    if (datefield.type!="date"){ //if browser doesn't support input type="date", load files for jQuery UI Date Picker
+        document.write('<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />\n')
+        document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"><\/script>\n')
+        document.write('<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"><\/script>\n') 
+    }
+</script>
+ 
+<script>
+if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
+    jQuery(function($){ //on document.ready
+        $('#duration').datepicker({dateFormat:'yy-mm-dd'}).val();
+    })
+}
+if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
+    jQuery(function($){ //on document.ready
+        $('#duration1').datepicker({dateFormat:'yy-mm-dd'}).val();
+    })
+}
+</script>
+</head>
+<h3><i><b>Offer Courses</b></i></h3>
+
+<ul>
+    {% for course in Courses %}
+    
+            <form action="{% url 'faculty:OfferCourses' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="checkbox" name="courses[]" value="{{ course.Course_ID }}" />
+	<label>{{ course.Course_Name }}</label><br>
+    {% endfor %}
+<br>
+ <label>Start Date</label><input type="date" name="startdate" id="duration"><br>
+ <label>End Date</label><input  type="date" name="enddate" id="duration1">
+
+<br>
+<input type="submit" value="Submit" />
+        </form>
+</ul>
+
+

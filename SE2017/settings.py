@@ -92,11 +92,12 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'HOST': 'localhost',
-            'NAME': 'se',
+
+            'NAME': 'se2017',
             'USER': 'root',
-            'PASSWORD': 'savitha',
+            'PASSWORD': '5qlDevelop#r',
 
-
+           
         }
     }
 
@@ -143,3 +144,4 @@ LOGOUT_REDIRECT_URL = '/'
 
 MEDIA_URL='/AssignmentsFolder/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'home/AssignmentsFolder')
+

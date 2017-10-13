@@ -70,6 +70,7 @@ target/
 
 # Migrations
 home/migrations/
+home/migrations/*
 
 .idea/
 # Jupyter Notebook
@@ -102,7 +103,7 @@ ENV/
 # mkdocs documentation
 /site
 
-# Settings.py
+settings.py
 
 # mypy
 .mypy_cache/

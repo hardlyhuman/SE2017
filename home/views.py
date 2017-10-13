@@ -628,7 +628,7 @@ def student_rel_courses(request):
 			data[x] = {'Course_ID':data2[i]['Course_ID'],'Course_Name':temp['Course_Name'],'Course_description':temp['Course_description'],'Course_Year':temp['Course_Year'],'Course_Status':temp['Course_Status']}
 			x+=1
 		if len(data) != 0:
-			return JsonResponse(data,status=200)
+			return JsonResponse(data,status=200,safe=False)
 		else:
 			return HttpResponse(status=404)
 
@@ -649,3 +649,44 @@ def faculty_rel_courses(request):
 			return JsonResponse(data,status=200,safe=False)
 		else:
 			return HttpResponse(status=404)
+def faculty_users(request):
+	parser = LDIFParser(open('data.ldif', 'rb'))
+	i=0
+	for dn, Entry in parser.parse():
+		if(i<5):
+			i+=1
+			continue
+		dn.split(',')
+		props=dict(item.split("=") for item in dn.split(","))
+		#print('got entry record: %s' % dn)
+		#print(props)
+		#pprint(Entry)
+		print (Entry["uid"],Entry["givenname"],Entry["sn"],Entry["mail"])
+		u=User.objects.create_user(username=Entry["uid"][0],password="iiits@123",first_name=Entry["givenname"][0],last_name=Entry["sn"][0],email=Entry["mail"][0])
+		p=Personnel(Dept_id=1,LDAP_id=u.id,Role_id=3)
+		p.save()
+def student_users(request):
+	Start=2014
+	End=2018
+	for i in range(1):
+		DEPT=1
+		parser = LDIFParser(open('data'+str(i+1)+'.ldif', 'rb'))
+		for dn, Entry in parser.parse():
+			dn.split(',')
+			props=dict(item.split("=") for item in dn.split(","))
+			try:
+				print (Entry["uid"],Entry["givenname"],Entry["sn"],Entry["mail"])
+			except:
+				DEPT=2
+				continue
+			FName=Entry["givenname"][0]
+			if(len(FName)>30):
+				FName=FName[:20]
+
+			u=User.objects.create_user(username=Entry["uid"][0],password="iiits@123",first_name=FName,last_name=Entry["sn"][0],email=Entry["mail"][0])
+			p=Personnel(Dept_id=DEPT,LDAP_id=u.id,Role_id=2)
+			p.save()
+			q=Student_Period(Student_ID_id=p.Person_ID,Start_Year=Start,End_Year=End)
+			q.save()
+		Start+=1
+		End+=1

@@ -604,11 +604,12 @@ def add_view_timetable(request):
 
 @csrf_exempt
 def validate_user(request):
-	if request.method == 'POST' or request.method == "OPTIONS":	
-		print request.OPTIONS,request.POST	
-		username = request.POST['username']
-		password = request.POST['password']
-		user = authenticate(request,username=username,password=password)
+	if request.method == 'POST':
+		data=JSONParser().parse(request)
+		print data["username"]
+		print data["password"]
+		user = authenticate(username=data["username"],password=data["password"])
+		print user
 		if user is not None:
 			serializer = UserSerializer(user)
 			return JsonResponse(serializer.data,status=200)

@@ -9,4 +9,5 @@ urlpatterns = [
         url(r'^DropCourse/', views.DropCourse, name='DropCourse'),
         url(r'^MarkAttendance/', views.MarkAttendance, name='MarkAttendance'),
         url(r'^assgnsubstatus/', views.AssgnSubStatus, name='AssgnSubmissionStatus'),
+        url(r'^enroll-course/',    views.StudentEnrollCourseView.as_view(),    name='student_enroll_course'),
 ]

@@ -20,6 +20,8 @@ register = template.Library()
 
 @login_required(login_url="login/")
 def index(request):
+	if user.personnel.Role.Role_name=="Faculty":
+		return return http.HttpResponseRedirect('../faculty/ViewProfs')
 	now = datetime.datetime.now()
 	remote_address = request.META.get('REMOTE_ADDR')
     # set the default value of the ip to be the REMOTE_ADDR if available
@@ -689,4 +691,3 @@ def student_users(request):
 			q.save()
 		Start+=1
 		End+=1
-

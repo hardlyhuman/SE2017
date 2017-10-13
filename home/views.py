@@ -605,7 +605,7 @@ def add_view_timetable(request):
 @csrf_exempt
 def validate_user(request):
 	if request.method == 'POST' or request.method == "OPTIONS":	
-		print request	
+		print request.OPTIONS,request.POST	
 		username = request.POST['username']
 		password = request.POST['password']
 		user = authenticate(request,username=username,password=password)

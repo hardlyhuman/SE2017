@@ -1,0 +1,18 @@
+<h3><i><b>Delete Assignments</b></i></h3>
+
+{% if Assignments %}
+<ul>
+    {% for document in Assignments %}
+    
+            <form action="{% url 'faculty:delete' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="checkbox" name="Assignment_File[]" value="{{ document.Assign_ID }}" />
+	<a href="{{ document.Assignment_File.url }}">{{ document.Assignment_File.name }}</a><br>
+    {% endfor %}
+<br>
+<input type="submit" value="Delete" />
+        </form>
+</ul>
+{% else %}
+<p>No documents.</p>
+{% endif %}

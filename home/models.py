@@ -141,7 +141,8 @@ class Student_Period(models.Model):
     Student_ID = models.ForeignKey(Personnel, to_field='Person_ID')
     Start_Year = models.IntegerField(default=2013)
     End_Year = models.IntegerField(default=2017)
-@python_2_unicode_compatible
+
+
 class Timetable(models.Model):
     T_ID=models.AutoField(primary_key=True)
     DAYS_OF_WEEK = (

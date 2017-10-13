@@ -2,6 +2,7 @@ from django.shortcuts import render, render_to_response
 from django.contrib.auth.decorators import login_required
 from django import template
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from .forms import PersonnelForm
 import datetime
 from django.http import HttpResponse, JsonResponse
@@ -11,6 +12,9 @@ from rest_framework.parsers import JSONParser
 from .serializers import *
 from .models import *
 from django.contrib.auth import authenticate
+from ldif3 import LDIFParser
+from pprint import pprint
+from django.contrib.auth.models import User
 
 # Create your views here.
 PRIVATE_IPS_PREFIX = ('10.', '172.', '192.', )
@@ -18,6 +22,9 @@ register = template.Library()
 
 @login_required(login_url="login/")
 def index(request):
+
+	if request.user.personnel.Role.Role_name=="Faculty":
+		return HttpResponseRedirect('../faculty/ViewProfs')
 	now = datetime.datetime.now()
 	remote_address = request.META.get('REMOTE_ADDR')
     # set the default value of the ip to be the REMOTE_ADDR if available
@@ -653,9 +660,6 @@ def faculty_users(request):
 	parser = LDIFParser(open('data.ldif', 'rb'))
 	i=0
 	for dn, Entry in parser.parse():
-		if(i<5):
-			i+=1
-			continue
 		dn.split(',')
 		props=dict(item.split("=") for item in dn.split(","))
 		#print('got entry record: %s' % dn)
@@ -668,7 +672,7 @@ def faculty_users(request):
 def student_users(request):
 	Start=2014
 	End=2018
-	for i in range(1):
+	for i in range(2):
 		DEPT=1
 		parser = LDIFParser(open('data'+str(i+1)+'.ldif', 'rb'))
 		for dn, Entry in parser.parse():
@@ -690,4 +694,3 @@ def student_users(request):
 			q.save()
 		Start+=1
 		End+=1
-

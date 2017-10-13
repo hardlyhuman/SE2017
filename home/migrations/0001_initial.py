@@ -74,7 +74,7 @@ class Migration(migrations.Migration):
             name='Events',
             fields=[
                 ('Event_ID', models.AutoField(primary_key=True, serialize=False)),
-                ('Event_Date', models.DateField(auto_now_add=True)),
+                ('Event_Date', models.DateField()),
                 ('Event_Name', models.CharField(default='', max_length=50)),
             ],
         ),

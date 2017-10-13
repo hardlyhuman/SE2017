@@ -94,7 +94,7 @@ else:
             'HOST': 'localhost',
             'NAME': 'se',
             'USER': 'root',
-            'PASSWORD': 'ib_Harsha1',
+            'PASSWORD': 'savitha',
 
 
         }

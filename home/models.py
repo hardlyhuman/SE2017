@@ -15,7 +15,6 @@ class Roles(models.Model):
     Role_name = models.CharField(max_length=50, default="")
     level = models.IntegerField(default=0)
 
-    @property
     def __str__(self):
         return self.Role_name
 
@@ -44,7 +43,6 @@ class Department(models.Model):
     #	Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
 
     # Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
-    @property
 
     def __str__(self):
         return self.Dept_Name
@@ -131,8 +129,6 @@ class Instructors_Courses(models.Model):
     Start_Date = models.DateField(datetime.date(2017, 1, 1))
     End_Date = models.DateField(datetime.date(2017, 1, 1))
 
-    @property
-
     def __str__(self):
         return str((self.Inst_ID))
 
@@ -145,7 +141,6 @@ class Students_Courses(models.Model):
     Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
     Reg_Date = models.DateField(datetime.date(2017, 1, 1))
 
-    @property
     def __str__(self):
         return str(self.Student_ID) + ' ' + str(self.Course_ID)
 
@@ -160,7 +155,8 @@ class Student_Period(models.Model):
     Student_ID = models.ForeignKey(Personnel, to_field='Person_ID')
     Start_Year = models.IntegerField(default=2013)
     End_Year = models.IntegerField(default=2017)
-@python_2_unicode_compatible
+
+
 class Timetable(models.Model):
     T_ID=models.AutoField(primary_key=True)
     DAYS_OF_WEEK = (
@@ -173,10 +169,9 @@ class Timetable(models.Model):
     (6, 'Sunday'),
     )
     T_days = models.IntegerField(choices=DAYS_OF_WEEK)
-    Start_time= models.TimeField(auto_now_add=True)
-    End_time=models.TimeField(auto_now_add=True)
+    Start_time= models.TimeField()
+    End_time=models.TimeField()
     Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
     Class_ID=models.CharField(max_length=10,default='')
-    @property
     def __str__(self):
         return str(self.T_ID)

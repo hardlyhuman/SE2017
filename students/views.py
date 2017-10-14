@@ -10,7 +10,8 @@ from django.template import loader
 from home.models import *
 from students.forms import CourseEnrollForm
 from django.http import HttpResponse
-
+from django.views.generic.base import TemplateView
+from django.forms.models import model_to_dict
 
 # Create your views here.
 
@@ -31,8 +32,8 @@ def ViewRegCourse(request):
     template = loader.get_template('student/dashboard.html')
     context = dict(Course=json.dumps(CourseList), Stud_Name=request.user.username)
     return HttpResponse(template.render(context, request))
+"""
 
-@login_required(login_url="/login/")
 def ViewAttendance(request, StuId):
     CourseId = 0
     Total = 25
@@ -43,7 +44,7 @@ def ViewAttendance(request, StuId):
             if each['Marked'] == 'P':
                 present += 1
     return render(request, 'student/ViewAttendance.html', {'Total': Total, 'present': present, 'Absent': Total - present, 'percent': (present/Total)*100})
-
+"""
 
 """"@login_required(login_url="/login/")
 def CourseRegistration(request, ):
@@ -53,7 +54,7 @@ def CourseRegistration(request, ):
     form_class = CourseEnrollForm
     
     return render(request, 'student/CourseRegistration.html', {'courses': c})"""
-
+"""
 class StudentEnrollCourseView(LoginRequiredMixin, FormView):
     course = None
     form_class = CourseEnrollForm
@@ -69,7 +70,7 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
     def get_success_url(self):
         return reverse_lazy('student_course_detail',
                             args=[self.course.id])
-
+"""
 def register(request, year):
     
 
@@ -88,6 +89,49 @@ def AddCourse(request):
 def DropCourse(request):
     return render(request, 'student/DropCourse.html')
 
+@login_required(login_url="/login/")
+class ViewAttendance(TemplateView):
+    template_name = 'student/ViewAttendance.html'
+
+    def get(self, request, *args, **kwargs):
+        try:
+            if request.user.personnel.Role.Role_name == "student":
+                person_id = request.user.personnel.Person_ID
+            my_courses_list = [i.Course.course_title for i in person_id.Students_Courses_set.all()]
+            courses_registered = [model_to_dict(Students_Courses.objects.get(course_title=i)) for i in my_courses_list]
+
+            dic = {}
+            absent_on = [[i.course_title, i.date] for i in
+                         Attendance.objects.filter(student_id=person_id.Stu).filter(status="A")]
+
+            # Making a dictionary { Course: [date1, date2, ....], .... }
+            for c in absent_on:
+                if c[0] not in dic:
+                    dic[c[0]] = [c[1]]
+                else:
+                    dic[c[0]] += [c[1]]
+
+            # Converting date to a dic as follows - { Month1: [day1, day2, .. ], ..... }
+            month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+                           "October", "November", "December"]
+            for course in dic:
+
+                month_dic = {}
+                for date in dic[course]:
+
+                    t_month = month_names[date.month - 1]
+                    if t_month not in month_dic:
+                        month_dic[t_month] = [date]
+                    else:
+                        month_dic[t_month] += [date]
+                dic[course] = month_dic
+
+            context = {'courses_registered': courses_registered, 'branch': Branch_of_study, 'absent_on': dic}
+
+            return render(request, self.template_name, context)
+        except:
+            return render(request, self.template_name, {'error_message': 'No data found'})
+
 
 @login_required(login_url="/login/")
 def AssgnSubStatus(request, StuId):
@@ -102,3 +146,5 @@ def AssgnSubStatus(request, StuId):
 
 
     return render(request, 'student/AssgnSubStatus.html', dict(status=status, score=score))
+
+

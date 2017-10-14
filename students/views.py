@@ -8,6 +8,7 @@ from django.views.generic.edit import FormView
 import json
 from django.template import loader
 from home.models import *
+from home.models import Students_Courses
 from students.forms import CourseEnrollForm
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView

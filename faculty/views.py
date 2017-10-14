@@ -14,7 +14,7 @@ from django.views.decorators.http import require_http_methods
 def ViewProfs(request):
 	CourseList=[]
 	CoursedesList=[]
-	if request.user.personnel.Role.Role_name=='faculty':
+	if request.user.personnel.Role.Role_name=='Faculty':
 		person_id=request.user.personnel.Person_ID
 		IC=Instructors_Courses.objects.all()
 		for i in range(0,len(IC)):
@@ -51,7 +51,7 @@ def AddAssignment(request):
 	else:
 		CourseList=[]
 		form = UploadFileForm()
-		if request.user.personnel.Role.Role_name=='faculty':
+		if request.user.personnel.Role.Role_name=='Faculty':
 			person_id=request.user.personnel.Person_ID
 			IC=Instructors_Courses.objects.all()
 			for i in range(0,len(IC)):
@@ -79,7 +79,7 @@ def Delass(request):
 		return render(request, 'assignment.html', {'Assignments':asslist})	
 	else:
 		CourseList=[]
-		if request.user.personnel.Role.Role_name=='faculty':
+		if request.user.personnel.Role.Role_name=='Faculty':
 			person_id=request.user.personnel.Person_ID
 			IC=Instructors_Courses.objects.all()
 			for i in range(0,len(IC)):
@@ -96,7 +96,7 @@ def EditCourseDescription(request):
                 return HttpResponse("Successfully updated!!!")
 	else:
 		CourseList=[]
-		if request.user.personnel.Role.Role_name=='faculty':
+		if request.user.personnel.Role.Role_name=='Faculty':
 			person_id=request.user.personnel.Person_ID
 			IC=Instructors_Courses.objects.all()
 			for i in range(0,len(IC)):

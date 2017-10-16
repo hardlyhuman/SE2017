@@ -18,18 +18,6 @@ from home.models import *
 # Create your views here.
 
 
-def ViewRegCourse(request):
-    CourseList = []
-    if request.user.personnel.Role.Role_name == "student":
-        person_id = request.user.personnel.Person_ID
-        SC = Students_Courses.objects.all()
-        for i in range(0, len(SC)):
-            if person_id == SC[i].Student_ID.Person_ID:
-                CourseList.append(SC[i].Course_ID.Course_Name)
-
-    template = loader.get_template('student/dashboard.html')
-    context = dict(Course=json.dumps(CourseList), Stud_Name=request.user.username)
-    return HttpResponse(template.render(context, request))
 """
 
 def ViewAttendance(request, StuId):

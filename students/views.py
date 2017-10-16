@@ -43,6 +43,8 @@ def ViewAttendance(request, StuId):
                 present += 1
     return render(request, 'student/ViewAttendance.html', {'Total': Total, 'present': present, 'Absent': Total - present, 'percent': (present/Total)*100})
 """
+def dashboard(request):
+    pass
 
 """"@login_required(login_url="/login/")
 def CourseRegistration(request, ):

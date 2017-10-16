@@ -86,6 +86,24 @@ class register(FormView):
         return render(request, template_name, context)
 
 
+@login_required(login_url="/login/")
+class DropCourse(FormView):
+
+    def get(self, request, *args, **kwargs):
+        userid = request.personnel.Person_ID
+        user = Personnel.objects.get(Person_ID=userid)
+
+        year_of_study = user.Year
+        MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
+
+        RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
+
+        template_name = 'student/DropCourse.html'
+
+        context = dict(RegisteredCourses=RegCourses)
+
+        return render(request, template_name, context)
+
 
 
 

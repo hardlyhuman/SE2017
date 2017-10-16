@@ -106,6 +106,27 @@ class DropCourse(FormView):
 
 
 
+def unregister(request):
+
+    courses_selected = Courses.objects.filter(id__in=request.POST.getlist('checks[]'))
+    userid = request.personnel.Person_ID
+    user = Personnel.objects.get(Person_ID=userid)
+
+    year_of_study = user.Year
+
+    for course in courses_selected:
+
+        Students_Courses.objects.filter(Student_ID=userid).get(Course_ID__Course_Name= course).delete()
+
+    MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
+    RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
+
+    template_name = 'student/MyCourses.html'
+
+    context = dict(RegisteredCourses=RegCourses)
+
+    return render(request, template_name, context)
+
 
 
 

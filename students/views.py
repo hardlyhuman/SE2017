@@ -105,8 +105,34 @@ def unregister(request):
     return render(request, template_name, context)
 
 
+def register_course(request):
 
+    courses_selected = Courses.objects.filter(id__in=request.POST.getlist('checks[]'))
+    userid = request.personnel.Person_ID
+    user = Personnel.objects.get(Person_ID=userid)
+    year_of_study = user.Year
 
+    MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
+    RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
+
+    for course in courses_selected:
+        if course not in RegCourses:
+            SC = Students_Courses()
+            SC.Student_ID = userid
+            SC.Course_ID = course
+            SC.save()
+
+    userid = request.personnel.Person_ID
+    user = Personnel.objects.get(Person_ID=userid)
+    year_of_study = user.Year
+
+    MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
+    RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
+
+    template_name = 'student/MyCourses.html'
+    context = dict(RegisteredCourses=RegCourses)
+
+    return render(request, template_name, context)
 
 
 def AddCourse(request):

@@ -1,25 +1,23 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-#from braces.views import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.views.generic.edit import FormView
 import json
-from django.template import loader
-from home.models import *
-from students.forms import CourseEnrollForm
-from django.http import HttpResponse
-from django.views.generic.base import TemplateView
+from datetime import datetime
+# from braces.views import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.template import loader
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView
+
+from home.models import *
+
 
 # Create your views here.
 
 """
-@login_required(login_url="/login/")
-def dashboard(request):
-    return render(request, 'student/dashboard.html')"""
-
 def ViewRegCourse(request):
     CourseList = []
     if request.user.personnel.Role.Role_name == "student":
@@ -31,7 +29,7 @@ def ViewRegCourse(request):
 
     template = loader.get_template('student/dashboard.html')
     context = dict(Course=json.dumps(CourseList), Stud_Name=request.user.username)
-    return HttpResponse(template.render(context, request))
+    return HttpResponse(template.render(context, request))"""
 """
 
 def ViewAttendance(request, StuId):
@@ -45,95 +43,123 @@ def ViewAttendance(request, StuId):
                 present += 1
     return render(request, 'student/ViewAttendance.html', {'Total': Total, 'present': present, 'Absent': Total - present, 'percent': (present/Total)*100})
 """
+def dashboard(request):
+    pass
 
-""""@login_required(login_url="/login/")
-def CourseRegistration(request, ):
+@login_required(login_url="/login/")
+class register(FormView):
 
-    
-    course = None
-    form_class = CourseEnrollForm
-    
-    return render(request, 'student/CourseRegistration.html', {'courses': c})"""
-"""
-class StudentEnrollCourseView(LoginRequiredMixin, FormView):
-    course = None
-    form_class = CourseEnrollForm
+    def get(self, request, *args, **kwargs):
+        userid = request.personnel.Person_ID
+        user = Personnel.objects.get(Person_ID=userid)
+
+        if datetime.now().month < 8:
+            year_of_study = datetime.now().year - user.Year
+        else:
+            year_of_study = datetime.now().year - user.Year + 1
 
 
-    def form_valid(self, form):
-        self.course = form.cleaned_data['course']
-        self.course.students.add(self.request.user)
-        return super(StudentEnrollCourseView,
-                     self).form_valid(form)
+        CoursesOffering = Courses.objects.all().filter(Course_Year=year_of_study)
 
-    @property
-    def get_success_url(self):
-        return reverse_lazy('student_course_detail',
-                            args=[self.course.id])
-"""
-def register(request, year):
-    
+        template_name = "student/CourseRegistration.html"
+        context = dict(CourseList=CoursesOffering)
+
+        return render(request, template_name, context)
 
 
 @login_required(login_url="/login/")
-def MarkAttendance(request):
-    return render(request, 'student/MarkAttendance.html')
+class DropCourse(FormView):
+
+    def get(self, request, *args, **kwargs):
+        userid = request.personnel.Person_ID
+        user = Personnel.objects.get(Person_ID=userid)
+
+        if datetime.now().month < 8:
+            year_of_study = datetime.now().year - user.Year
+        else:
+            year_of_study = datetime.now().year - user.Year + 1
+
+        MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
+        RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
+
+        template_name = 'student/DropCourse.html'
+        context = dict(RegisteredCourses=RegCourses)
+
+        return render(request, template_name, context)
 
 
-@login_required(login_url="/login/")
+
+def unregister(request):
+
+    courses_selected = Courses.objects.filter(id__in=request.POST.getlist('checks[]'))
+    userid = request.personnel.Person_ID
+    user = Personnel.objects.get(Person_ID=userid)
+
+    if datetime.now().month < 8:
+        year_of_study = datetime.now().year - user.Year
+    else:
+        year_of_study = datetime.now().year - user.Year + 1
+
+    for course in courses_selected:
+
+        Students_Courses.objects.filter(Student_ID=userid).get(Course_ID__Course_Name= course).delete()
+
+    MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
+    RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
+
+    template_name = 'student/MyCourses.html'
+    context = dict(RegisteredCourses=RegCourses)
+
+    return render(request, template_name, context)
+
+
+def register_course(request):
+
+
+    courses_selected = Courses.objects.filter(id__in=request.POST.getlist('checks[]'))
+    userid = request.personnel.Person_ID
+    user = Personnel.objects.get(Person_ID=userid)
+
+    if datetime.now().month < 8:
+        year_of_study = datetime.now().year - user.Year
+    else:
+        year_of_study = datetime.now().year - user.Year + 1
+
+    MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
+    RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
+
+    for course in courses_selected:
+        if course not in RegCourses:
+            SC = Students_Courses()
+            SC.Student_ID = userid
+            SC.Course_ID = course
+            SC.save()
+
+    userid = request.personnel.Person_ID
+    user = Personnel.objects.get(Person_ID=userid)
+
+    if datetime.now().month < 8:
+        year_of_study = datetime.now().year - user.Year
+    else:
+        year_of_study = datetime.now().year - user.Year + 1
+
+    MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
+    RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
+
+    template_name = 'student/MyCourses.html'
+    context = dict(RegisteredCourses=RegCourses)
+
+    return render(request, template_name, context)
+
+
 def AddCourse(request):
     return render(request, 'student/AddCourse.html')
 
 
-@login_required(login_url="/login/")
-def DropCourse(request):
-    return render(request, 'student/DropCourse.html')
 
-@login_required(login_url="/login/")
-class ViewAttendance(TemplateView):
-    template_name = 'student/ViewAttendance.html'
+def ViewAttendance(request):
+    pass
 
-    def get(self, request, *args, **kwargs):
-        try:
-            if request.user.personnel.Role.Role_name == "student":
-                person_id = request.user.personnel.Person_ID
-            my_courses_list = [i.Course.course_title for i in person_id.Students_Courses_set.all()]
-            courses_registered = [model_to_dict(Students_Courses.objects.get(course_title=i)) for i in my_courses_list]
-
-            dic = {}
-            absent_on = [[i.course_title, i.date] for i in
-                         Attendance.objects.filter(student_id=person_id.Stu).filter(status="A")]
-
-            # Making a dictionary { Course: [date1, date2, ....], .... }
-            for c in absent_on:
-                if c[0] not in dic:
-                    dic[c[0]] = [c[1]]
-                else:
-                    dic[c[0]] += [c[1]]
-
-            # Converting date to a dic as follows - { Month1: [day1, day2, .. ], ..... }
-            month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
-                           "October", "November", "December"]
-            for course in dic:
-
-                month_dic = {}
-                for date in dic[course]:
-
-                    t_month = month_names[date.month - 1]
-                    if t_month not in month_dic:
-                        month_dic[t_month] = [date]
-                    else:
-                        month_dic[t_month] += [date]
-                dic[course] = month_dic
-
-            context = {'courses_registered': courses_registered, 'branch': Branch_of_study, 'absent_on': dic}
-
-            return render(request, self.template_name, context)
-        except:
-            return render(request, self.template_name, {'error_message': 'No data found'})
-
-
-@login_required(login_url="/login/")
 def AssgnSubStatus(request, StuId):
 
     AssgnId = 0

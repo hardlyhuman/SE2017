@@ -31,7 +31,7 @@ class Personnel(models.Model):
     # Dept=models.ForeignKey(Department,on_delete=models.CASCADE)#Not sure about this too
 
     Dept = models.ForeignKey('Department', to_field='Dept_ID', on_delete=models.CASCADE)  # Not sure about this too
-
+    Year = models.IntegerField(default=2013)
 
 # Dept=models.ForeignKey(Department,to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too
 

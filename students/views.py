@@ -1,25 +1,22 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-#from braces.views import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.views.generic.edit import FormView
 import json
-from django.template import loader
-from home.models import *
-from home.models import Students_Courses
-from students.forms import CourseEnrollForm
-from django.http import HttpResponse
-from django.views.generic.base import TemplateView
+
+# from braces.views import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.template import loader
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView
+
+from home.models import *
+
 
 # Create your views here.
 
-"""
-@login_required(login_url="/login/")
-def dashboard(request):
-    return render(request, 'student/dashboard.html')"""
 
 def ViewRegCourse(request):
     CourseList = []
@@ -72,25 +69,39 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
         return reverse_lazy('student_course_detail',
                             args=[self.course.id])
 """
-def register(request, year):
-    
-
-
 @login_required(login_url="/login/")
+class register(FormView):
+
+    def get(self, request, *args, **kwargs):
+        userid = request.personnel.Person_ID
+        user = Personnel.objects.get(Person_ID=userid)
+
+        year_of_study = user.Year
+
+        CoursesOffering = Courses.objects.all().filter(Course_Year=year_of_study)
+
+        template_name = "student/CourseRegistration.html"
+        context = dict(CourseList=CoursesOffering)
+
+        return render(request, template_name, context)
+
+
+
+
+
+
+
 def MarkAttendance(request):
     return render(request, 'student/MarkAttendance.html')
 
 
-@login_required(login_url="/login/")
 def AddCourse(request):
     return render(request, 'student/AddCourse.html')
 
 
-@login_required(login_url="/login/")
 def DropCourse(request):
     return render(request, 'student/DropCourse.html')
 
-@login_required(login_url="/login/")
 class ViewAttendance(TemplateView):
     template_name = 'student/ViewAttendance.html'
 
@@ -127,14 +138,13 @@ class ViewAttendance(TemplateView):
                         month_dic[t_month] += [date]
                 dic[course] = month_dic
 
-            context = {'courses_registered': courses_registered, 'branch': Branch_of_study, 'absent_on': dic}
+            context = {'courses_registered': courses_registered,  'absent_on': dic}
 
             return render(request, self.template_name, context)
         except:
             return render(request, self.template_name, {'error_message': 'No data found'})
 
 
-@login_required(login_url="/login/")
 def AssgnSubStatus(request, StuId):
 
     AssgnId = 0

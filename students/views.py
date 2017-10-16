@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 import json
-
+from datetime import datetime
 # from braces.views import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
@@ -53,7 +53,11 @@ class register(FormView):
         userid = request.personnel.Person_ID
         user = Personnel.objects.get(Person_ID=userid)
 
-        year_of_study = user.Year
+        if datetime.now().month < 8:
+            year_of_study = datetime.now().year - user.Year
+        else:
+            year_of_study = datetime.now().year - user.Year + 1
+
 
         CoursesOffering = Courses.objects.all().filter(Course_Year=year_of_study)
 
@@ -70,13 +74,15 @@ class DropCourse(FormView):
         userid = request.personnel.Person_ID
         user = Personnel.objects.get(Person_ID=userid)
 
-        year_of_study = user.Year
-        MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
+        if datetime.now().month < 8:
+            year_of_study = datetime.now().year - user.Year
+        else:
+            year_of_study = datetime.now().year - user.Year + 1
 
+        MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
         RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
 
         template_name = 'student/DropCourse.html'
-
         context = dict(RegisteredCourses=RegCourses)
 
         return render(request, template_name, context)
@@ -89,7 +95,10 @@ def unregister(request):
     userid = request.personnel.Person_ID
     user = Personnel.objects.get(Person_ID=userid)
 
-    year_of_study = user.Year
+    if datetime.now().month < 8:
+        year_of_study = datetime.now().year - user.Year
+    else:
+        year_of_study = datetime.now().year - user.Year + 1
 
     for course in courses_selected:
 
@@ -99,7 +108,6 @@ def unregister(request):
     RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
 
     template_name = 'student/MyCourses.html'
-
     context = dict(RegisteredCourses=RegCourses)
 
     return render(request, template_name, context)
@@ -110,7 +118,11 @@ def register_course(request):
     courses_selected = Courses.objects.filter(id__in=request.POST.getlist('checks[]'))
     userid = request.personnel.Person_ID
     user = Personnel.objects.get(Person_ID=userid)
-    year_of_study = user.Year
+
+    if datetime.now().month < 8:
+        year_of_study = datetime.now().year - user.Year
+    else:
+        year_of_study = datetime.now().year - user.Year + 1
 
     MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
     RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
@@ -124,7 +136,11 @@ def register_course(request):
 
     userid = request.personnel.Person_ID
     user = Personnel.objects.get(Person_ID=userid)
-    year_of_study = user.Year
+
+    if datetime.now().month < 8:
+        year_of_study = datetime.now().year - user.Year
+    else:
+        year_of_study = datetime.now().year - user.Year + 1
 
     MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
     RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]

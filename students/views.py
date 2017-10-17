@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import json
 from datetime import datetime
+
 # from braces.views import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.forms.models import model_to_dict
-from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.template import loader
-from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
 from home.models import *
-
 
 # Create your views here.
 

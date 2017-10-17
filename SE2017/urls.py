@@ -2,7 +2,7 @@
 # SE2017/urls.py: Consists of all the valid urls of SAMS-IIITS
 #__authors__ = "Sri Harsha Gajavalli", "SriRamKumar", "Savitha"
 #__copyright__ = "Copyright 2017, SE2017 Course"
-#__Team__ = ["Sri Harsha Gajavalli", "", "David Christie", "Likhith Lanka", "Sajas P", "Rajeev Reddy"]
+#__Team__ = ["Sri Harsha Gajavalli", "Savitha", "SriRamKumar"]
 #__license__ = "MIT"
 #__version__ = "1.2"
 #__maintainer__ = "SriRamKumr"

@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 app_name='faculty'
 urlpatterns =[
 	
-         url(r'^ViewProfs/$',views.ViewProfs,name='ViewProfs'),   
+url(r'^ViewProfs/$',views.ViewProfs,name='ViewProfs'),   
 url(r'^ViewRegisteredStudents/$',views.ViewRegisteredStudents,name='ViewRegisteredStudents'), 
 url(r'^AddAssignment/$',views.AddAssignment,name='AddAssignment'),   
 url(r'^Delass/$',views.Delass,name='Delass'),  

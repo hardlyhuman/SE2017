@@ -6,6 +6,7 @@ from datetime import datetime
 # from braces.views import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from home.models import *
@@ -110,7 +111,7 @@ def unregister(request):
 
 def register_course(request):
 
-
+    totalCredits = 0
     courses_selected = Courses.objects.filter(id__in=request.POST.getlist('checks[]'))
     userid = request.personnel.Person_ID
     user = Personnel.objects.get(Person_ID=userid)
@@ -170,8 +171,28 @@ def AddCourse(request):
 
 
 
-def ViewAttendance(request):
-    pass
+class ViewAttendance(TemplateView):
+
+    template_name = "student/ViewAttendance.html"
+
+    def get(self, request, *args, **kwargs):
+        try:
+            userid = request.personnel.Person_ID
+            user = Personnel.objects.get(Person_ID=userid)
+
+            if datetime.now().month < 8:
+                year_of_study = datetime.now().year - user.Year
+            else:
+                year_of_study = datetime.now().year - user.Year + 1
+
+            MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
+            RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
+
+
+
+        except:
+            context = dict(ErrorMessage = "No Data Found")
+            return render(request, self.template_name, context)
 
 def AssgnSubStatus(request, StuId):
 

@@ -606,10 +606,10 @@ def add_view_timetable(request):
 def validate_user(request):
 	if request.method == 'POST':
 		data=JSONParser().parse(request)
-		print data["username"]
-		print data["password"]
+		# print data["username"]
+		# print data["password"]
 		user = authenticate(username=data["username"],password=data["password"])
-		print user
+		# print user
 		if user is not None:
 			serializer = UserSerializer(user)
 			return JsonResponse(serializer.data,status=200)

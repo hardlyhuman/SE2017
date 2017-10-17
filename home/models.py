@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 
-# from compositekey import db
 import datetime
 
 from django import utils
@@ -29,12 +28,10 @@ class Personnel(models.Model):
     def __str__(self):
         return self.LDAP.username
 
-    # Dept=models.ForeignKey(Department,on_delete=models.CASCADE)#Not sure about this too
 
     Dept = models.ForeignKey('Department', to_field='Dept_ID', on_delete=models.CASCADE)  # Not sure about this too
     Year = models.IntegerField(default=2013)
 
-# Dept=models.ForeignKey(Department,to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too
 
 
 @python_2_unicode_compatible
@@ -42,9 +39,6 @@ class Department(models.Model):
     Dept_ID = models.AutoField(primary_key=True)
     Dept_Name = models.CharField(max_length=50, default="")
 
-    #	Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
-
-    # Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
     @property
 
     def __str__(self):
@@ -57,12 +51,10 @@ class Courses(models.Model):
     Course_ID = models.AutoField(primary_key=True)
     Course_Name = models.CharField(max_length=50, default="")
 
-    # Inst_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
     Course_description = models.CharField(max_length=255, default="")
     Course_Credits = models.IntegerField()
     Course_Year=models.IntegerField()
     Course_Status = models.BooleanField(default = True)
-    #Course_Status = models.BooleanField(default= True)
     def __str__(self):
         return self.Course_Name
 
@@ -114,7 +106,6 @@ class Assignment(models.Model):
 
 class Submissions(models.Model):
 
-    # Sub_ID=db.MultiFieldPK('Assign_ID','Student_ID')
 
     Sub_ID=models.AutoField(primary_key=True)
     Assign_ID=models.ForeignKey(Assignment,to_field='Assign_ID',on_delete=models.CASCADE)
@@ -140,7 +131,7 @@ class Instructors_Courses(models.Model):
 @python_2_unicode_compatible
 class Students_Courses(models.Model):
 
-    # SC_ID=db.MultiFieldPK('Student_ID','Course_ID')
+
     SC_ID = models.AutoField(primary_key=True)
     Student_ID = models.ForeignKey(Personnel, to_field='Person_ID', on_delete=models.CASCADE)
     Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)

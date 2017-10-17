@@ -16,7 +16,6 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 
-# from braces.views import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views.generic import TemplateView

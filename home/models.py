@@ -1,11 +1,12 @@
 from __future__ import unicode_literals
-from django.db import models
-from django import forms
-from django import utils
-from django.contrib.auth.models import User
-from django.utils.encoding import python_2_unicode_compatible
+
 # from compositekey import db
 import datetime
+
+from django import utils
+from django.contrib.auth.models import User
+from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 
 
 @python_2_unicode_compatible

@@ -185,6 +185,11 @@ class ViewAttendance(TemplateView):
 
             MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
             RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
+            Atnd = Attendance.objects.all().filter(Student_ID__Person_ID=userid)
+            for course in RegCourses:
+                for each in Atnd:
+                    if each['Course_ID'] == course:
+                        pass
 
 
 

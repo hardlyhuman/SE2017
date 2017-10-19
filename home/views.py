@@ -17,7 +17,7 @@ register = template.Library()
 
 @login_required(login_url="login/")
 def index(request):
-	return render(request, "home/index.html", {'html': html,'now':now})
+	return render(request, "home/index.html", {})
 
 @csrf_exempt
 def people(request):

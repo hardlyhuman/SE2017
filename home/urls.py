@@ -33,5 +33,7 @@ urlpatterns = [
 	url(r'^add_view_attendance_sessions/',views.add_view_attendance_sessions),
 	url(r'^add_view_timetable/',views.add_view_timetable),
 	url(r'^validate_user/',views.validate_user),
+    url(r'^student_rel_courses/',views.student_rel_courses),
+	url(r'^faculty_rel_courses/',views.faculty_rel_courses),
 
 ]

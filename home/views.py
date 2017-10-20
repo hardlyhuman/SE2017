@@ -601,6 +601,28 @@ def validate_user(request):
 			return JsonResponse(dat,status=200)
 		else:
 			return HttpResponse(status=404)
+@csrf_exempt
+def courses_rel_students(request):
+    if request.method == 'POST':
+        data = {}
+        data1 = JSONParser().parse(request)
+        ID = data1['course_id']
+        data2 = SCSerializer(Students_Courses.objects.filter(Course_ID=ID), many=True).data
+        x = 0
+        for i in range(len(data2)):
+            temp = PersonnelSerializer(Personnel.objects.get(Person_ID=data2[i]['Student_ID'])).data
+            temp2 = User.objects.all()
+            for b in temp2:
+                try:
+                    if b.personnel.LDAP.id == temp['LDAP']:
+                        data[data2[i]['Student_ID']] = {'Username':b.username,'First_Name':b.first_name,'Last_Name':b.last_name,'Email':b.email}
+                except:
+                    kill=1
+            x += 1
+        if len(data) != 0:
+            return JsonResponse(data, status=200, safe=False)
+        else:
+return HttpResponse(status=404)
 
 @csrf_exempt
 def student_rel_courses(request):

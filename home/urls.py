@@ -35,5 +35,5 @@ urlpatterns = [
 	url(r'^validate_user/',views.validate_user),
     url(r'^student_rel_courses/',views.student_rel_courses),
 	url(r'^faculty_rel_courses/',views.faculty_rel_courses),
-
+    url(r'^courses_rel_students/',views.courses_rel_students),
 ]

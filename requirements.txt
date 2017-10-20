@@ -3,4 +3,8 @@ MySQL-python==1.2.5
 djangorestframework==3.7.0
 markdown==2.6.9
 django-filter==1.0.4
+django_celery
+django_celery_beat
+celery==3.1.25
+redis
 ldif3

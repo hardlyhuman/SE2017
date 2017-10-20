@@ -165,8 +165,8 @@ class Timetable(models.Model):
     (6, 'Sunday'),
     )
     T_days = models.IntegerField(choices=DAYS_OF_WEEK)
-    Start_time= models.TimeField(auto_now_add=True)
-    End_time=models.TimeField(auto_now_add=True)
+    Start_time= models.TimeField()
+    End_time=models.TimeField()
     Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
     Class_ID=models.CharField(max_length=10,default='')
     

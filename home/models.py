@@ -97,7 +97,6 @@ class Assignment(models.Model):
     Start_Time = models.DateTimeField(default=utils.timezone.now)
     End_Time = models.DateTimeField(default=utils.timezone.now)
 
-    @property
     def __str__(self):
         return str(self.Assign_ID)
 

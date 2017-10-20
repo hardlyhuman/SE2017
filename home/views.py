@@ -593,11 +593,11 @@ def validate_user(request):
 		user = authenticate(request,username=username,password=password)
 		if user is not None:
 			serializer = UserSerializer(user)
-			personaldet = PersonnelSerializer(Personnel.objects.filter(LDAP=user))
+			personaldet = PersonnelSerializer(Personnel.objects.filter(LDAP=user),many=True)
 			print(serializer.data)
 			print(personaldet.data)
 			dat = serializer.data
-			dat.update(personaldet.data)
+			dat.update(dict(personaldet.data[0]))
 			return JsonResponse(dat,status=200)
 		else:
 			return HttpResponse(status=404)

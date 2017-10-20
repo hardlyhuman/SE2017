@@ -44,15 +44,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">SAMS</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">Attendance</a></li>
-            <li><a href="#contact">Courses</a></li>
-	     <li><a href="#contact">Assignments</a></li>
-	      <li><a href="#contact">Timetable</a></li>
+            <li class="active"><a href="#" id="home">Home</a></li>
+            <li><a href="#about" id="attendace">Attendance</a></li>
+            <li><a href="#contact" id= "courses">Courses</a></li>
+	     <li><a href="#contact" id="assignments">Assignments</a></li>
+	      <li><a href="#contact" id="timetable">Timetable</a></li>
              <li><a href="#contact">Events</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -71,15 +71,48 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+    <script>
+          Student_Home="";
+          Student_Attendance="";
+          Student_Assignments="";
+          Student_Courses="";
+          Student_Timetable="";
+          Student_Courses="";
+          Faculty_Home="{% url 'faculty:AddAssignment' %}";
+          Faculty_Attendance="";
+          Faculty_Assignments="{% url 'faculty:AddAssignment' %}";
+          Faculty_Courses="";
+          Faculty_Timetable="";
+          Faculty_Courses="";
+
+          {% if user.personnel.Role.Role_name == "Student"%}
+          document.getElementById("home").setAttribute("href",Student_Home);
+          document.getElementById("attendace").setAttribute("href",Student_Attendance);
+          document.getElementById("assignments").setAttribute("href",Student_Assignments);
+          document.getElementById("courses").setAttribute("href",Student_Courses);
+          document.getElementById("timetable").setAttribute("href",Student_Timetable);
+          {%endif%}
+
+          {% if user.personnel.Role.Role_name == "Faculty"%};
+          console.log("killllllllllllllmmmmmmmee");
+          document.getElementById("home").setAttribute("href",Faculty_Home);
+          document.getElementById("attendace").setAttribute("href",Faculty_Attendance);
+          document.getElementById("assignments").setAttribute("href",Faculty_Assignments);
+          document.getElementById("courses").setAttribute("href",Faculty_Courses);
+          document.getElementById("timetable").setAttribute("href",Faculty_Timetable);
+          {%endif%}
+
+    </script>
 <div class="container">
+   {{ user.personnel.Role.Role_name }}
 {% block content %}
 {%  endblock %}
 </div>
 <footer class="footer">
   <a class="navbar-brand" href="#"><img src="{% static 'images/iiits-logo.png' %}" style="height:50px"></img></a>
       <div class="container">&copy; Copyright 2017 IIITS
-<p>{{ html }}
- {{ now }}</p>
+<p>{{ html }}{% now "jS F Y H:i" %}
+ </p>
       </div>
     </footer>
     <!-- Bootstrap core JavaScript

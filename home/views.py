@@ -11,6 +11,7 @@ from rest_framework.parsers import JSONParser
 from .serializers import *
 from .models import *
 from django.contrib.auth import authenticate
+import sys
 # Create your views here.
 PRIVATE_IPS_PREFIX = ('10.', '172.', '192.', )
 register = template.Library()
@@ -636,3 +637,4 @@ def faculty_rel_courses(request):
 		else:
 			return HttpResponse(status=404)
 # Add any extra needed api views after this
+sys.stdout.flush()

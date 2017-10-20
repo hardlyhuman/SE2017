@@ -7,9 +7,8 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from ldif3 import LDIFParser
 from rest_framework.parsers import JSONParser
-
 from .serializers import *
-
+from django.contrib.auth.models import User
 # Create your views here.
 PRIVATE_IPS_PREFIX = ('10.', '172.', '192.',)
 register = template.Library()
@@ -639,10 +638,35 @@ def validate_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             serializer = UserSerializer(user)
-            return JsonResponse(serializer.data, status=200)
+            personaldet = PersonnelSerializer(Personnel.objects.filter(LDAP=user),many=True)
+            dat = serializer.data
+            dat.update(dict(personaldet.data[0]))
+            return JsonResponse(dat, status=200)
         else:
             return HttpResponse(status=404)
 
+@csrf_exempt
+def courses_rel_students(request):
+    if request.method == 'POST':
+        data = {}
+        data1 = JSONParser().parse(request)
+        ID = data1['course_id']
+        data2 = SCSerializer(Students_Courses.objects.filter(Course_ID=ID), many=True).data
+        x = 0
+        for i in range(len(data2)):
+            temp = PersonnelSerializer(Personnel.objects.get(Person_ID=data2[i]['Student_ID'])).data
+            temp2 = User.objects.all()
+            for b in temp2:
+                try:
+                    if b.personnel.LDAP.id == temp['LDAP']:
+                        data[data2[i]['Student_ID']] = {'Username':b.username,'First_Name':b.first_name,'Last_Name':b.last_name,'Email':b.email}
+                except:
+                    kill=1
+            x += 1
+        if len(data) != 0:
+            return JsonResponse(data, status=200, safe=False)
+        else:
+            return HttpResponse(status=404)
 
 @csrf_exempt
 def student_rel_courses(request):
@@ -654,7 +678,7 @@ def student_rel_courses(request):
         x = 0
         for i in range(len(data2)):
             temp = CoursesSerializer(Courses.objects.get(Course_ID=data2[i]['Course_ID'])).data
-            data[x] = {'Course_ID': data2[i]['Course_ID'], 'Course_Name': temp['Course_Name'],
+            data[data2[i]['Course_ID']] = {'Course_ID': data2[i]['Course_ID'], 'Course_Name': temp['Course_Name'],
                        'Course_description': temp['Course_description'], 'Course_Year': temp['Course_Year'],
                        'Course_Status': temp['Course_Status']}
             x += 1
@@ -674,8 +698,7 @@ def faculty_rel_courses(request):
         x = 0
         for i in range(len(data2)):
             temp = CoursesSerializer(Courses.objects.get(Course_ID=data2[i]['Course_ID'])).data
-            data[x] = data2[i]['Course_ID']
-            data[x] = {'Course_ID': data2[i]['Course_ID'], 'Course_Name': temp['Course_Name'],
+            data[data2[i]['Course_ID']] = {'Course_ID': data2[i]['Course_ID'], 'Course_Name': temp['Course_Name'],
                        'Course_description': temp['Course_description'], 'Course_Credits': temp['Course_Credits'],
                        'Course_Year': temp['Course_Year'], 'Course_Status': temp['Course_Status']}
             x += 1

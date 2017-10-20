@@ -1,3 +1,16 @@
+###################################################
+# SE2017/urls.py: Consists of all the valid urls of SAMS-IIITS
+#__authors__ = "Sri Harsha Gajavalli", "SriRamKumar", "Savitha"
+#__copyright__ = "Copyright 2017, SE2017 Course"
+#__Team__ = ["Sri Harsha Gajavalli", "Savitha", "SriRamKumar"]
+#__license__ = "MIT"
+#__version__ = "1.2"
+#__maintainer__ = "SriRamKumr"
+#__email__ = "sriramkumar.t15@iiits.in"
+#__status__ = "Development"
+####################################################
+
+
 """SE2017 URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:

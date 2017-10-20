@@ -19,7 +19,8 @@ from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
-
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -29,3 +30,4 @@ urlpatterns = [
 	url(r'^admin/', admin.site.urls),
     url(r'^api/',include('home.urls')),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

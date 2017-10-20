@@ -148,3 +148,5 @@ STATICFILES_DIRS = (
 )
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 DATABASES['default'].update(db_from_env)
+MEDIA_URL='/AssignmentsFolder/'
+MEDIA_ROOT=os.path.join(BASE_DIR,'home/AssignmentsFolder')

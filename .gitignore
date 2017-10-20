@@ -12,7 +12,6 @@ SE2017/settings.py
 env/
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/

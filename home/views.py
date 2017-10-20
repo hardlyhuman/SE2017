@@ -622,7 +622,7 @@ def courses_rel_students(request):
         if len(data) != 0:
             return JsonResponse(data, status=200, safe=False)
         else:
-return HttpResponse(status=404)
+			return HttpResponse(status=404)
 
 @csrf_exempt
 def student_rel_courses(request):

@@ -88,14 +88,16 @@
           Student_Courses="";
           Student_Timetable="";
           Student_Courses="";
-          Faculty_Home="{% url 'faculty:AddAssignment' %}";
-          Faculty_Attendance="";
-          Faculty_Assignments="{% url 'faculty:AddAssignment' %}";
-          Faculty_UploadAssignments="";
-          Faculty_ViewAssignments="";
-          Faculty_Courses="";
-          Faculty_Timetable="";
-          Faculty_Courses="";
+
+	  Faculty_Home="{% url 'faculty:ViewProfs' %}";
+          Faculty_Attendance="{% url 'faculty:ViewAttendance' %}";
+          Faculty_Assignments="";
+          Faculty_UploadAssignments="{% url 'faculty:AddAssignment' %}";
+          Faculty_ViewAssignments="{% url 'faculty:Delass' %}";
+          Faculty_Courses="{% url 'faculty:OfferCourses' %}";
+          Faculty_Timetable="{% url 'faculty:index' %}";
+          Faculty_Events="{% url 'faculty:index' %}";
+
 
           {% if user.personnel.Role.Role_name == "Student"%}
           document.getElementById("home").setAttribute("href",Student_Home);

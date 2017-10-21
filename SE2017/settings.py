@@ -105,9 +105,9 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'HOST': 'localhost',
-            'NAME': 'sams_f',
+            'NAME': 'se',
             'USER': 'root',
-            'PASSWORD': 'swathi',
+            'PASSWORD': 'PASSWORD',
 
 
         }

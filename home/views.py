@@ -517,7 +517,7 @@ def add_view_attendance(request):
 	elif request.method == 'POST':
 		data = JSONParser().parse(request)
 		print(data)
-		serializer = SPSerializer(data=data)
+		serializer = AttendanceSerializer(data=data)
 		if serializer.is_valid():
 			serializer.save()
 			return JsonResponse(serializer.data, status=201)

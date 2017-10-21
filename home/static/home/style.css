@@ -1,15 +1,19 @@
 .wrapper{
   float:left;
   width:100%;
-  min-height:250px;
+  min-height:50px;
+background-color: #434c56;
 }
 .navigation{
-    float: right;
-    width: 80%;
+float:right;
+width:100%;
     text-align: center;
 	position: relative;
+	background-color: #434c56;
 }
+
 .navigation ul{
+
     margin: 0;
     padding: 0;
     float: none;
@@ -23,13 +27,19 @@
     margin-right: 60px;
     position: relative;
 }
+.navigation ul li:first-child{
+    margin-left: 0;
+	float:left;
+position:relative;
+
+}
 .navigation ul li:last-child{
     margin: 0;
 }
 .navigation ul li a{
     float: left;
     width: 100%;
-    color: #333;
+    color: white;
     padding: 16px 0;
     font-size: 16px;
     line-height: normal;
@@ -47,7 +57,6 @@
     padding: 0;
     left: 0;
     min-width: 240px;
-    background-color: #fff;
     border: solid 1px #dbdbdb;
     opacity: 0;
     -webkit-transform-origin: 0% 0%;
@@ -115,6 +124,7 @@ footer {
   bottom: 0;
   left: 0;
   padding: 1rem;
-  background-color: #efefef;
+  background-color: #21262b;
   text-align: center;
+  color:white;
 }

@@ -1,9 +1,6 @@
-from django.conf.urls import url,include
+from django.conf.urls import url
+
 from . import views
-
-
-from django.views.generic import TemplateView
-
 
 app_name='faculty'
 urlpatterns =[

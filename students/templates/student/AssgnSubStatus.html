@@ -5,63 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="jquery-ui.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
-    .container{
-    	display: inline-block;
-    }
-.block{
-	margin-left: 500px;
-	background: grey;
-}
-#course_name,#assign_no{
-	display: inline;
-}
-#course_name{
-	float: right;
-}
-#assign_no{
-	float: left;
-}
+
+
 </style>
 </head>
 <body>
 <div class="panel panel-default">
   <div class="panel-body"><h1>View Submission Status</h1></div>
 </div>
-<div class="container">
- <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example1
+ <div class="container-fluid">
+  <div class="row">
+    <div class="col-md-1">
+       <div class="dropdown">
+  <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Select Course
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
     <li><a href="#">HTML</a></li>
     <li><a href="#">CSS</a></li>
     <li><a href="#">JavaScript</a></li>
   </ul>
-</div> 
-<br>
-<br>
- <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example2
+</div>
+    </div>
+    <div class="col-md-1">
+       <div class="dropdown">
+  <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Select Assignment
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
     <li><a href="#">HTML</a></li>
     <li><a href="#">CSS</a></li>
     <li><a href="#">JavaScript</a></li>
   </ul>
-</div> 
 </div>
-<div>
-	<div class="row block" style="max-width: 400px;">
-	<div class="col-md-12 col-xs-12">
-	<p id="assign_no">Assignment No:</p>
-	<p id="course_name">Course Name</p>
-	<br>
-	<h3><p>Status:</p></h3>
-	<br>
-	<h4><p>Deadline:</p></h4>
+    </div>
+    <div class="col-md-7"></div>
+        <div class='col-sm-3'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimpicker();
+            });
+        </script>
+
 </div>
+  <br>
+  <br>
+  <div class="row align-items-start">
+    <div class="col-md-3"></div>
+    <div class="col-md-6" style="background: grey">
+      <div class="container-fluid">
+        <div class="row" style="font-size: 20px">
+          <div class="col-md-6">Assignment No:</div>
+          <div class="col-md-6">Course Name:</div>
+        </div>
+        <br>
+        <br>
+                <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6" style="font-size: 28px">Submission status:</div>
+          <div class="col-md-3"></div>
+        </div>
+        <br>
+        <br>
+                <div class="row" style="font-size: 20px">
+          <div class="col-md-6">Deadline:</div>
+          <div class="col-md-6"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+    <br>
+  </div>
 </div>
-</div>          
 </body>
 </html>

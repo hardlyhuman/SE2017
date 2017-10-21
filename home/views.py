@@ -660,4 +660,12 @@ def faculty_rel_courses(request):
 		else:
 			return HttpResponse(status=404)
 # Add any extra needed api views after this
+def student_session(request):
+	if request.method == 'POST':
+		data1 = JSONParser().parse(request)
+		id = data1['sess']
+		data = AttendanceSerializer(Attendance.objects.filter(ASession_ID=id))
+		print(data.data)
+		return JsonResponse(data.data,status=200,safe=False)
+	return HttpResponse(status=404)
 sys.stdout.flush()

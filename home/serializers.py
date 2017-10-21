@@ -33,7 +33,7 @@ class DocumentsSerializer(serializers.ModelSerializer):
 class AssignmentSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Assignment
-		fields=('Assign_ID','Assignment_File','Course_ID','Start_Time','End_time')
+		fields=('Assign_ID','Assignment_File','Course_ID','Start_Time','End_Time')
 
 class SubmissionsSerializer(serializers.ModelSerializer):
 	class Meta:

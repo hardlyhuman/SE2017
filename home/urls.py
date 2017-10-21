@@ -1,5 +1,6 @@
-from django.conf.urls import url, include
+from django.conf.urls import url
 from django.contrib.auth import views as auth_views
+
 from . import views
 
 app_name = 'home'
@@ -34,6 +35,7 @@ urlpatterns = [
 	url(r'^add_view_timetable/',views.add_view_timetable),
 	url(r'^validate_user/',views.validate_user),
 	url(r'^student_rel_courses/',views.student_rel_courses),
+	url(r'^courses_rel_students/',views.courses_rel_students),
 	url(r'^faculty_rel_courses/',views.faculty_rel_courses),
 	url(r'^facultyusers/',views.faculty_users),
 	url(r'^studentusers/',views.student_users),

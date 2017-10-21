@@ -105,11 +105,11 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'HOST': 'localhost',
-            'NAME': 'se2017',
+            'NAME': 'sams_f',
             'USER': 'root',
-            'PASSWORD': '5qlDevelop#r',
+            'PASSWORD': 'swathi',
 
-           
+
         }
     }
 
@@ -134,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 REDIS_HOST = 'localhost'
 REDIS_PORT = '6379'
 BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 
 CELERY_ACCEPT_CONTENT = ['json']
@@ -183,4 +183,3 @@ LOGOUT_REDIRECT_URL = '/'
 
 MEDIA_URL='/AssignmentsFolder/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'home/AssignmentsFolder')
-

@@ -660,6 +660,7 @@ def faculty_rel_courses(request):
 		else:
 			return HttpResponse(status=404)
 # Add any extra needed api views after this
+@csrf_exempt
 def student_session(request):
 	if request.method == 'POST':
 		data1 = JSONParser().parse(request)

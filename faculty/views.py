@@ -15,9 +15,6 @@ from .forms import UploadFileForm
 from home.serializers import *
 
 import json
-
-
-
 OPTIONS = """{  timeFormat: "H:mm",
                 header: {
                     left: 'prev,next today',
@@ -114,18 +111,13 @@ def AddAssignment(request):
             instance.save()
 
             return HttpResponse("Your File has been uploaded successfully!!!")
+
     else:
         CourseList = []
         form = UploadFileForm()
-        if request.user.personnel.Role.Role_name == 'faculty':
-            person_id = request.user.personnel.Person_ID
-            IC = Instructors_Courses.objects.all()
-            for i in range(0, len(IC)):
-                if person_id == IC[i].Inst_ID.Person_ID:
-                    CourseList.append(IC[i].Course_ID.Course_Name)
+	s=0        
     return render(request, 'forms.html',
-                  {'Courses': CourseList, 'Prof_Name': request.user.username, 'form': form, 'request': request})
-
+                 {'CourseName':request.session['course'], 'form': form, 'request': request,'s':s})
 
 def delete(request):
     if request.method != 'POST':
@@ -137,8 +129,8 @@ def delete(request):
         docToDel.delete()
     return HttpResponse("Your File has been deleted successfully!!! ")
 
-
 def Delass(request):
+
     if request.method == 'POST':
         asslist = []
         Assignments = Assignment.objects.all()
@@ -155,8 +147,6 @@ def Delass(request):
                 if person_id == IC[i].Inst_ID.Person_ID:
                     CourseList.append(IC[i].Course_ID.Course_Name)
     return render(request, 'course_page.html', {'Courses': CourseList})
-
-
 
 def EditCourseDescription(request):
     if request.method == 'POST':
@@ -187,6 +177,7 @@ def OfferCourses(request):
             corse = Courses.objects.get(Course_ID=cid)
             IC = Instructors_Courses(Course_ID=corse, Inst_ID=person, Start_Date=startdate, End_Date=enddate)
             IC.save()
+
         return HttpResponse("Successfully Inserted!!!")
 
     else:

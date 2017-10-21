@@ -15,9 +15,6 @@ from .forms import UploadFileForm
 from home.serializers import *
 
 import json
-
-
-
 OPTIONS = """{  timeFormat: "H:mm",
                 header: {
                     left: 'prev,next today',
@@ -89,7 +86,7 @@ def CoursePage(request):
     	template = loader.get_template('prof1.html')
     	context = {'Course':course,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))
-	
+
 def ViewRegisteredStudents(request):
     studentlist = []
     course_name = request.GET.get('name')
@@ -113,9 +110,8 @@ def AddAssignment(request):
                     break
             instance = Assignment(Course_ID=course, Assignment_File=request.FILES['file'])
             instance.save()
-	    s=1
-	     
-	    
+            return HttpResponse("Your File has been uploaded successfully!!!")
+
     else:
         CourseList = []
         form = UploadFileForm()
@@ -134,13 +130,24 @@ def delete(request):
     return HttpResponse("Your File has been deleted successfully!!! ")
 
 def Delass(request):
-     asslist = []
-     Assignments = Assignment.objects.all()
-     for ass in Assignments:
-     	if ass.Course_ID.Course_Name ==request.session['course']:
-        	asslist.append(ass)
-     return render(request, 'assignment.html', {'Assignments': asslist,'CourseName':request.session['course']})
-  
+
+    if request.method == 'POST':
+        asslist = []
+        Assignments = Assignment.objects.all()
+        for ass in Assignments:
+            if ass.Course_ID.Course_Name == request.POST.get('dropdown'):
+                asslist.append(ass)
+        return render(request, 'assignment.html', {'Assignments': asslist})
+    else:
+        CourseList = []
+        if request.user.personnel.Role.Role_name == 'faculty':
+            person_id = request.user.personnel.Person_ID
+            IC = Instructors_Courses.objects.all()
+            for i in range(0, len(IC)):
+                if person_id == IC[i].Inst_ID.Person_ID:
+                    CourseList.append(IC[i].Course_ID.Course_Name)
+    return render(request, 'course_page.html', {'Courses': CourseList})
+
 def EditCourseDescription(request):
     if request.method == 'POST':
         course = request.POST.get('dropdown')
@@ -149,7 +156,18 @@ def EditCourseDescription(request):
         courseobj.save()
 
         return HttpResponse("Successfully updated!!!")
-    
+
+
+    else:
+        CourseList = []
+        if request.user.personnel.Role.Role_name == 'faculty':
+            person_id = request.user.personnel.Person_ID
+            IC = Instructors_Courses.objects.all()
+            for i in range(0, len(IC)):
+                if person_id == IC[i].Inst_ID.Person_ID:
+                    CourseList.append(IC[i].Course_ID.Course_Name)
+    return render(request, 'editcourse.html', {'Courses': CourseList})
+
 def OfferCourses(request):
     if request.method == 'POST':
         person_id = request.user.personnel.Person_ID
@@ -161,6 +179,8 @@ def OfferCourses(request):
             corse = Courses.objects.get(Course_ID=cid)
             IC = Instructors_Courses(Course_ID=corse, Inst_ID=person, Start_Date=startdate, End_Date=enddate)
             IC.save()
+
+        return HttpResponse("Successfully Inserted!!!")
     else:
         IC = Instructors_Courses.objects.all()
         IClist = []
@@ -221,3 +241,4 @@ def EnterMarks(request):
 	template = loader.get_template('marks.html')
     	context = {'assignid':idlist,'CourseName':request.session['course'],'students':studentlist,'studentdict':studentdict}
     	return HttpResponse(template.render(context, request))
+

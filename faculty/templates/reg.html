@@ -1,4 +1,6 @@
-<head>
+{% extends "home/index.html" %}
+{% block content %}
+
 <script type="text/javascript">
     var datefield=document.createElement("input")
     datefield.setAttribute("type", "date")
@@ -21,10 +23,14 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", ini
     })
 }
 </script>
+
 </head>
-<h3><i><b>Offer Courses</b></i></h3>
+
+<center>
+
 
 <ul>
+{% if Courses %}
     {% for course in Courses %}
     
             <form action="{% url 'faculty:OfferCourses' %}" method="post" enctype="multipart/form-data">
@@ -32,13 +38,28 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", ini
         <input type="checkbox" name="courses[]" value="{{ course.Course_ID }}" />
 	<label>{{ course.Course_Name }}</label><br>
     {% endfor %}
-<br>
- <label>Start Date</label><input type="date" name="startdate" id="duration"><br>
- <label>End Date</label><input  type="date" name="enddate" id="duration1">
 
 <br>
-<input type="submit" value="Submit" />
+ <label>Start Date</label><input type="date" name="startdate" id="duration"required><br>
+ <label>End Date</label><input  type="date" name="enddate" id="duration1"required>
+
+<br>
+<input type="submit" onclick="clicked();" value="Submit" />
         </form>
+{% else %}
+<br><h1 style="color:red;">No Courses To Offer</h1>
+{% endif %}
 </ul>
+<p id="demo"></p>
+</center>
+<script>
+ function clicked() {
+
+	    var t='<div class="alert alert-success"> <strong>Success!</strong></div>';
+document.getElementById("demo").innerHTML=t;
+        
+    }
+</script>
+{% endblock %}
 
 

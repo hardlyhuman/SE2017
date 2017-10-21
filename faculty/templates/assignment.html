@@ -1,18 +1,24 @@
-<h3><i><b>Delete Assignments</b></i></h3>
+{% extends "home/index.html" %}
+
+{% block content %}
+<center>
+<br>
 
 {% if Assignments %}
 <ul>
+	<h1> Available Assignments </h1>
     {% for document in Assignments %}
     
-            <form action="{% url 'faculty:delete' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="checkbox" name="Assignment_File[]" value="{{ document.Assign_ID }}" />
-	<a href="{{ document.Assignment_File.url }}">{{ document.Assignment_File.name }}</a><br>
+            
+	<a href="{{document.Assignment_File.url}}">{{ document.Assignment_File.name }}</a><br>
     {% endfor %}
 <br>
-<input type="submit" value="Delete" />
-        </form>
+
+        
 </ul>
 {% else %}
-<p>No documents.</p>
+
+<h1 style="color:red;">OOPS! No documents</h1> 
 {% endif %}
+</center>
+{% endblock %}

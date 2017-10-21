@@ -1,8 +1,11 @@
-{% extends 'home/index.html' %}
-<html>
-<head>
-
+{% extends "home/index.html" %}
 {% block content %}
+<center><br><br>
+<div style=" margin-bottom:50;" class="jumbotron container">
+<h2>Course Name:&nbsp{{Course.Course_Name }}</h2>
+<h2>Course Credits:&nbsp{{Course.Course_Credits }}</h2>
+<h3>Course Description: </h3><br><i>{{Course.Course_description}}</i><br>
+<br>
 <style>
 #main{
  padding: 0px, auto;
@@ -19,55 +22,32 @@ padding: 0px, auto;
   
 }
 </style>
+<form id = "citizenForm" action="{% url 'faculty:CoursePage' %}" method="post" style="display:none">
+{% csrf_token %}
 
-</head>
-<body>
+<textarea style="background-color:#d1e0e0 !important" rows="10" cols="50" name="coursedes">{{Course.Course_description}}</textarea>
+<br><br>
+ <input type="submit" name="action" class="btn btn-primary btn-md" value="Save">
 
-
-<h1>Welcome {{Prof_Name}}</h1>
-<div id="child-right">
+</form><br>
+<button id= "citizenBtn" class="btn btn-primary btn-md" onclick="showForm('citizenForm')">Edit</button>
+</div><br><br>
 <script>
-var courses=JSON.parse("{{Courses|escapejs}}");
-var coursedes=JSON.parse("{{Coursedes|escapejs}}");
 
-for(i=0;i<courses.length;i++)
-{
-document.write('<br>');
- document.write('<a  href="../ViewRegisteredStudents?name='+courses[i]+'"> '+courses[i]+'</a>');
-document.write('<br><br>');
-document.write(coursedes[i]);
-document.write('<br>');
+var showForm = function(id){
+  document.getElementById(id).style.display = '';
 }
-</script>
-</div>
-<br>
-<div id="main">
-<button id="Addass" class="float-left submit-button" >Add Assignment</button><br><br>
-<button id="Delass" class="float-left submit-button" >Delete Assignments</button><br><br>
-<button id="Editdes" class="float-left submit-button" >Edit Course Description</button><br><br>
-<button id="offercourses" class="float-left submit-button" >Offer Courses</button>
-</div>
-<script type="text/javascript">
-    document.getElementById("Addass").onclick = function () {
-        location.href = "{% url 'faculty:AddAssignment' %}";
-    };
-document.getElementById("offercourses").onclick = function () {
-        location.href = "{% url 'faculty:OfferCourses' %}";
-    };
-document.getElementById("Editdes").onclick = function () {
-        location.href = "{% url 'faculty:EditCourseDescription' %}";
-    };
- document.getElementById("Delass").onclick = function () {
-        location.href = "{% url 'faculty:Delass' %}";
+ var button = document.getElementById('citizenBtn')
+    button.addEventListener('click',hideshow,false);
 
-    };
+    function hideshow() {
+        
+        this.style.display = 'none'
+    }   
 </script>
-
 </body>
 {% endblock %}
 </html>
-
-
 
 
 

@@ -1,0 +1,67 @@
+{% extends "home/index.html" %}
+{% block content %}
+<style>
+.abc{
+background-color:black;
+color:white !important;
+}
+</style>
+<script>
+function addColumn(tblId)
+{
+	var tblHeadObj = document.getElementById(tblId).tHead;
+	for (var h=0; h<tblHeadObj.rows.length; h++) {
+		var newTH = document.createElement('th');
+		tblHeadObj.rows[h].appendChild(newTH);
+		newTH.innerHTML = '[th] row:' + h + ', cell: ' + (tblHeadObj.rows[h].cells.length - 1)
+	}
+
+	var tblBodyObj = document.getElementById(tblId).tBodies[0];
+	for (var i=0; i<tblBodyObj.rows.length; i++) {
+		var newCell = tblBodyObj.rows[i].insertCell(-1);
+		newCell.innerHTML = '[td] row:' + i + ', cell: ' + (tblBodyObj.rows[i].cells.length - 1)
+	}
+}
+function deleteColumn(tblId)
+{
+	var allRows = document.getElementById(tblId).rows;
+	for (var i=0; i<allRows.length; i++) {
+		if (allRows[i].cells.length > 1) {
+			allRows[i].deleteCell(-1);
+		}
+	}
+}
+</script>
+
+<center>
+<br>
+<h3>Student Attendance List</h3>
+<h3>Working Days:{{workingdays}}</h3>
+<br>
+<div class="container">
+<table id="tblSample" class="table table-inverse table-hover" border="1">
+<thead class="tabel table-inverse abc">
+<tr>
+  <th>Student ID</th>
+<th>Student Name</th>
+  <th>Number of Leave days</th>
+  
+</tr>
+</thead>
+<tbody>
+{% for key,value in classes.items %}
+<tr>
+  <td>{{key}}</td> 
+
+  <td>{{value.0}}</td>
+<td>{{value.1}}</td>
+ 
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</center>
+{% endblock %}
+
+

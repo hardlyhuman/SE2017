@@ -6,7 +6,7 @@
 <h2>Course Credits:&nbsp{{Course.Course_Credits }}</h2>
 <h3>Course Description: </h3><br><i>{{Course.Course_description}}</i><br>
 <br>
-<style>
+
 
 <form id = "citizenForm" action="{% url 'faculty:CoursePage' %}" method="post" style="display:none">
 {% csrf_token %}

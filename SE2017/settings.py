@@ -107,7 +107,7 @@ else:
             'HOST': 'localhost',
             'NAME': 'se',
             'USER': 'root',
-            'PASSWORD': 'PASSWORD',
+            'PASSWORD': 'savitha',
 
 
         }

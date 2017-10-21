@@ -32,7 +32,8 @@ from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -43,5 +44,7 @@ urlpatterns = [
 	url(r'^faculty/', include('faculty.urls'), name='faculty'),
     url(r'^admin/', admin.site.urls),
     url(r'^api/',include('home.urls')),
-
 ]
+
+if settings.DEBUG is True:
+	urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

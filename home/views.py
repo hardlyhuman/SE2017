@@ -641,7 +641,7 @@ def validate_user(request):
             personaldet = PersonnelSerializer(Personnel.objects.filter(LDAP=user),many=True)
             dat = serializer.data
             dat.update(dict(personaldet.data[0]))
-            return JsonResponse(dat, status=200)
+            return JsonResponse(dat, status=200,safe=False)
         else:
             return HttpResponse(status=404)
 

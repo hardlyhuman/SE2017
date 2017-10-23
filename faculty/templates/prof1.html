@@ -1,7 +1,11 @@
 {% extends "home/index.html" %}
+{% block nav-course %}
+          <a class="navbar-brand" href="#">{{CourseName}}</a>
+{% endblock %}
 {% block content %}
 <center><br><br>
 <div style=" margin-bottom:50;" class="jumbotron container">
+
 <h2>Course Name:&nbsp{{Course.Course_Name }}</h2>
 <h2>Course Credits:&nbsp{{Course.Course_Credits }}</h2>
 <h3>Course Description: </h3><br><i>{{Course.Course_description}}</i><br>
@@ -30,6 +34,8 @@ var showForm = function(id){
         this.style.display = 'none'
     }   
 </script>
+
+
 </center>
 {% endblock %}
 

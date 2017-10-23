@@ -1,6 +1,7 @@
 
 {% extends "home/index.html" %}
 {%  load staticfiles %}
+
 {% block content %}
     
     <link rel='stylesheet' href="{% static "Fullcalendar/js/Fullcalendar/fullcalendar.css" %}" />
@@ -60,21 +61,21 @@
 
                 },
 
+/*
+            events: [
+                {
+                    title: 'Test1',
+                    start: new Date(y, m, 1, 9, 00),
+                    end: new Date(y, m, 1, 10, 00),
+                    allDay: false
+                },
+                {
+                    title: 'Test2',
+                    start: new Date(y, m, 2, 16, 00),
+                    allDay: false
+                }
 
-{#            events: [#}
-{#                {#}
-{#                    title: 'Test1',#}
-{#                    start: new Date(y, m, 1, 9, 00),#}
-{#                    end: new Date(y, m, 1, 10, 00),#}
-{#                    allDay: false#}
-{#                },#}
-{#                {#}
-{#                    title: 'Test2',#}
-{#                    start: new Date(y, m, 2, 16, 00),#}
-{#                    allDay: false#}
-{#                }#}
-{##}
-{#            ]#}
+            ]*/
         events: {{ Events|safe }}
 {#        eventColor:getRandomColor()#}
 
@@ -83,7 +84,6 @@
 });
 
 </script>
-<body>
 <div id='calendar'>
 calendar
 </div>

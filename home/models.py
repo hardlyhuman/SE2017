@@ -162,4 +162,4 @@ class Timetable(models.Model):
     Class_ID=models.CharField(max_length=10,default='')
     
     def __str__(self):
-        return str(self.T_ID)
+        return str(self.Course_ID)

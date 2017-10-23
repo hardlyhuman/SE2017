@@ -1,4 +1,5 @@
 {% extends "home/index.html" %}
+
 {% block content %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
@@ -10,20 +11,21 @@
 <a href="{% url 'faculty:OfferCourses' %}">Offer Courses</a>
 {% else %}
 
-<h2>Please Select a Course</h2><br>
-<form action="{% url 'faculty:CoursePage' %}" method="post" enctype="multipart/form-data">
+
+<form action="{% url 'faculty:CoursePage' %}"  method="post" enctype="multipart/form-data">
   {% csrf_token %}
-<select  name="dropdown" class="menu" id="sub" required>
-<option value="" selected="selected"  hidden> choose course</option>	
+<select  name="dropdown" class="menu"onchange="this.form.submit()" id="sub" required>
+<option value="" selected="selected"  hidden> please select a course</option>	
 {% for course in Courses %}
 
 <option value="{{course}}" > {{course}}</option>
 
 {% endfor %}
 </select><br><br>
-<input type="submit" name="action" value="submit"  class="btn btn-outline-success">
+
 </form>
 {% endif %}
+
 {% endblock %}
 
 

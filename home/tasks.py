@@ -38,5 +38,5 @@ def send_notification():
     print classTime
     for i in range(len(courseNames)):
         for j in facultyNames[i]:
-            send_mail(courseNames[i][0]+" class reminder", "Dear Professor "+str(j)+" you have a class at "+ classTime[i]+"hrs in room number " +str(roomNumber[i]),'ItDept.iiits@gmail.com',['vaishali0001sharma@gmail.com'],fail_silently=False,)
+            send_mail(courseNames[i][0]+" class reminder", "Dear Professor "+str(j)+" you have a class at "+ classTime[i]+"hrs in room number " +str(roomNumber[i]),'ItDept.iiits@gmail.com',['vaishali0001sharma@gmail.com','sriram.t15@iiits.in'],fail_silently=False,)
     

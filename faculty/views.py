@@ -75,6 +75,9 @@ def ViewProfs(request):
     template = loader.get_template('prof.html')
     context = {'flag':flag,'Courses':CourseList,'Prof_Name':request.session['Prof_Name']}
     return HttpResponse(template.render(context, request))
+
+
+
 def CoursePage(request):		
 	if request.POST.get('action')=='Save':
 		course=Courses.objects.get(Course_Name=request.session['course'])
@@ -86,6 +89,7 @@ def CoursePage(request):
     	template = loader.get_template('prof1.html')
     	context = {'Course':course,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))
+
 def ViewRegisteredStudents(request):
     studentlist = []
     course_name = request.GET.get('name')
@@ -109,15 +113,20 @@ def AddAssignment(request):
                     break
             instance = Assignment(Course_ID=course, Assignment_File=request.FILES['file'])
             instance.save()
+	    s=1
+
 
             return HttpResponse("Your File has been uploaded successfully!!!")
+
 
     else:
         CourseList = []
         form = UploadFileForm()
 	s=0        
     return render(request, 'forms.html',
+
                  {'CourseName':request.session['course'], 'form': form, 'request': request,'s':s})
+
 
 def delete(request):
     if request.method != 'POST':
@@ -132,11 +141,13 @@ def delete(request):
 def Delass(request):
 
     if request.method == 'POST':
+
         asslist = []
         Assignments = Assignment.objects.all()
         for ass in Assignments:
-            if ass.Course_ID.Course_Name == request.POST.get('dropdown'):
+            if ass.Course_ID.Course_Name == request.session['course']:
                 asslist.append(ass)
+
         return render(request, 'assignment.html', {'Assignments': asslist})
     else:
         CourseList = []
@@ -154,18 +165,8 @@ def EditCourseDescription(request):
         courseobj = Courses.objects.get(Course_Name=course)
         courseobj.Course_description = request.POST.get('coursedes')
         courseobj.save()
-
         return HttpResponse("Successfully updated!!!")
 
-    else:
-        CourseList = []
-        if request.user.personnel.Role.Role_name == 'faculty':
-            person_id = request.user.personnel.Person_ID
-            IC = Instructors_Courses.objects.all()
-            for i in range(0, len(IC)):
-                if person_id == IC[i].Inst_ID.Person_ID:
-                    CourseList.append(IC[i].Course_ID.Course_Name)
-    return render(request, 'editcourse.html', {'Courses': CourseList})
 def OfferCourses(request):
     if request.method == 'POST':
         person_id = request.user.personnel.Person_ID
@@ -192,7 +193,7 @@ def OfferCourses(request):
             if corse not in IClist:
                 courses1.append(corse)
         template = loader.get_template('reg.html')
-        context = {'Courses': courses1,'CourseName':request.session['course'], 'IC': IClist, 'Prof_Name': request.user.username}
+        context = {'Courses': courses1,'IC': IClist, 'Prof_Name': request.user.username}
     return HttpResponse(template.render(context, request))
 
 def ViewAttendance(request):	

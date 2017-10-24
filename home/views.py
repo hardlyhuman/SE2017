@@ -1,26 +1,53 @@
+import sys
+import jwt
+import datetime
 from django.shortcuts import render, render_to_response
+from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django import template
-from django.http import HttpResponse
-from .forms import PersonnelForm
-import datetime
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse,JsonResponse
+from .forms import PersonnelForm 
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import exceptions,status
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
+from rest_framework_jwt.settings import api_settings
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .serializers import *
 from .models import *
-from django.contrib.auth import authenticate
-import sys
-# Create your views here.
-PRIVATE_IPS_PREFIX = ('10.', '172.', '192.', )
-register = template.Library()
+
+jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
+
+#custom decorators for JWT verification
+def jwt_accept(function):
+	def wrap(request, *args, **kwargs):
+		try:
+			token = request.META['HTTP_AUTHORIZATION'].split()[1]
+		except KeyError:
+			return Response({"message","No Token Found"}, status=status.HTTP_400_BAD_REQUEST)
+		try:
+			payload = jwt_decode_handler(token)
+		except jwt.ExpiredSignature:
+			return Response({"message","Signature has expired."}, status=status.HTTP_406_NOT_ACCEPTABLE)
+		except jwt.DecodeError:
+			return Response({"message","Error decoding signature."}, status=status.HTTP_400_BAD_REQUEST)
+		except jwt.InvalidTokenError:
+			return Response({"message","Invalid Token"}, status=status.HTTP_401_UNAUTHORIZED)
+		return function(request, *args, **kwargs)
+	wrap.__doc__=function.__doc__
+	wrap.__name__=function.__name__
+	return wrap
 
 @login_required(login_url="login/")
 def index(request):
 	return render(request, "home/index.html", {})
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def people(request):
 	"""
 	List all code snippets, or create a new snippet.
@@ -39,6 +66,8 @@ def people(request):
 		return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def person(request, pk):
 	"""
 	Retrieve, update or delete a code snippet.
@@ -65,6 +94,8 @@ def person(request, pk):
 		return HttpResponse(status=204)
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def departments(request):
 	"""
 	List all code snippets, or create a new snippet.
@@ -83,6 +114,8 @@ def departments(request):
 		return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['GET', 'POST','DELETE'])
+@jwt_accept
 def department(request, pk):
 	"""
 	Retrieve, update or delete a code snippet.
@@ -109,6 +142,8 @@ def department(request, pk):
 		return HttpResponse(status=204)
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_roles(request):
 	"""
 	List all code snippets, or create a new snippet.
@@ -127,6 +162,8 @@ def add_view_roles(request):
 		return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['GET', 'POST','DELETE'])
+@jwt_accept
 def role(request, pk):
 	"""
 	Retrieve, update or delete a code snippet.
@@ -153,6 +190,8 @@ def role(request, pk):
 		return HttpResponse(status=204)
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_courses(request):
 	"""
 	List all code snippets, or create a new snippet.
@@ -171,6 +210,8 @@ def add_view_courses(request):
 		return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['GET', 'DELETE'])
+@jwt_accept
 def course(request, pk):
 	"""
 	Retrieve, update or delete a code snippet.
@@ -197,6 +238,8 @@ def course(request, pk):
 		return HttpResponse(status=204)
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_documents(request):
 	"""
 	List all code snippets, or create a new snippet.
@@ -215,6 +258,8 @@ def add_view_documents(request):
 		return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def document(request, pk):
 	"""
 	Retrieve, update or delete a code snippet.
@@ -241,6 +286,8 @@ def document(request, pk):
 		return HttpResponse(status=204)
 
 @csrf_exempt
+@api_view(['GET','POST'])
+@jwt_accept
 def add_view_assignments(request):
 	"""
 	List all code snippets, or create a new snippet.
@@ -259,6 +306,8 @@ def add_view_assignments(request):
 		return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def assignment(request, pk):
 	"""
 	Retrieve, update or delete a code snippet.
@@ -285,6 +334,8 @@ def assignment(request, pk):
 		return HttpResponse(status=204)
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_submissions(request):
 	"""
 	List all code snippets, or create a new snippet.
@@ -303,6 +354,8 @@ def add_view_submissions(request):
 		return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def submission(request, pk):
 	"""
 	Retrieve, update or delete a code snippet.
@@ -329,6 +382,8 @@ def submission(request, pk):
 		return HttpResponse(status=204)
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_IC(request):
 	"""
 	List all code snippets, or create a new snippet.
@@ -347,6 +402,8 @@ def add_view_IC(request):
 		return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['GET','PUT','DELETE'])
+@jwt_accept
 def IC(request, pk):
 	"""
 	Retrieve, update or delete a code snippet.
@@ -373,6 +430,8 @@ def IC(request, pk):
 		return HttpResponse(status=204)
 
 @csrf_exempt
+@api_view(['GET','POST'])
+@jwt_accept
 def add_view_SC(request):
 	"""
 	List all code snippets, or create a new snippet.
@@ -391,6 +450,8 @@ def add_view_SC(request):
 		return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def SC(request, pk):
 	"""
 	Retrieve, update or delete a code snippet.
@@ -417,6 +478,8 @@ def SC(request, pk):
 		return HttpResponse(status=204)
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_events(request):
 	"""
 	List all code snippets, or create a new snippet.
@@ -435,6 +498,8 @@ def add_view_events(request):
 		return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def event(request, pk):
 	"""
 	Retrieve, update or delete a code snippet.
@@ -461,6 +526,8 @@ def event(request, pk):
 		return HttpResponse(status=204)
 
 @csrf_exempt
+@api_view(['GET', 'POST',])
+@jwt_accept
 def add_view_SP(request):
 	"""
 	List all code snippets, or create a new snippet.
@@ -479,6 +546,8 @@ def add_view_SP(request):
 		return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def SP(request, pk):
 	"""
 	Retrieve, update or delete a code snippet.
@@ -505,6 +574,8 @@ def SP(request, pk):
 		return HttpResponse(status=204)
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_attendance(request):
 	"""
 	List all code snippets, or create a new snippet.
@@ -524,6 +595,8 @@ def add_view_attendance(request):
 		return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def attendance(request, SID):
 	"""
 	Retrieve, update or delete a code snippet.
@@ -550,6 +623,8 @@ def attendance(request, SID):
 		return HttpResponse(status=204)
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_attendance_sessions(request):
 	"""
 	List all code snippets, or create a new snippet.
@@ -568,6 +643,8 @@ def add_view_attendance_sessions(request):
 		return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_timetable(request):
 	"""
 	List all code snippets, or create a new snippet.
@@ -588,23 +665,31 @@ def add_view_timetable(request):
 @csrf_exempt
 def validate_user(request):
 	if request.method == 'POST':
+		print(request.META)
 		data = JSONParser().parse(request)
 		username = data['json_data']['username']
 		password = data['json_data']['password']
 		user = authenticate(request,username=username,password=password)
 		if user is not None:
+			payload = jwt_payload_handler(user)
+			token = jwt_encode_handler(payload)
+			print(token)
 			serializer = UserSerializer(user)
 			personaldet = PersonnelSerializer(Personnel.objects.filter(LDAP=user),many=True)
-			# print(serializer.data)
-			# print(personaldet.data)
 			dat = serializer.data
 			dat.update(dict(personaldet.data[0]))
+			dat["token"]=token
 			return JsonResponse(dat,status=200)
 		else:
 			return HttpResponse(status=404)
 @csrf_exempt
+@api_view(['POST'])
+@jwt_accept
 def courses_rel_students(request):
 	if request.method == 'POST':
+		#print(request.META)
+		token=request.META['HTTP_AUTHORIZATION'].split()[1]
+		print(token)
 		data = {}
 		data1 = JSONParser().parse(request)
 		ID = data1['course_id']
@@ -626,6 +711,8 @@ def courses_rel_students(request):
 			return HttpResponse(status=404)
 
 @csrf_exempt
+@api_view([ 'POST'])
+@jwt_accept
 def student_rel_courses(request):
 	if request.method == 'POST':
 		data={}
@@ -643,6 +730,8 @@ def student_rel_courses(request):
 			return HttpResponse(status=404)
 
 @csrf_exempt
+@api_view([ 'POST'])
+@jwt_accept
 def faculty_rel_courses(request):
 	if request.method == 'POST':
 		data={}
@@ -661,6 +750,8 @@ def faculty_rel_courses(request):
 			return HttpResponse(status=404)
 # Add any extra needed api views after this
 @csrf_exempt
+@api_view([ 'POST'])
+@jwt_accept
 def student_session(request):
 	if request.method == 'POST':
 		data1 = JSONParser().parse(request)

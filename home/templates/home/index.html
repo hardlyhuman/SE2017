@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Sticky Footer Navbar Template for Bootstrap</title>
+    <title>SAMS Attendance</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'home/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -35,7 +35,7 @@
   <body>
 
     <!-- Fixed navbar -->
-   <nav class="navbar navbar-inverse navbar-fixed-top">
+   <nav class="navbar navbar-inverse navbar-fixed-top navbar-toggleble-md">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -51,7 +51,17 @@
             <li class="active"><a href="#" id="home">Home</a></li>
             <li><a href="#about" id="attendace">Attendance</a></li>
             <li><a href="#contact" id= "courses">Courses</a></li>
+            {% if user.personnel.Role.Role_name == "Faculty" %}  <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Assignments <span class="glyphicon glyphicon-chevron-down"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#" id="upload_assignments">Upload</a></li>
+                  <li><a href="#" id="view_assignments">View</a></li>
+                </ul>
+              </li>
+
+        {% else %}
 	     <li><a href="#contact" id="assignments">Assignments</a></li>
+       {% endif %}
 	      <li><a href="#contact" id="timetable">Timetable</a></li>
              <li><a href="#contact">Events</a></li>
           </ul>
@@ -72,18 +82,21 @@
       </div>
     </nav>
     <script>
-          Student_Home="";
-          Student_Attendance="";
+          Student_Home="{% url 'students.index'  %}";
+          Student_Attendance="{% url 'students.ViewAttendance '  %}";
           Student_Assignments="";
-          Student_Courses="";
           Student_Timetable="";
-          Student_Courses="";
-          Faculty_Home="{% url 'faculty:AddAssignment' %}";
-          Faculty_Attendance="";
-          Faculty_Assignments="{% url 'faculty:AddAssignment' %}";
-          Faculty_Courses="";
-          Faculty_Timetable="";
-          Faculty_Courses="";
+          Student_Courses="{% url 'students.CourseRegistration' %}";
+
+	  Faculty_Home="{% url 'faculty:ViewProfs' %}";
+          Faculty_Attendance="{% url 'faculty:ViewAttendance' %}";
+          Faculty_Assignments="";
+          Faculty_UploadAssignments="{% url 'faculty:AddAssignment' %}";
+          Faculty_ViewAssignments="{% url 'faculty:Delass' %}";
+          Faculty_Courses="{% url 'faculty:OfferCourses' %}";
+          Faculty_Timetable="{% url 'faculty:index' %}";
+          Faculty_Events="{% url 'faculty:index' %}";
+
 
           {% if user.personnel.Role.Role_name == "Student"%}
           document.getElementById("home").setAttribute("href",Student_Home);
@@ -93,11 +106,12 @@
           document.getElementById("timetable").setAttribute("href",Student_Timetable);
           {%endif%}
 
-          {% if user.personnel.Role.Role_name == "Faculty"%};
+          {% if user.personnel.Role.Role_name == "Faculty" %}
           console.log("killllllllllllllmmmmmmmee");
           document.getElementById("home").setAttribute("href",Faculty_Home);
           document.getElementById("attendace").setAttribute("href",Faculty_Attendance);
-          document.getElementById("assignments").setAttribute("href",Faculty_Assignments);
+          document.getElementById("upload_assignments").setAttribute("href",Faculty_UploadAssignments);
+          document.getElementById("view_assignments").setAttribute("href",Faculty_ViewAssignments);
           document.getElementById("courses").setAttribute("href",Faculty_Courses);
           document.getElementById("timetable").setAttribute("href",Faculty_Timetable);
           {%endif%}

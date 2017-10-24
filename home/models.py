@@ -15,7 +15,7 @@ class Roles(models.Model):
     Role_name = models.CharField(max_length=50, default="")
     level = models.IntegerField(default=0)
 
-    @property
+    
     def __str__(self):
         return self.Role_name
 
@@ -39,7 +39,7 @@ class Department(models.Model):
     Dept_ID = models.AutoField(primary_key=True)
     Dept_Name = models.CharField(max_length=50, default="")
 
-    @property
+    
 
     def __str__(self):
         return self.Dept_Name
@@ -57,15 +57,6 @@ class Courses(models.Model):
     Course_Status = models.BooleanField(default = True)
     def __str__(self):
         return self.Course_Name
-
-
-class Attendance(models.Model):
-    Student_ID = models.ForeignKey(Personnel, to_field='Person_ID', on_delete=models.CASCADE)
-    Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
-    Date_time = models.DateTimeField(default=datetime.datetime.now())
-    Marked = models.CharField(default="A", max_length=1)
-
-
 
 class Attendance_Session(models.Model):
     Session_ID=models.AutoField(primary_key=True)
@@ -123,7 +114,7 @@ class Instructors_Courses(models.Model):
     Start_Date = models.DateField(datetime.date(2017, 1, 1))
     End_Date = models.DateField(datetime.date(2017, 1, 1))
 
-    @property
+    
 
     def __str__(self):
         return str((self.Inst_ID))
@@ -137,14 +128,14 @@ class Students_Courses(models.Model):
     Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
     Reg_Date = models.DateField(datetime.date(2017, 1, 1))
 
-    @property
+    
     def __str__(self):
         return str(self.Student_ID) + ' ' + str(self.Course_ID)
 
 
 class Events(models.Model):
     Event_ID = models.AutoField(primary_key=True)
-    Event_Date = models.DateField(auto_now_add=True)
+    Event_Date = models.DateField()
     Event_Name = models.CharField(default='', max_length=50)
 
 
@@ -165,10 +156,10 @@ class Timetable(models.Model):
     (6, 'Sunday'),
     )
     T_days = models.IntegerField(choices=DAYS_OF_WEEK)
-    Start_time= models.TimeField(auto_now_add=True)
-    End_time=models.TimeField(auto_now_add=True)
+    Start_time= models.TimeField()
+    End_time=models.TimeField()
     Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
     Class_ID=models.CharField(max_length=10,default='')
-    @property
+    
     def __str__(self):
         return str(self.T_ID)

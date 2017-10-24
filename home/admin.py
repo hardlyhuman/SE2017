@@ -29,6 +29,8 @@ admin.site.register(Roles)
 admin.site.register(Attendance_Session)
 admin.site.register(Attendance)
 admin.site.register(Timetable)
-
-
+admin.site.register(Documents)
+admin.site.register(Submissions)
+admin.site.register(Events)
+admin.site.register(Student_Period)
 # Register your models here.

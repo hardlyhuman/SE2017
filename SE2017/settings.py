@@ -10,7 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
+from __future__ import absolute_import
 import os
+import djcelery
+from celery.schedules import crontab
+djcelery.setup_loader()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -32,13 +36,19 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
-	
+    'students.apps.StudentsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'faculty',
+    'django_extensions',
+    'djcelery',
+    'kombu.transport.django',
+    'django_celery_beat',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -49,9 +59,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'SE2017.urls'
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 TEMPLATES = [
     {
@@ -89,7 +104,14 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-           
+            'HOST': 'localhost',
+
+            'NAME': 'se2017',
+            'USER': 'root',
+            'PASSWORD': '5qlDevelop#r',
+
+
+
         }
     }
 
@@ -110,6 +132,33 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = '6379'
+BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_IMPORTS=['home.tasks']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
+CELERYBEAT_SCHEDULE = {
+    'say_hello': {
+        'task':'home.tasks.say_hello',
+        'schedule':crontab(minute='*/1',day_of_week='*'),
+        },
+    'send_notification':{
+        'task':'home.tasks.send_notification',
+        'schedule':crontab(minute='*/1',day_of_week='*'),
+        },
+    }
+EMAIL_USE_TLS = True
+EMAIL_HOST ='smtp.gmail.com'
+EMAIL_HOST_USER = 'ItDept.iiits@gmail.com'
+EMAIL_HOST_PASSWORD ='iiits@it123'
+EMAIL_PORT = 587
 
 
 # Internationalization
@@ -134,5 +183,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-
-
+MEDIA_URL='/AssignmentsFolder/'
+MEDIA_ROOT=os.path.join(BASE_DIR,'home/AssignmentsFolder')

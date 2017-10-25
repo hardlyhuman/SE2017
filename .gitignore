@@ -2,20 +2,20 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+SE2017/settings.py
 # C extensions
 *.so
 
 # Distribution / packaging
 .Python
+
 env/
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
-lib/
+
 lib64/
 parts/
 sdist/
@@ -67,6 +67,11 @@ docs/_build/
 # PyBuilder
 target/
 
+# Migrations
+home/migrations/
+home/migrations/*
+
+.idea/
 # Jupyter Notebook
 .ipynb_checkpoints
 
@@ -96,6 +101,8 @@ ENV/
 
 # mkdocs documentation
 /site
+
+settings.py
 
 # mypy
 .mypy_cache/

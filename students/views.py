@@ -1,213 +1,144 @@
-###################################################
-# students/views.py: Comprises of all the controllers for students app of SAMS-IIITS
-#__author__ = "Sri Harsha Gajavalli"
-#__copyright__ = "Copyright 2017, SE2017 Course"
-#__Team__ = ["Sri Harsha Gajavalli", "Koushik Bharadwaj", "David Christie", "Likhith Lanka", "Sajas P", "Rajeev Reddy"]
-#__license__ = "MIT"
-#__version__ = "1.2"
-#__maintainer__ = "Likhith Lanka"
-#__email__ = "likhith.l15@iiits.in"
-#__status__ = "Development"
-####################################################
+#Emergency Edit Protocol : 10/20/2017
 
-
-# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from datetime import datetime
+import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-
 from home.models import *
+from django.utils import timezone
 
-# Create your views here.
 
-'''
-def ViewAttendance(request, StuId):
-    CourseId = 0
-    Total = 25
-    present = 0
-    Atnd = Attendance.objects.select_related("ASession_ID")
-    for each in Atnd:
-        if each['Student_ID'] == StuId:
-            if each['Marked'] == 'P':
-                present += 1
-    return render(request, 'student/ViewAttendance.html', {'Total': Total, 'present': present, 'Absent': Total - present, 'percent': (present/Total)*100})
-'''
+
+
+@login_required(login_url="/login/")
 def dashboard(request):
-    pass
+    user = request.user;
+    print(user)
+    return render(request, "student/index.html", dict(name=user))
 
-@login_required(login_url="/login/")
-class register(FormView):
-
-    def get(self, request, *args, **kwargs):
-        userid = request.personnel.Person_ID
-        user = Personnel.objects.get(Person_ID=userid)
-
-        if datetime.now().month < 8:
-            year_of_study = datetime.now().year - user.Year
-        else:
-            year_of_study = datetime.now().year - user.Year + 1
-
-
-        CoursesOffering = Courses.objects.all().filter(Course_Year=year_of_study)
-
-        template_name = "student/CourseRegistration.html"
-        context = dict(CourseList=CoursesOffering)
-
-        return render(request, template_name, context)
 
 
 @login_required(login_url="/login/")
-class DropCourse(FormView):
+def viewattendance(request):
+    try:
+        user = request.user;                                                 
+        userPersonnelObj=Personnel.objects.filter(LDAP=user)
+        MyCourses = Students_Courses.objects.filter(Student_ID=userPersonnelObj[0].Person_ID); 
+        CourseAttendanceContext  = [];
 
-    def get(self, request, *args, **kwargs):
-        userid = request.personnel.Person_ID
-        user = Personnel.objects.get(Person_ID=userid)
+        for course in MyCourses:
+            AttendanceSessions = Attendance_Session.objects.filter(Course_Slot = course.Course_ID.Course_ID)
+            classesPresent = 0
+            totalClasses = 0
+            absentDays = []
+            for sessions in AttendanceSessions:
+                try:
+                    attendanceObject = Attendance.objects.filter(Student_ID = userPersonnelObj[0].Person_ID).filter(ASession_ID=sessions.Session_ID)
+                    
+                    totalClasses += 1
+                    if(attendanceObject[0].Marked == 'P'):
+                        classesPresent += 1
+                    elif(attendanceObject[0].Marked == 'A'):
+                        absentDays.append(attendanceObject[0].Date_time)
+                except:
+                    pass
+            retObj = dict(course=course,present = classesPresent,total = totalClasses,absentDays = absentDays)
+            CourseAttendanceContext.append(retObj)
+        context = dict(CourseAttendanceContext=CourseAttendanceContext)
+    except:
+        context = dict(ErrorMessage = "No Registered Classes")
+    return render(request, "student/ViewAttendance.html", context)
 
-        if datetime.now().month < 8:
-            year_of_study = datetime.now().year - user.Year
+
+
+
+def AssgnSubStatusPending(request):
+    user =  request.user;
+    pendingAssignments = []
+    StudentObject=Personnel.objects.filter(LDAP=user.id)
+    CoursesByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID)
+    for course in CoursesByStudent:
+        AssignmentsForCourse = Assignment.objects.filter(Course_ID = course.Course_ID.Course_ID)
+        for assignment in AssignmentsForCourse:
+            submissionsByStudent = Submissions.objects.filter(Assign_ID = assignment).filter(Student_ID = StudentObject[0].Person_ID)
+            if(submissionsByStudent.count() == 0):
+                now = timezone.now()
+                if (assignment.End_Time > now):
+                    assignContextObject = dict(Course = course,assignment = assignment)
+                    pendingAssignments.append(assignContextObject)
+    return render(request, 'student/AssgnSubStatusPending.html', dict(pendingAssignments=pendingAssignments))
+
+
+
+
+def AssgnSubStatusOverdue(request):
+    user =  request.user;
+    overdueAssignments = []
+    StudentObject=Personnel.objects.filter(LDAP=user.id)
+    CoursesByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID)
+    for course in CoursesByStudent:
+        AssignmentsForCourse = Assignment.objects.filter(Course_ID = course.Course_ID.Course_ID)
+        for assignment in AssignmentsForCourse:
+            submissionsByStudent = Submissions.objects.filter(Assign_ID = assignment).filter(Student_ID = StudentObject[0].Person_ID)
+            if(submissionsByStudent.count() == 0):
+                now = timezone.now()
+                if (assignment.End_Time < now):
+                    assignContextObject = dict(Course = course,assignment = assignment)
+                    overdueAssignments.append(assignContextObject)
+    return render(request, 'student/AssgnSubStatusOverdue.html', dict(overdueAssignments=overdueAssignments))
+
+
+
+
+
+def AssgnSubStatusSubmitted(request):
+    user =  request.user;
+    submittedAssignments = []
+    StudentObject=Personnel.objects.filter(LDAP=user.id)
+    CoursesByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID)
+    for course in CoursesByStudent:
+        AssignmentsForCourse = Assignment.objects.filter(Course_ID = course.Course_ID.Course_ID)
+        for assignment in AssignmentsForCourse:
+            submissionsByStudent = Submissions.objects.filter(Assign_ID = assignment).filter(Student_ID = StudentObject[0].Person_ID)
+            if(submissionsByStudent.count() != 0):
+                assignContextObject = dict(Course = course,assignment = assignment,submission = submissionsByStudent)
+                submittedAssignments.append(assignContextObject)
+    return render(request, 'student/AssgnSubStatusSubmitted.html', dict(submittedAssignments=submittedAssignments))
+
+def addDropCourses(request):
+    user = request.user
+    StudentObject=Personnel.objects.filter(LDAP=user.id)
+    
+    courses = Courses.objects.all()
+    courseSelectionOption = []
+    for course in courses:
+        CourseByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID).filter(Course_ID = course.Course_ID)
+        selected = True
+        if CourseByStudent.count() == 0:
+            selected = False
+        FacultyForCourse = Instructors_Courses.objects.filter(Course_ID = course.Course_ID)
+        if(FacultyForCourse.count() != 0):
+            faculty = FacultyForCourse[0].Inst_ID
         else:
-            year_of_study = datetime.now().year - user.Year + 1
+            faculty = "Yet To Be Decided"
+        courseSelectionObj = dict(course=course,selected=selected,faculty = faculty)
+        courseSelectionOption.append(courseSelectionObj)
+    return render(request,'student/CourseRegistration.html',dict(courses = courseSelectionOption))
 
-        MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
-        RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
-
-        template_name = 'student/DropCourse.html'
-        context = dict(RegisteredCourses=RegCourses)
-
-        return render(request, template_name, context)
-
-
-
-def unregister(request):
-
-    courses_selected = Courses.objects.filter(id__in=request.POST.getlist('checks[]'))
-    userid = request.personnel.Person_ID
-    user = Personnel.objects.get(Person_ID=userid)
-
-    if datetime.now().month < 8:
-        year_of_study = datetime.now().year - user.Year
-    else:
-        year_of_study = datetime.now().year - user.Year + 1
-
-    for course in courses_selected:
-
-        Students_Courses.objects.filter(Student_ID=userid).get(Course_ID__Course_Name= course).delete()
-
-    MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
-    RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
-
-    template_name = 'student/MyCourses.html'
-    context = dict(RegisteredCourses=RegCourses)
-
-    return render(request, template_name, context)
-
-
-def register_course(request):
-
-    totalCredits = 0
-    courses_selected = Courses.objects.filter(id__in=request.POST.getlist('checks[]'))
-    userid = request.personnel.Person_ID
-    user = Personnel.objects.get(Person_ID=userid)
-
-    if datetime.now().month < 8:
-        year_of_study = datetime.now().year - user.Year
-    else:
-        year_of_study = datetime.now().year - user.Year + 1
-
-    MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
-    RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
-
-    for course in courses_selected:
-        if course not in RegCourses:
-            SC = Students_Courses()
-            SC.Student_ID = userid
-            SC.Course_ID = course
-            SC.save()
-
-    userid = request.personnel.Person_ID
-    user = Personnel.objects.get(Person_ID=userid)
-
-    if datetime.now().month < 8:
-        year_of_study = datetime.now().year - user.Year
-    else:
-        year_of_study = datetime.now().year - user.Year + 1
-
-    MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
-    RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
-
-    template_name = 'student/MyCourses.html'
-    context = dict(RegisteredCourses=RegCourses)
-
-    return render(request, template_name, context)
-
-
-def MyCourses(request):
-    userid = request.personnel.Person_ID
-    user = Personnel.objects.get(Person_ID=userid)
-
-    if datetime.now().month < 8:
-        year_of_study = datetime.now().year - user.Year
-    else:
-        year_of_study = datetime.now().year - user.Year + 1
-
-    MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
-    RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
-
-    template_name = 'student/MyCourses.html'
-    context = dict(RegisteredCourses=RegCourses)
-
-    return render(request, template_name, context)
-
-
-def AddCourse(request):
-    return render(request, 'student/AddCourse.html')
-
-
-
-class ViewAttendance(TemplateView):
-
-    template_name = "student/ViewAttendance.html"
-
-    def get(self, request, *args, **kwargs):
-        try:
-            userid = request.personnel.Person_ID
-            user = Personnel.objects.get(Person_ID=userid)
-
-            if datetime.now().month < 8:
-                year_of_study = datetime.now().year - user.Year
-            else:
-                year_of_study = datetime.now().year - user.Year + 1
-
-            MyCourses = [i.Course.course_Name for i in userid.Students_Courses_set.all()]
-            RegCourses = [Courses.objects.get(Course_Name=i) for i in MyCourses]
-            Atnd = Attendance.objects.all().filter(Student_ID__Person_ID=userid)
-            for course in RegCourses:
-                for each in Atnd:
-                    if each['Course_ID'] == course:
-                        pass
-
-
-
-        except:
-            context = dict(ErrorMessage = "No Data Found")
-            return render(request, self.template_name, context)
-
-def AssgnSubStatus(request, StuId):
-
-    AssgnId = 0
-    Assgn = Submissions.objects.all().filter(Student_ID__submissions=StuId)
-    for each in Assgn:
-        if each['Assign_ID']==AssgnId:
-            status = each['Sub_Status']
-            score = each['Score']
-
-
-
-    return render(request, 'student/AssgnSubStatus.html', dict(status=status, score=score))
+def registerCourses(request):
+    user = request.user
+    StudentObject=Personnel.objects.filter(LDAP=user.id)
+    courses = Courses.objects.all()
+    for course in courses:
+        CourseByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID).filter(Course_ID = course.Course_ID)
+        if (request.POST.get(str(course.Course_ID)) and CourseByStudent.count() == 0):       
+            registerStudent = CourseByStudent.create(Student_ID = StudentObject[0],Course_ID = course,Reg_Date = datetime.datetime.now())
+        elif (CourseByStudent.count() != 0 and not request.POST.get(str(course.Course_ID))):
+            CourseByStudent.delete()
+    return render(request, "student/index.html", {})
 
 

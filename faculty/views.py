@@ -3,6 +3,7 @@ from django.template.context import RequestContext
 import json as simplejson
 from django.http import HttpResponse
 import json
+from django.shortcuts import redirect
 from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -13,40 +14,15 @@ from home.models import *
 from home.models import Assignment
 from .forms import UploadFileForm
 from home.serializers import *
-
+import easygui
 import json
-OPTIONS = """{  timeFormat: "H:mm",
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay',
-                },
-                allDaySlot: false,
-                firstDay: 0,
-                weekMode: 'liquid',
-                slotMinutes: 15,
-                defaultEventMinutes: 30,
-                minTime: 8,
-                maxTime: 20,
-                editable: false,
-                dayClick: function(date, allDay, jsEvent, view) {
-                    if (allDay) {       
-                        $('#calendar').fullCalendar('gotoDate', date)      
-                        $('#calendar').fullCalendar('changeView', 'agendaDay')
-                    }
-                },
-                eventClick: function(event, jsEvent, view) {
-                    if (view.name == 'month') {     
-                        $('#calendar').fullCalendar('gotoDate', event.start)      
-                        $('#calendar').fullCalendar('changeView', 'agendaDay')
-                    }
-                },
-            }"""
+from django.utils import timezone
+import datetime
+from datetime import datetime
+from django.utils import formats
+from dateutil.parser import parse
 
 def index(request):
-	# data=CalendarEvent.objects.all()
-	# #return HttpResponse(data)
-	# context={'data':json.dumps(data)}
 	all_events = Events.objects.all()
 	serializer = EventsSerializer(all_events, many=True)
 	a=[]
@@ -55,9 +31,9 @@ def index(request):
 		a.append({"title":i["Event_Name"],"start":i["Event_Date"],"allDay":True})
 	print serializer.data
 	return render(request, 'fullcalendar/calendar.html',{"Events":json.dumps(a)})
-	
-	
-	
+
+
+
 def ViewProfs(request):
     CourseList = []
     if request.user.personnel.Role.Role_name == 'Faculty':
@@ -69,7 +45,7 @@ def ViewProfs(request):
                 CourseList.append(IC[i].Course_ID.Course_Name)
 	if CourseList==[]:
             flag=0
-	    
+
 	else:
             flag=1
     template = loader.get_template('prof.html')
@@ -78,14 +54,14 @@ def ViewProfs(request):
 
 
 
-def CoursePage(request):		
+def CoursePage(request):
 	if request.POST.get('action')=='Save':
 		course=Courses.objects.get(Course_Name=request.session['course'])
 		course.Course_description = request.POST.get('coursedes')
-        	course.save()		
+        	course.save()
 	elif request.POST.get('action')=="submit":
 		request.session['course'] =request.POST.get('dropdown')
-	course=Courses.objects.get(Course_Name=request.session['course']) 				
+	course=Courses.objects.get(Course_Name=request.session['course'])
     	template = loader.get_template('prof1.html')
     	context = {'Course':course,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))
@@ -122,7 +98,7 @@ def AddAssignment(request):
     else:
         CourseList = []
         form = UploadFileForm()
-	s=0        
+	s=0
     return render(request, 'forms.html',
 
                  {'CourseName':request.session['course'], 'form': form, 'request': request,'s':s})
@@ -172,18 +148,17 @@ def OfferCourses(request):
         person_id = request.user.personnel.Person_ID
         person = Personnel.objects.get(Person_ID=person_id)
         courseids = request.POST.getlist('courses[]')
-        startdate = request.POST.get('startdate')
-        enddate = request.POST.get('enddate')
         for cid in courseids:
             corse = Courses.objects.get(Course_ID=cid)
-            IC = Instructors_Courses(Course_ID=corse, Inst_ID=person, Start_Date=startdate, End_Date=enddate)
+            IC = Instructors_Courses(Course_ID=corse, Inst_ID=person, Start_Date='2017-1-1',End_Date='2017-1-1')
             IC.save()
+	return redirect('http:../offercourses/')
 
-        return HttpResponse("Successfully Inserted!!!")
 
     else:
         IC = Instructors_Courses.objects.all()
         IClist = []
+	courselist=[]
         for ic in IC:
             IClist.append(ic.Course_ID)
         person_id = request.user.personnel.Person_ID
@@ -192,53 +167,71 @@ def OfferCourses(request):
         for corse in courses:
             if corse not in IClist:
                 courses1.append(corse)
-        template = loader.get_template('reg.html')
-        context = {'Courses': courses1,'IC': IClist, 'Prof_Name': request.user.username}
-    return HttpResponse(template.render(context, request))
+	for course in courses:
+		courselist.append(course.Course_ID)
+		courselist.append(course.Course_Name)
 
-def ViewAttendance(request):	
+        template = loader.get_template('reg.html')
+        context = {'Courses': courses1,'Courses1':json.dumps(courselist), 'IC': IC, 'Prof_Name': request.user.username}
+    	return HttpResponse(template.render(context, request))
+
+def ViewAttendance(request):
     	studentcount={}
 	sessioncount=0
+	coursestudents=Students_Courses.objects.all()
 	students=Attendance.objects.all()
     	classes=Attendance_Session.objects.all()
 	for Class in classes:
-		if Class.Course_Slot.Course_ID.Course_Name==request.session['course']:
-			sessioncount=sessioncount+1
-		
-	for student in students:
+		try:
+			if Class.Course_Slot.Course_ID.Course_Name==request.session['course']:
+				sessioncount=sessioncount+1
+		except:
+			easygui.msgbox("      please select a course       ",title="ERROR")
+			return redirect('http:../ViewProfs/')
+
+
+	for student in coursestudents:
 		value=[0,1]
-		value[0]=student.Student_ID.LDAP.username
-		value[1]=0
-		studentcount[student.Student_ID.Person_ID]=value	
+		if student.Course_ID.Course_Name==request.session['course']:
+			value[0]=student.Student_ID.LDAP.username
+			value[1]=sessioncount
+			studentcount[student.Student_ID.Person_ID]=value
 	for student in students:
-		if student.ASession_ID.Course_Slot.Course_ID.Course_Name==request.session['course'] and student.Marked=='A':
-			studentcount[student.Student_ID.Person_ID][1]=studentcount[student.Student_ID.Person_ID][1]+1
+		if student.ASession_ID.Course_Slot.Course_ID.Course_Name==request.session['course'] and student.Marked=='P':
+			studentcount[student.Student_ID.Person_ID][1]=studentcount[student.Student_ID.Person_ID][1]-1
 	if request.method=="POST":
-		return HttpResponse(request.POST.get('abc'))			    
+		return HttpResponse(request.POST.get('abc'))
     	template = loader.get_template('attendance.html')
     	context = {'classes':studentcount,'CourseName':request.session['course'],'workingdays':sessioncount}
-    	return HttpResponse(template.render(context, request))	
-
-def EnterMarks(request):
-	assignidlist=[]
-	idlist=[]
-	studentlist=[]
-	studentdict={}
-	assignid=Assignment.objects.all()
-	students=Students_Courses.objects.all()
-	
-	for assign in assignid:
-		if assign.Course_ID.Course_Name==request.session['course']:
-			assignidlist.append(assign.Assign_ID)
-	for student in students:
-		if student.Course_ID.Course_Name==request.session['course']:
-			studentlist.append(student)
-			studentdict[student.Student_ID.Person_ID]=[]
-	for i in range(1,len(assignid)+1):
-		idlist.append(i)
-	if request.method=="POST":
-		return HttpResponse(request.POST.get('assign'))
-	template = loader.get_template('marks.html')
-    	context = {'assignid':idlist,'CourseName':request.session['course'],'students':studentlist,'studentdict':studentdict}
     	return HttpResponse(template.render(context, request))
 
+def MyLibrary(request):
+    s=0
+    libfiles=[]
+    if request.method == 'POST':
+	courses = Courses.objects.all()
+	libfiles=request.FILES.getlist("files")
+	for corse in courses:
+		if corse.Course_Name == request.session['course']:
+			course = Courses.objects.get(Course_Name=corse.Course_Name)
+		        break
+	for libfile in libfiles:
+		instance = Assignment(Course_ID=course, Assignment_File=libfile,End_Time='1900-01-01')
+		instance.save()
+	s=1
+	asslist = []
+     	Assignments = Assignment.objects.all()
+     	for ass in Assignments:
+		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
+			asslist.append(ass)
+    	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
+
+
+    else:
+	asslist = []
+	s=0
+     	Assignments = Assignment.objects.all()
+     	for ass in Assignments:
+		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
+			asslist.append(ass)
+    	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})

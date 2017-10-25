@@ -16,10 +16,26 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import *
 from .models import *
-
+from math import radians, cos, sin, asin, sqrt
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
+
+def haversine(lon1, lat1, lon2, lat2):
+    """
+    Calculate the great circle distance between two points 
+    on the earth (specified in decimal degrees)
+    """
+    # convert decimal degrees to radians 
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+    # haversine formula 
+    dlon = lon2 - lon1 
+    dlat = lat2 - lat1 
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a)) 
+    r = 6371000.0 # Radius of earth in kilometers. Use 3956 for miles
+    return c * r
 
 #custom decorators for JWT verification
 def jwt_accept(function):
@@ -590,6 +606,7 @@ def add_view_attendance(request):
 		print(data)
 		serializer = AttendanceSerializer(data=data)
 		if serializer.is_valid():
+    		
 			serializer.save()
 			return JsonResponse(serializer.data, status=201)
 		return JsonResponse(serializer.errors, status=400)

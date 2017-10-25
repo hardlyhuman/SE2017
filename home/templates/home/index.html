@@ -82,12 +82,11 @@
       </div>
     </nav>
     <script>
-          Student_Home="";
-          Student_Attendance="";
+          Student_Home="{% url 'students.index'  %}";
+          Student_Attendance="{% url 'students.ViewAttendance '  %}";
           Student_Assignments="";
-          Student_Courses="";
           Student_Timetable="";
-          Student_Courses="";
+          Student_Courses="{% url 'students.CourseRegistration' %}";
 
 	  Faculty_Home="{% url 'faculty:ViewProfs' %}";
           Faculty_Attendance="{% url 'faculty:ViewAttendance' %}";

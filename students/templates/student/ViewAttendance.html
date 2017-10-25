@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html >
-<head>
+{% extends 'home/index.html' %}
+{% block content %}
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 	<meta content="utf-8" http-equiv="encoding">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
@@ -30,8 +29,6 @@
     		height: :30vh;
     	}
     </style>
-</head>
-<body>
 
 	<div id="absent-days" class="modal fade" role="dialog">
   		<div class="modal-dialog">
@@ -41,9 +38,7 @@
    				 	<h4 class="modal-title">Absent Days</h4>
  			 	</div>
       			<div class="modal-body">
-    				<ul>
-        				<li>13 May 2015</li>
-        				<li>17 May 2015</li>
+    				<ul id="modal-content">
     				</ul>
      			</div>
   				<div class="modal-footer">
@@ -59,28 +54,73 @@
 		 	<div class="row">
 			 	<div class="form-group col-md-2">
 					<label for="sel1">Course</label>
-		  			<select class="form-control" id="sel1">
-					    <option>DLD</option>
-					    <option>BEC</option>
-					    <option>TOC</option>
-					    <option>DOTA</option>
+		  			<select class="form-control" id="sel1" onchange="getData()">
+                        <option value="default">Select a course</option>
+                          {% for i in CourseAttendanceContext %}
+                      <option value="{{i.course.Course_ID.Course_Name}}">{{i.course.Course_ID.Course_Name}}</option>
+                          {% endfor %}
 					 </select>
 				</div>
 			</div>
 			<div class="info-box col-md-4" style="height:60vh">
 				<br />
-				<p>Number of classes Taken : 22</p><br />
-				<p>Number of classes Attended : 20</p><br />
-				<p>Number of classes Absent : 2 <button class="btn button btn-info" style="margin-left: 10"%; data-toggle="modal" data-target="#absent-days">Absent Days</button></p><br />
-				<p>Attendance Percentage : 90.09%</p><br />
+				<p>Number of classes Taken : <span id ="classesTaken" class="label label-default">None</span></p><br />
+				<p>Number of classes Attended : <span id="classesAttended" class="label label-primary">None</span></p><br />
+				<p>Number of classes Absent : <span id="classesAbsent" class="label label-danger">None</span> <button class="btn button btn-info" style="margin-left: 10"%; data-toggle="modal" data-target="#absent-days">Absent Days</button></p><br />
+				<p>Attendance Percentage : <span id="Percentage" class="label label-info">None</span></p><br />
 			</div>
 		</div>
-
+        <script>  
+            //getting info
+            var courses = [];
+            var total = [];
+            var present = [];
+            var absent = [];
+            var temp = 0;
+            {% for i in CourseAttendanceContext %}
+            courses.push("{{i.course.Course_ID.Course_Name}}");
+            total.push("{{i.total}}");
+            present.push("{{i.present}}");
+            absent[temp] = [];
+            {% for k in i.absentDays %}
+            absent[temp].push("{{k}}"); 
+            {% endfor %}
+            temp = temp + 1;
+            {% endfor %}
+        </script>
 	</div>
+        <script>
+            //var percent=
+            document.getElementById("Percentage").innerHTML = 0;
+            function getData() {
+                var course = document.getElementById("sel1").value;
+                if (course == "default") {
+                    document.getElementById("classesTaken").innerHTML = "None";
+                    document.getElementById("classesAttended").innerHTML = "None";
+                    document.getElementById("classesAbsent").innerHTML = "None";
+                    document.getElementById("Percentage").innerHTML = "None";
+                    document.getElementById("modal-content").innerHTML = 0;
+                }
+                else {
+                    var id = courses.indexOf(course);
+                    document.getElementById("classesTaken").innerHTML = total[id];
+                    document.getElementById("classesAttended").innerHTML = present[id];
+                    document.getElementById("classesAbsent").innerHTML = absent[id].length;
+                    document.getElementById("Percentage").innerHTML = parseInt(present[id]) / parseInt(total[id]);
+                    document.getElementById("modal-content").innerHTML = create_model(id);
+                }
+            }
+            function create_model(id){
+                var text = "";
+                for (i = 0; i < absent[id].length;i++) {
+                    text +="<li>"+absent[id][i]+"</li>"+"<br>";
+                }
+                return text;
+            }
+    </script>
 	<script
 			  src="https://code.jquery.com/jquery-3.2.1.js"
 			  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
 			  crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</body>
-</html>
+{% endblock %}

@@ -1,18 +1,17 @@
 {% extends "home/index.html" %}
-{% block nav-course %}
-          <a class="navbar-brand" href="#">{{CourseName}}</a>
+{% block core %}
+ <a class="navbar-brand" id="navcourse" href="{% url 'faculty:CoursePage' %}">{{CourseName}}</a>
 {% endblock %}
-{% block content %}
-<style>
-.abc{
-background-color:black;
-color:white !important;
-}
-h3{
-font-family:"Times New Roman";
-}
-</style>
+{% block head %}
 <script>
+var vag= document.ElementById('marks');
+console.log(vag);
+
+function getContent(){
+var s=$('#mytable').html();
+console.log(s);
+}
+
 function addColumn(tblId)
 {
 	var tblHeadObj = document.getElementById(tblId).tHead;
@@ -38,35 +37,40 @@ function deleteColumn(tblId)
 	}
 }
 </script>
-
-
-<center>
+{% endblock %}
+{% block addcontent %}
 <br>
-<h3><b>Student Attendance List</b></h3>
-<h3><b>Number Of Classes:{{workingdays}}</b></h3>
-<br>
-<div class="container">
-<table id="tblSample" class="table table-inverse table-hover" border="1">
-<thead class="tabel table-inverse abc">
+<form action="" method="POST">
+{% csrf_token %}
+
+<div id="mytable">
+<table id="tblSample"class="table table-hover"name="hello" border="1">
+<thead class="thead-inverse">
 <tr>
   <th>Student ID</th>
 <th>Student Name</th>
-  <th>Number of Leave days</th>
 
+{% for assign in assignid %}
+  <th>{{assign}}</th>
+  {% endfor %}
 </tr>
 </thead>
 <tbody>
-{% for key,value in classes.items %}
+{% for student in students %}
 <tr>
-  <td>{{key}}</td>
-
-  <td>{{value.0}}</td>
-<td>{{value.1}}</td>
-
+  <td>{{student.Student_ID.Person_ID}}</td>
+<td>{{student.Student_ID.LDAP.username}}</td>
+ {% for assign in assignid %}
+<td contenteditable="true" name="assign" id="marks"></td>
+{% endfor %}
 </tr>
 {% endfor %}
+
 </tbody>
 </table>
 </div>
-</center>
+<input type="submit" onclick="getContent();"name="Save1" value="Save">
+</form>
+
+
 {% endblock %}

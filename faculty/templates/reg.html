@@ -10,10 +10,10 @@
     if (datefield.type!="date"){ //if browser doesn't support input type="date", load files for jQuery UI Date Picker
         document.write('<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />\n')
         document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"><\/script>\n')
-        document.write('<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"><\/script>\n') 
+        document.write('<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"><\/script>\n')
     }
 </script>
- 
+
 <script>
 if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
     jQuery(function($){ //on document.ready
@@ -39,7 +39,7 @@ input[type="checkbox"] {
     width: auto;
     opacity: 0.00000001;
    position:absolute;
-    left: 0; 
+    left: 0;
     margin-left: -20px;
 }
 .helper {
@@ -116,17 +116,17 @@ font-family:"Times New Roman";
 <table id="tblSample" class="table table-inverse table-hover" border="1" >
 <thead class="tabel table-inverse abc">
 <tr>
-  
+
 <th>Course</th>
-  
+
   <th>Faculty </th>
 </tr>
 </thead>
 <tbody>
 
 {% for course in Courses %}
-    
-           
+
+
 <tr>
 <td>
  <form action="{% url 'faculty:OfferCourses' %}" method="post" enctype="multipart/form-data">
@@ -143,24 +143,25 @@ font-family:"Times New Roman";
         <br>
     {% endfor %}
 
-  
+<<<<<<< HEAD
+
 {% for instructor in IC %}
 <tr>
-  
+
 <td ><div class="checkbox">
   <label>
      <input type="checkbox" disabled="disabled" checked="checked">
      <i class="helper"></i><h5><b>{{instructor.Course_ID.Course_Name}}</b></h5>
   </label>
-</div></td><td><h5><b>{{instructor.Inst_ID.LDAP.username}}</b></h5></td> 
+</div></td><td><h5><b>{{instructor.Inst_ID.LDAP.username}}</b></h5></td>
 
 </tr>
 {% endfor %}
 
 
-  
 
-        
+
+
 </tbody>
 </table>
 
@@ -169,7 +170,7 @@ font-family:"Times New Roman";
 <script>
 var courses=JSON.parse('{{Courses1|escapejs}}');
 console.log(courses);
-function cTrig(clickedid) { 
+function cTrig(clickedid) {
       if (document.getElementById(clickedid).checked == false) {
         return false;
       } else {
@@ -190,7 +191,7 @@ break;
 }
         else
            document.getElementById(clickedid).checked =false;
-            
+
       }
     }
 $(document).ready(function(){
@@ -207,6 +208,27 @@ $(document).ready(function(){
 
 
 
+=======
+<br>
+ <label>Start Date</label><input type="date" name="startdate" id="duration"required><br>
+ <label>End Date</label><input  type="date" name="enddate" id="duration1"required>
+
+<br>
+<input type="submit" onclick="clicked();" value="Submit" />
+        </form>
+{% else %}
+<br><h1 style="color:red;">No Courses To Offer</h1>
+{% endif %}
+</ul>
+<p id="demo"></p>
+</center>
+<script>
+ function clicked() {
+
+	    var t='<div class="alert alert-success"> <strong>Success!</strong></div>';
+document.getElementById("demo").innerHTML=t;
+
+    }
+</script>
+>>>>>>> 80126e220c237d4e336a48d8270c86084d474be2
 {% endblock %}
-
-

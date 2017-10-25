@@ -1,19 +1,23 @@
-{% extends "base.html" %}
-
+{% extends "home/index.html" %}
 {% block content %}
-<div class="container">
-<script>
-var ProfList='{{ProfList|escapejs}}';
-document.write('{{ProfList|escapejs}}');
-for( var i=0;i<ProfList.length;i++ ){
-if(i%2==0){
-	var x=i.toString();
 
-	'<a href="'#'">'+x+'</a>';
-}
-}
-</script>
+{% if flag == 0 %}
+
+<a href="{% url 'faculty:OfferCourses' %}">Offer Courses</a>
+{% else %}
+
+<h2>Please Select a Course</h2><br>
+<form action="{% url 'faculty:CoursePage' %}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+<select  name="dropdown" class="menu" id="sub" required>
+<option value="" selected="selected"  hidden> choose course</option>
+{% for course in Courses %}
+
+<option value="{{course}}" > {{course}}</option>
+
+{% endfor %}
+</select><br><br>
+<input type="submit" name="action" value="submit"  class="btn btn-outline-success">
+</form>
+{% endif %}
 {% endblock %}
-
-
-

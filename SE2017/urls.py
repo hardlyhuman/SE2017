@@ -1,3 +1,16 @@
+###################################################
+# SE2017/urls.py: Consists of all the valid urls of SAMS-IIITS
+#__authors__ = "Sri Harsha Gajavalli", "SriRamKumar", "Savitha"
+#__copyright__ = "Copyright 2017, SE2017 Course"
+#__Team__ = ["Sri Harsha Gajavalli", "Savitha", "SriRamKumar"]
+#__license__ = "MIT"
+#__version__ = "1.2"
+#__maintainer__ = "SriRamKumr"
+#__email__ = "sriramkumar.t15@iiits.in"
+#__status__ = "Development"
+####################################################
+
+
 """SE2017 URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -19,7 +32,8 @@ from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -31,3 +45,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/',include('home.urls')),
 ]
+
+if settings.DEBUG is True:
+	urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,24 @@
+{% extends "home/index.html" %}
+
+{% block content %}
+<center>
+<br>
+
+{% if Assignments %}
+<ul>
+	<h1> Available Assignments </h1>
+    {% for document in Assignments %}
+    
+            
+	<a href="{{document.Assignment_File.url}}">{{ document.Assignment_File.name }}</a><br>
+    {% endfor %}
+<br>
+
+        
+</ul>
+{% else %}
+
+<h1 style="color:red;">OOPS! No documents</h1> 
+{% endif %}
+</center>
+{% endblock %}

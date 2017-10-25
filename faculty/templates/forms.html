@@ -1,11 +1,64 @@
 
+{% extends "home/index.html" %}
+{% block content %}
+<style>
+.upload{
+position:relative;
+right:40px;
+}
+</style>
+
 <br>
-<br><center>
-<h3>Upload Assignment</h3><br><br>
+<div class="jumbotron container">
+<p id="demo"></p>
+
+<script>
+{{s}}
+var r={{s}}
+if(r==1){
+
+var t='<div class="alert alert-success"> <strong>Successfully Uploaded!</strong></div>';
+document.getElementById("demo").innerHTML=t;
+//	var d='<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Success!</strong> You have been signed in successfully!</div>';
+//document.getElementById("demo").innerHTML=t;
+	window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+    });
+}, 4000);
+
+}
+</script>
+<center><h3>Upload Assignment </h3></center>
+<br>
+<center>
 <form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+  {% csrf_token %}
+	<div id="uploadBox">
         {{ form.as_p }}
-        <input type="submit" value="Upload">
-        <input type="reset" value="Reset">
+	</div>
+        <input type="submit" style="margin:5 35 5 5;" onclick="clicked();" value="Upload"class="upload btn btn-success">
+        <input type="reset" value="Reset" class="btn btn-warning">
     </form></center>
+
+<script>
+ function clicked() {
+/*	var r={{s}}
+	if(r==1){
+	    var t='<div class="alert alert-success"> <strong>Successfully Uploaded!</strong></div>';
+document.getElementById("demo").innerHTML=t;
+}
+	window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+    });
+}, 4000);
+*/
+        
+    }
+</script>
+</div>
+{% endblock %}
+
+
 

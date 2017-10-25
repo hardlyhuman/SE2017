@@ -143,7 +143,7 @@ font-family:"Times New Roman";
         <br>
     {% endfor %}
 
-<<<<<<< HEAD
+
 
 {% for instructor in IC %}
 <tr>
@@ -170,7 +170,7 @@ font-family:"Times New Roman";
 <script>
 var courses=JSON.parse('{{Courses1|escapejs}}');
 console.log(courses);
-function cTrig(clickedid) {
+function cTrig(clickedid) { 
       if (document.getElementById(clickedid).checked == false) {
         return false;
       } else {
@@ -183,7 +183,7 @@ var coursename=courses[i+1];
 break;
 }
 	var text_msg = 'Confirm offering ';
- }      var box= confirm(text_msg+' '+coursename+' ?');
+ }      var box= confirm('Confirm offering '+' '+coursename+' ?');
         if (box==true)
 {
 		document.getElementById(clickedid).form.submit();
@@ -191,7 +191,7 @@ break;
 }
         else
            document.getElementById(clickedid).checked =false;
-
+            
       }
     }
 $(document).ready(function(){
@@ -208,27 +208,5 @@ $(document).ready(function(){
 
 
 
-=======
-<br>
- <label>Start Date</label><input type="date" name="startdate" id="duration"required><br>
- <label>End Date</label><input  type="date" name="enddate" id="duration1"required>
 
-<br>
-<input type="submit" onclick="clicked();" value="Submit" />
-        </form>
-{% else %}
-<br><h1 style="color:red;">No Courses To Offer</h1>
-{% endif %}
-</ul>
-<p id="demo"></p>
-</center>
-<script>
- function clicked() {
-
-	    var t='<div class="alert alert-success"> <strong>Success!</strong></div>';
-document.getElementById("demo").innerHTML=t;
-
-    }
-</script>
->>>>>>> 80126e220c237d4e336a48d8270c86084d474be2
 {% endblock %}

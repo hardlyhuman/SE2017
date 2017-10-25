@@ -11,7 +11,7 @@ def say_hello():
 
 @app.task
 def send_notification():
-    now = datetime.datetime.now()
+    '''now = datetime.datetime.now()
     lastTimeToCheck = now + datetime.timedelta(hours=2)
     courseList = Timetable.objects.filter(T_days = now.weekday(), Start_time__lt= lastTimeToCheck, Start_time__gt=now.time()).values_list('Course_ID','Class_ID','Start_time')
     courseNames = []
@@ -39,4 +39,6 @@ def send_notification():
     for i in range(len(courseNames)):
         for j in facultyNames[i]:
             send_mail(courseNames[i][0]+" class reminder", "Dear Professor "+str(j)+" you have a class at "+ classTime[i]+"hrs in room number " +str(roomNumber[i]),'ItDept.iiits@gmail.com',['vaishali0001sharma@gmail.com'],fail_silently=False,)
+    
+    '''
     

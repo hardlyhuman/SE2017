@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+SE2017/settings.py
 # C extensions
 *.so
 
@@ -12,11 +12,10 @@ __pycache__/
 env/
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
-lib/
+
 lib64/
 parts/
 sdist/

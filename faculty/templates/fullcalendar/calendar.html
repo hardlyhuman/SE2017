@@ -2,12 +2,15 @@
 {% extends "home/index.html" %}
 {%  load staticfiles %}
 {% block content %}
-    
-    <link rel='stylesheet' href="{% static "Fullcalendar/js/Fullcalendar/fullcalendar.css" %}" />
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js
+"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.6.1/fullcalendar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.6.1/fullcalendar.min.css"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.6.1/fullcalendar.print.css "></script>
+    --><link rel='stylesheet' href="{% static "Fullcalendar/js/Fullcalendar/fullcalendar.css" %}" />
  <script src="{% static "Fullcalendar/js/lib/jquery.min.js" %}"></script>
     <script src="{% static "Fullcalendar/js/lib/moment.min.js" %}"></script>
-    <script src="{% static "Fullcalendar/js/Fullcalendar/fullcalendar.js" %}" ></script>
-<script>
+<script src="{% static "Fullcalendar/js/Fullcalendar/fullcalendar.js" %}" ></script>
+ <script>
 
     $(document).ready(function() {
 
@@ -83,7 +86,7 @@
 });
 
 </script>
-<body>
+
 <div id='calendar'>
 calendar
 </div>

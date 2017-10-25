@@ -16,7 +16,11 @@ from .forms import UploadFileForm
 from home.serializers import *
 import easygui
 import json
-
+from django.utils import timezone 
+import datetime
+from datetime import datetime
+from django.utils import formats
+from dateutil.parser import parse
 
 def index(request):
 	all_events = Events.objects.all()
@@ -54,35 +58,42 @@ def CoursePage(request):
 		
 		course=Courses.objects.get(Course_Name=request.session['course'])
 		course.Course_description = request.POST.get('coursedes')
-        	course.save()		
+		try:
+        		course.save()
+		except:
+			easygui.msgbox("Oops!Data Too Long.",title="ERROR")
+					
 	else:   
-		request.session['course'] =request.POST.get('dropdown')		
-	course=Courses.objects.get(Course_Name=request.session['course']) 				
+		request.session['course'] =request.POST.get('dropdown')	
+	course=get_object_or_404(Courses,Course_Name=request.session['course']) 				
     	template = loader.get_template('prof1.html')
     	context = {'Course':course,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))
+	
 	
 
 
 def AddAssignment(request):
     s=0
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            courses = Courses.objects.all()
-            for corse in courses:
-
-                if corse.Course_Name == request.session['course']:
-                    course = Courses.objects.get(Course_Name=corse.Course_Name)
-                    break
-            instance = Assignment(Course_ID=course, Assignment_File=request.FILES['file'])
-            instance.save()
-	    s=1     
+        form =request.FILES.get('file')
+  	date_joined =datetime.now()
+	if parse(request.POST.get('enddate'))>=date_joined:
+		courses = Courses.objects.all()
+		for corse in courses:
+			if corse.Course_Name == request.session['course']:
+		            course = Courses.objects.get(Course_Name=corse.Course_Name)
+		            break
+		instance = Assignment(Course_ID=course, Assignment_File=request.FILES['file'],End_Time=request.POST.get('enddate'))
+		instance.save()
+	    	s=1
+	else:
+		s=2    
+	return render(request, 'forms.html',{'CourseName':request.session['course'],'s':s})
 	    
     else:
 	
 		if 'course' in request.session:
-			CourseList = []
         		form = UploadFileForm()
 			s=0        
     			return render(request, 'forms.html',{'CourseName':request.session['course'],'form': form, 'request': request,'s':s})
@@ -90,14 +101,15 @@ def AddAssignment(request):
 			easygui.msgbox("please select a course",title="ERROR")
 			return redirect('http:../ViewProfs/')
 
-def Delass(request):
+def ViewAssignment(request):
      asslist = []
      Assignments = Assignment.objects.all()
      for ass in Assignments:
-	try:
-     		if ass.Course_ID.Course_Name ==request.session['course']:
-        		asslist.append(ass)
-	except:
+	if 'course' in request.session:
+     		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()!=datetime.strptime('1900-01-01',"%Y-%m-%d").date():
+			print ass.Assignment_File
+			asslist.append(ass)
+	else:
 		easygui.msgbox("please select a course",title="ERROR")
 		return redirect('http:../ViewProfs/')
      return render(request, 'assignment.html', {'Assignments': asslist,'CourseName':request.session['course']})
@@ -166,4 +178,35 @@ def ViewAttendance(request):
     	context = {'classes':studentcount,'CourseName':request.session['course'],'workingdays':sessioncount}
     	return HttpResponse(template.render(context, request))	
 
+def MyLibrary(request):
+    s=0
+    libfiles=[]
+    if request.method == 'POST':
+	courses = Courses.objects.all()
+	libfiles=request.FILES.getlist("files")
+	for corse in courses:
+		if corse.Course_Name == request.session['course']:
+			course = Courses.objects.get(Course_Name=corse.Course_Name)
+		        break
+	for libfile in libfiles:
+		instance = Assignment(Course_ID=course, Assignment_File=libfile,End_Time='1900-01-01')
+		instance.save()
+	s=1
+	asslist = []
+     	Assignments = Assignment.objects.all()
+     	for ass in Assignments:
+		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
+			asslist.append(ass)       
+    	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
+	
+	    
+    else:
+	asslist = []
+	s=0 
+     	Assignments = Assignment.objects.all()
+     	for ass in Assignments:
+		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
+			asslist.append(ass)       
+    	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
+	
 

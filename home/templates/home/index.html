@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -107,7 +108,7 @@ body {
 	  Faculty_Home="{% url 'faculty:ViewProfs' %}";
           Faculty_Attendance="{% url 'faculty:ViewAttendance' %}";
           Faculty_UploadAssignments="{% url 'faculty:AddAssignment' %}";
-          Faculty_ViewAssignments="{% url 'faculty:Delass' %}";
+          Faculty_ViewAssignments="{% url 'faculty:ViewAssignment' %}";
           Faculty_Courses="{% url 'faculty:OfferCourses' %}";
           Faculty_Timetable="{% url 'faculty:index' %}";
           Faculty_Events="{% url 'faculty:index' %}";
@@ -153,5 +154,6 @@ body {
     <script src="{% static 'home/bootstrap/dist/js/bootstrap.min.js'%}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{% static 'home/bootstrap/ssets/js/ie10-viewport-bug-workaround.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </body>

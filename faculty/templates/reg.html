@@ -52,7 +52,11 @@ input[type="checkbox"] {
     user-select: none;
     color: #e7e7e7;
 }
-
+h5{
+font-family:"Times New Roman";
+text-decoration:none;
+color:black;
+}
 .helper:before {
     content: '';
     position: absolute;
@@ -100,13 +104,15 @@ input[type="checkbox"]:checked ~ .helper::after {
 input[type="checkbox"]:focus + label::before {
     outline: rgb(59, 153, 252) auto 5px;
 }
-
+h3{
+font-family:"Times New Roman";
+}
 </style>
 
 </head>
-
 <div class="container" >
-
+<center>
+<h3><b>Offered & Unoffered Courses</b></h3></center>
 <table id="tblSample" class="table table-inverse table-hover" border="1" >
 <thead class="tabel table-inverse abc">
 <tr>
@@ -117,21 +123,8 @@ input[type="checkbox"]:focus + label::before {
 </tr>
 </thead>
 <tbody>
-{% for instructor in IC %}
-<tr>
-  
-<td ><div class="checkbox">
-  <label>
-     <input type="checkbox" disabled="disabled" checked="checked">
-     <i class="helper"></i>{{instructor.Course_ID.Course_Name}}
-  </label>
-</div></td><td>{{instructor.Inst_ID.LDAP.username}}</td> 
 
-</tr>
-{% endfor %}
-
-
-    {% for course in Courses %}
+{% for course in Courses %}
     
            
 <tr>
@@ -140,8 +133,8 @@ input[type="checkbox"]:focus + label::before {
         {% csrf_token %}
 <div class="checkbox">
   <label>
-     <input type="checkbox"  style="background-color:red !important; color:yellow !important;" id="check2" onchange="cTrig('check2')" name="courses[]" value="{{ course.Course_ID }}">
-     <i class="helper"></i>{{course.Course_Name}}
+     <input type="checkbox"  style="background-color:red !important; color:yellow !important;" id="{{ course.Course_ID }}" onchange="cTrig(id)" name="courses[]" value="{{ course.Course_ID }}">
+     <i class="helper"></i><h5><b>{{course.Course_Name}}</b></h5>
   </label>
 </form>
 </div>
@@ -150,6 +143,22 @@ input[type="checkbox"]:focus + label::before {
         <br>
     {% endfor %}
 
+  
+{% for instructor in IC %}
+<tr>
+  
+<td ><div class="checkbox">
+  <label>
+     <input type="checkbox" disabled="disabled" checked="checked">
+     <i class="helper"></i><h5><b>{{instructor.Course_ID.Course_Name}}</b></h5>
+  </label>
+</div></td><td><h5><b>{{instructor.Inst_ID.LDAP.username}}</b></h5></td> 
+
+</tr>
+{% endfor %}
+
+
+  
 
         
 </tbody>

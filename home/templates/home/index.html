@@ -82,12 +82,7 @@
       </div>
     </nav>
     <script>
-          Student_Home="{% url 'students.index'  %}";
-          Student_Attendance="{% url 'students.ViewAttendance '  %}";
-          Student_Assignments="";
-          Student_Timetable="";
-          Student_Courses="{% url 'students.CourseRegistration' %}";
-
+          
 	  Faculty_Home="{% url 'faculty:ViewProfs' %}";
           Faculty_Attendance="{% url 'faculty:ViewAttendance' %}";
           Faculty_Assignments="";
@@ -98,14 +93,7 @@
           Faculty_Events="{% url 'faculty:index' %}";
 
 
-          {% if user.personnel.Role.Role_name == "Student"%}
-          document.getElementById("home").setAttribute("href",Student_Home);
-          document.getElementById("attendace").setAttribute("href",Student_Attendance);
-          document.getElementById("assignments").setAttribute("href",Student_Assignments);
-          document.getElementById("courses").setAttribute("href",Student_Courses);
-          document.getElementById("timetable").setAttribute("href",Student_Timetable);
-          {%endif%}
-
+          
           {% if user.personnel.Role.Role_name == "Faculty" %}
           console.log("killllllllllllllmmmmmmmee");
           document.getElementById("home").setAttribute("href",Faculty_Home);

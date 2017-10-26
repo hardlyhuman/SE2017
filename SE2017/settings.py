@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 from __future__ import absolute_import
+import datetime
 import os
 import djcelery
 from celery.schedules import crontab
@@ -88,9 +89,8 @@ WSGI_APPLICATION = 'SE2017.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticated'),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-    ),
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
@@ -119,9 +119,9 @@ else:
             'ENGINE': 'django.db.backends.mysql',
             'HOST': 'localhost',
 
-            'NAME': 'sams_faculty1',
+            'NAME': 'se2017',
             'USER': 'root',
-            'PASSWORD': 'swathi',
+            'PASSWORD': '5qlDevelop#r',
 
 
 

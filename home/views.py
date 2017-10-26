@@ -837,44 +837,40 @@ def student_session(request):
 		return JsonResponse(data.data,status=200,safe=False)
 	return HttpResponse(status=404)
 def faculty_users(request):
-    parser = LDIFParser(open('data.ldif', 'rb'))
-    i = 0
-        dn.split(',')
-    for dn, Entry in parser.parse():
-        props = dict(item.split("=") for item in dn.split(","))
-        # print('got entry record: %s' % dn)
-        # print(props)
-        # pprint(Entry)
-        print (Entry["uid"], Entry["givenname"], Entry["sn"], Entry["mail"])
-        u = User.objects.create_user(username=Entry["uid"][0], password="iiits@123", first_name=Entry["givenname"][0],
-        p = Personnel(Dept_id=1, LDAP_id=u.id, Role_id=3)
-                                     last_name=Entry["sn"][0], email=Entry["mail"][0])
-        p.save()
-
-
+	parser = LDIFParser(open('data.ldif', 'rb'))
+	i=0
+	for dn, Entry in parser.parse():
+		dn.split(',')
+		props=dict(item.split("=") for item in dn.split(","))
+		#print('got entry record: %s' % dn)
+		#print(props)
+		#pprint(Entry)
+		print (Entry["uid"],Entry["givenname"],Entry["sn"],Entry["mail"])
+		u=User.objects.create_user(username=Entry["uid"][0],password="iiits@123",first_name=Entry["givenname"][0],last_name=Entry["sn"][0],email=Entry["mail"][0])
+		p=Personnel(Dept_id=1,LDAP_id=u.id,Role_id=3)
+		p.save()
 def student_users(request):
-    Start = 2014
-    End = 2018
-    for i in range(2):
-        DEPT = 1
-        parser = LDIFParser(open('data' + str(i + 1) + '.ldif', 'rb'))
-        for dn, Entry in parser.parse():
-            dn.split(',')
-            props = dict(item.split("=") for item in dn.split(","))
-            try:
-                print (Entry["uid"], Entry["givenname"], Entry["sn"], Entry["mail"])
-                DEPT = 2
-            except:
-            FName = Entry["givenname"][0]
-                continue
-            if (len(FName) > 30):
-                FName = FName[:20]
+	Start=2014
+	End=2018
+	for i in range(2):
+		DEPT=1
+		parser = LDIFParser(open('data'+str(i+1)+'.ldif', 'rb'))
+		for dn, Entry in parser.parse():
+			dn.split(',')
+			props=dict(item.split("=") for item in dn.split(","))
+			try:
+				print (Entry["uid"],Entry["givenname"],Entry["sn"],Entry["mail"])
+			except:
+				DEPT=2
+				continue
+			FName=Entry["givenname"][0]
+			if(len(FName)>30):
+				FName=FName[:20]
 
-            u = User.objects.create_user(username=Entry["uid"][0], password="iiits@123", first_name=FName,
-                                         last_name=Entry["sn"][0], email=Entry["mail"][0])
-            p = Personnel(Dept_id=DEPT, LDAP_id=u.id, Role_id=2)
-            p.save()
-            q = Student_Period(Student_ID_id=p.Person_ID, Start_Year=Start, End_Year=End)
-            q.save()
-        Start += 1
-        End += 1
+			u=User.objects.create_user(username=Entry["uid"][0],password="iiits@123",first_name=FName,last_name=Entry["sn"][0],email=Entry["mail"][0])
+			p=Personnel(Dept_id=DEPT,LDAP_id=u.id,Role_id=2)
+			p.save()
+			q=Student_Period(Student_ID_id=p.Person_ID,Start_Year=Start,End_Year=End)
+			q.save()
+		Start+=1
+		End+=1

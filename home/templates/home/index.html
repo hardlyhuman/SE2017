@@ -98,7 +98,11 @@ body {
       </div>
     </nav>
     <script>
-    
+    	  Student_Home="{% url 'students:index'  %}";
+          Student_Attendance="{% url 'students:ViewAttendance'  %}";
+          Student_Assignments="{% url 'students:AssgnSubmissionStatusPending' %}";
+          Student_Timetable="";
+          Student_Courses="{% url 'students:addDropCourses' %}";
     
 
 	  Faculty_Home="{% url 'faculty:ViewProfs' %}";
@@ -108,7 +112,14 @@ body {
           Faculty_Courses="{% url 'faculty:OfferCourses' %}";
           Faculty_Timetable="{% url 'faculty:index' %}";
           Faculty_Events="{% url 'faculty:index' %}";
-
+	  
+	  {% if user.personnel.Role.Role_name == "Student"%}
+          document.getElementById("home").setAttribute("href",Student_Home);
+          document.getElementById("attendace").setAttribute("href",Student_Attendance);
+          document.getElementById("assignments").setAttribute("href",Student_Assignments);
+          document.getElementById("courses").setAttribute("href",Student_Courses);
+          document.getElementById("timetable").setAttribute("href",Student_Timetable);
+          {%endif%}
 
 
           

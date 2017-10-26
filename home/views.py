@@ -1,19 +1,74 @@
 from django import template
 from django.contrib.auth import authenticate
+import sys
+import jwt
+import datetime
+from django.shortcuts import render, render_to_response
+from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django import template
+from django.http import HttpResponse,JsonResponse
+from .forms import PersonnelForm 
 from django.views.decorators.csrf import csrf_exempt
 from ldif3 import LDIFParser
+from rest_framework import exceptions,status
+from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
+from rest_framework_jwt.settings import api_settings
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .serializers import *
 from django.contrib.auth.models import User
+
+from .models import *
+from math import radians, cos, sin, asin, sqrt
+jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
+
+def haversine(lon1, lat1, lon2, lat2):
+    """
+    Calculate the great circle distance between two points 
+    on the earth (specified in decimal degrees)
+    """
+    # convert decimal degrees to radians 
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+
+    # haversine formula 
+    dlon = lon2 - lon1 
+    dlat = lat2 - lat1 
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a)) 
+    r = 6371000.0 # Radius of earth in kilometers. Use 3956 for miles
+    return c * r
+
+#custom decorators for JWT verification
+def jwt_accept(function):
+	def wrap(request, *args, **kwargs):
+		try:
+			token = request.META['HTTP_AUTHORIZATION'].split()[1]
+		except KeyError:
+			return Response({"message","No Token Found"}, status=status.HTTP_400_BAD_REQUEST)
+		try:
+			payload = jwt_decode_handler(token)
+		except jwt.ExpiredSignature:
+			return Response({"message","Signature has expired."}, status=status.HTTP_406_NOT_ACCEPTABLE)
+		except jwt.DecodeError:
+			return Response({"message","Error decoding signature."}, status=status.HTTP_400_BAD_REQUEST)
+		except jwt.InvalidTokenError:
+			return Response({"message","Invalid Token"}, status=status.HTTP_401_UNAUTHORIZED)
+		return function(request, *args, **kwargs)
+	wrap.__doc__=function.__doc__
+	wrap.__name__=function.__name__
+	return wrap
+
 # Create your views here.
 PRIVATE_IPS_PREFIX = ('10.', '172.', '192.',)
 register = template.Library()
-
-
 @login_required(login_url="login/")
 def index(request):
     if request.user.personnel.Role.Role_name == "Faculty":
@@ -42,6 +97,8 @@ def index(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def people(request):
     """
     List all code snippets, or create a new snippet.
@@ -61,6 +118,8 @@ def people(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def person(request, pk):
     """
     Retrieve, update or delete a code snippet.
@@ -88,6 +147,8 @@ def person(request, pk):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def departments(request):
     """
     List all code snippets, or create a new snippet.
@@ -107,6 +168,8 @@ def departments(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST','DELETE'])
+@jwt_accept
 def department(request, pk):
     """
     Retrieve, update or delete a code snippet.
@@ -134,6 +197,8 @@ def department(request, pk):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_roles(request):
     """
     List all code snippets, or create a new snippet.
@@ -153,6 +218,8 @@ def add_view_roles(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST','DELETE'])
+@jwt_accept
 def role(request, pk):
     """
     Retrieve, update or delete a code snippet.
@@ -180,6 +247,8 @@ def role(request, pk):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_courses(request):
     """
     List all code snippets, or create a new snippet.
@@ -199,6 +268,8 @@ def add_view_courses(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'DELETE'])
+@jwt_accept
 def course(request, pk):
     """
     Retrieve, update or delete a code snippet.
@@ -226,6 +297,8 @@ def course(request, pk):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_documents(request):
     """
     List all code snippets, or create a new snippet.
@@ -245,6 +318,8 @@ def add_view_documents(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def document(request, pk):
     """
     Retrieve, update or delete a code snippet.
@@ -272,6 +347,8 @@ def document(request, pk):
 
 
 @csrf_exempt
+@api_view(['GET','POST'])
+@jwt_accept
 def add_view_assignments(request):
     """
     List all code snippets, or create a new snippet.
@@ -291,6 +368,8 @@ def add_view_assignments(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def assignment(request, pk):
     """
     Retrieve, update or delete a code snippet.
@@ -318,6 +397,8 @@ def assignment(request, pk):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_submissions(request):
     """
     List all code snippets, or create a new snippet.
@@ -337,6 +418,8 @@ def add_view_submissions(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def submission(request, pk):
     """
     Retrieve, update or delete a code snippet.
@@ -364,6 +447,8 @@ def submission(request, pk):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_IC(request):
     """
     List all code snippets, or create a new snippet.
@@ -383,6 +468,8 @@ def add_view_IC(request):
 
 
 @csrf_exempt
+@api_view(['GET','PUT','DELETE'])
+@jwt_accept
 def IC(request, pk):
     """
     Retrieve, update or delete a code snippet.
@@ -410,6 +497,8 @@ def IC(request, pk):
 
 
 @csrf_exempt
+@api_view(['GET','POST'])
+@jwt_accept
 def add_view_SC(request):
     """
     List all code snippets, or create a new snippet.
@@ -429,6 +518,8 @@ def add_view_SC(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def SC(request, pk):
     """
     Retrieve, update or delete a code snippet.
@@ -456,6 +547,8 @@ def SC(request, pk):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_events(request):
     """
     List all code snippets, or create a new snippet.
@@ -475,6 +568,8 @@ def add_view_events(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def event(request, pk):
     """
     Retrieve, update or delete a code snippet.
@@ -502,6 +597,8 @@ def event(request, pk):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST',])
+@jwt_accept
 def add_view_SP(request):
     """
     List all code snippets, or create a new snippet.
@@ -521,6 +618,8 @@ def add_view_SP(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def SP(request, pk):
     """
     Retrieve, update or delete a code snippet.
@@ -548,6 +647,8 @@ def SP(request, pk):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_attendance(request):
     """
     List all code snippets, or create a new snippet.
@@ -567,6 +668,8 @@ def add_view_attendance(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'PUT','DELETE'])
+@jwt_accept
 def attendance(request, SID):
     """
     Retrieve, update or delete a code snippet.
@@ -594,6 +697,8 @@ def attendance(request, SID):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_attendance_sessions(request):
     """
     List all code snippets, or create a new snippet.
@@ -613,6 +718,8 @@ def add_view_attendance_sessions(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
+@jwt_accept
 def add_view_timetable(request):
     """
     List all code snippets, or create a new snippet.
@@ -633,96 +740,115 @@ def add_view_timetable(request):
 
 @csrf_exempt
 def validate_user(request):
-    if request.method == 'POST':
-        data = JSONParser().parse(request)
-        username = data['json_data']['username']
-        password = data['json_data']['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            serializer = UserSerializer(user)
-            personaldet = PersonnelSerializer(Personnel.objects.filter(LDAP=user),many=True)
-            dat = serializer.data
-            dat.update(dict(personaldet.data[0]))
-            return JsonResponse(dat, status=200,safe=False)
-        else:
-            return HttpResponse(status=404)
-
+	if request.method == 'POST':
+		print(request.META)
+		data = JSONParser().parse(request)
+		username = data['json_data']['username']
+		password = data['json_data']['password']
+		user = authenticate(request,username=username,password=password)
+		if user is not None:
+			payload = jwt_payload_handler(user)
+			token = jwt_encode_handler(payload)
+			print(token)
+			serializer = UserSerializer(user)
+			personaldet = PersonnelSerializer(Personnel.objects.filter(LDAP=user),many=True)
+			dat = serializer.data
+			dat.update(dict(personaldet.data[0]))
+			dat["token"]=token
+			return JsonResponse(dat,status=200)
+		else:
+			return HttpResponse(status=404)
 @csrf_exempt
+@api_view(['POST'])
+@jwt_accept
 def courses_rel_students(request):
-    if request.method == 'POST':
-        data = {}
-        data1 = JSONParser().parse(request)
-        ID = data1['course_id']
-        data2 = SCSerializer(Students_Courses.objects.filter(Course_ID=ID), many=True).data
-        x = 0
-        for i in range(len(data2)):
-            temp = PersonnelSerializer(Personnel.objects.get(Person_ID=data2[i]['Student_ID'])).data
-            temp2 = User.objects.all()
-            for b in temp2:
-                try:
-                    if b.personnel.LDAP.id == temp['LDAP']:
-                        data[data2[i]['Student_ID']] = {'Username':b.username,'First_Name':b.first_name,'Last_Name':b.last_name,'Email':b.email}
-                except:
-                    kill=1
-            x += 1
-        if len(data) != 0:
-            return JsonResponse(data, status=200, safe=False)
-        else:
-            return HttpResponse(status=404)
+	if request.method == 'POST':
+		#print(request.META)
+		token=request.META['HTTP_AUTHORIZATION'].split()[1]
+		print(token)
+		data = {}
+		data1 = JSONParser().parse(request)
+		ID = data1['course_id']
+		data2 = SCSerializer(Students_Courses.objects.filter(Course_ID=ID), many=True).data
+		x = 0
+		for i in range(len(data2)):
+			temp = PersonnelSerializer(Personnel.objects.get(Person_ID=data2[i]['Student_ID'])).data
+			temp2 = User.objects.all()
+			for b in temp2:
+				try:
+					if b.personnel.LDAP.id == temp['LDAP']:
+						data[data2[i]['Student_ID']] = {'Username':b.username,'First_Name':b.first_name,'Last_Name':b.last_name,'Email':b.email}
+				except:
+					kill=1
+			x += 1
+		if len(data) != 0:
+			return JsonResponse(data, status=200, safe=False)
+		else:
+			return HttpResponse(status=404)
 
 @csrf_exempt
+@api_view([ 'POST'])
+@jwt_accept
 def student_rel_courses(request):
-    if request.method == 'POST':
-        data = {}
-        data1 = JSONParser().parse(request)
-        ID = data1['student_id']
-        data2 = SCSerializer(Students_Courses.objects.filter(Student_ID=ID), many=True).data
-        x = 0
-        for i in range(len(data2)):
-            temp = CoursesSerializer(Courses.objects.get(Course_ID=data2[i]['Course_ID'])).data
-            data[data2[i]['Course_ID']] = {'Course_ID': data2[i]['Course_ID'], 'Course_Name': temp['Course_Name'],
-                       'Course_description': temp['Course_description'], 'Course_Year': temp['Course_Year'],
-                       'Course_Status': temp['Course_Status']}
-            x += 1
-        if len(data) != 0:
-            return JsonResponse(data, status=200, safe=False)
-        else:
-            return HttpResponse(status=404)
-
+	if request.method == 'POST':
+		data={}
+		data1 = JSONParser().parse(request)
+		ID = data1['student_id']
+		data2 = SCSerializer(Students_Courses.objects.filter(Student_ID=ID),many=True).data
+		x = 0
+		for i in range(len(data2)):
+			temp = CoursesSerializer(Courses.objects.get(Course_ID=data2[i]['Course_ID'])).data
+			data[x] = {'Course_ID':data2[i]['Course_ID'],'Course_Name':temp['Course_Name'],'Course_description':temp['Course_description'],'Course_Year':temp['Course_Year'],'Course_Status':temp['Course_Status']}
+			x+=1
+		if len(data) != 0:
+			return JsonResponse(data,status=200,safe=False)
+		else:
+			return HttpResponse(status=404)
 
 @csrf_exempt
+@api_view([ 'POST'])
+@jwt_accept
 def faculty_rel_courses(request):
-    if request.method == 'POST':
-        data = {}
-        data1 = JSONParser().parse(request)
-        ID = data1['faculty_id']
-        data2 = ICSerializer(Instructors_Courses.objects.filter(Inst_ID=ID), many=True).data
-        x = 0
-        for i in range(len(data2)):
-            temp = CoursesSerializer(Courses.objects.get(Course_ID=data2[i]['Course_ID'])).data
-            data[data2[i]['Course_ID']] = {'Course_ID': data2[i]['Course_ID'], 'Course_Name': temp['Course_Name'],
-                       'Course_description': temp['Course_description'], 'Course_Credits': temp['Course_Credits'],
-                       'Course_Year': temp['Course_Year'], 'Course_Status': temp['Course_Status']}
-            x += 1
-        if len(data) != 0:
-            return JsonResponse(data, status=200, safe=False)
-        else:
-            return HttpResponse(status=404)
-
-
+	if request.method == 'POST':
+		data={}
+		data1 = JSONParser().parse(request)
+		ID = data1['faculty_id']
+		data2 = ICSerializer(Instructors_Courses.objects.filter(Inst_ID=ID),many=True).data
+		x = 0
+		for i in range(len(data2)):
+			temp = CoursesSerializer(Courses.objects.get(Course_ID=data2[i]['Course_ID'])).data
+			data[x]=data2[i]['Course_ID']
+			data[x] = {'Course_ID':data2[i]['Course_ID'],'Course_Name':temp['Course_Name'],'Course_description':temp['Course_description'],'Course_Credits':temp['Course_Credits'],'Course_Year':temp['Course_Year'],'Course_Status':temp['Course_Status']}
+			x+=1
+		if len(data) != 0:
+			return JsonResponse(data,status=200,safe=False)
+		else:
+			return HttpResponse(status=404)
+# Add any extra needed api views after this
+@csrf_exempt
+@api_view([ 'POST'])
+@jwt_accept
+def student_session(request):
+	if request.method == 'POST':
+		data1 = JSONParser().parse(request)
+		id = data1['sess']
+		data = AttendanceSerializer(Attendance.objects.filter(ASession_ID=id),many=True)
+		print(data.data)
+		return JsonResponse(data.data,status=200,safe=False)
+	return HttpResponse(status=404)
 def faculty_users(request):
     parser = LDIFParser(open('data.ldif', 'rb'))
     i = 0
-    for dn, Entry in parser.parse():
         dn.split(',')
+    for dn, Entry in parser.parse():
         props = dict(item.split("=") for item in dn.split(","))
         # print('got entry record: %s' % dn)
         # print(props)
         # pprint(Entry)
         print (Entry["uid"], Entry["givenname"], Entry["sn"], Entry["mail"])
         u = User.objects.create_user(username=Entry["uid"][0], password="iiits@123", first_name=Entry["givenname"][0],
-                                     last_name=Entry["sn"][0], email=Entry["mail"][0])
         p = Personnel(Dept_id=1, LDAP_id=u.id, Role_id=3)
+                                     last_name=Entry["sn"][0], email=Entry["mail"][0])
         p.save()
 
 
@@ -737,10 +863,10 @@ def student_users(request):
             props = dict(item.split("=") for item in dn.split(","))
             try:
                 print (Entry["uid"], Entry["givenname"], Entry["sn"], Entry["mail"])
-            except:
                 DEPT = 2
-                continue
+            except:
             FName = Entry["givenname"][0]
+                continue
             if (len(FName) > 30):
                 FName = FName[:20]
 

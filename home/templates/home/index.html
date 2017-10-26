@@ -1,7 +1,21 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
+<style>
+body {
+    padding-bottom: 120px;
+}
+
+.footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 114px;
+}
+</style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,7 +49,7 @@
   <body>
 
     <!-- Fixed navbar -->
-   <nav class="navbar navbar-inverse navbar-fixed-top navbar-toggleble-md">
+   <nav class="navbar navbar-inverse navbar-fixed-top navbar-toggleable-md">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -44,7 +58,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">SAMS</a>
+{% block nav-course %}
+          <a class="navbar-brand"  href="#">SAMS</a>
+{% endblock %}
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -82,15 +98,17 @@
       </div>
     </nav>
     <script>
-          
+    
+    
+
 	  Faculty_Home="{% url 'faculty:ViewProfs' %}";
           Faculty_Attendance="{% url 'faculty:ViewAttendance' %}";
-          Faculty_Assignments="";
           Faculty_UploadAssignments="{% url 'faculty:AddAssignment' %}";
-          Faculty_ViewAssignments="{% url 'faculty:Delass' %}";
+          Faculty_ViewAssignments="{% url 'faculty:ViewAssignment' %}";
           Faculty_Courses="{% url 'faculty:OfferCourses' %}";
           Faculty_Timetable="{% url 'faculty:index' %}";
           Faculty_Events="{% url 'faculty:index' %}";
+
 
 
           
@@ -102,6 +120,7 @@
           document.getElementById("view_assignments").setAttribute("href",Faculty_ViewAssignments);
           document.getElementById("courses").setAttribute("href",Faculty_Courses);
           document.getElementById("timetable").setAttribute("href",Faculty_Timetable);
+
           {%endif%}
 
     </script>
@@ -120,10 +139,10 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
     <script>window.jQuery || document.write('<script src="{% static 'home/bootstrap/assets/js/vendor/jquery.min.js'%}"><\/script>')</script>
     <script src="{% static 'home/bootstrap/dist/js/bootstrap.min.js'%}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="{% static 'home/bootstrap/ssets/js/ie10-viewport-bug-workaround.js'%}"></script>
+    <script src="{% static 'home/bootstrap/ssets/js/ie10-viewport-bug-workaround.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </body>

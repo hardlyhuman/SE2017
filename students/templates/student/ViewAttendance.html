@@ -106,7 +106,7 @@
                     document.getElementById("classesTaken").innerHTML = total[id];
                     document.getElementById("classesAttended").innerHTML = present[id];
                     document.getElementById("classesAbsent").innerHTML = absent[id].length;
-                    document.getElementById("Percentage").innerHTML = parseInt(present[id]) / parseInt(total[id]);
+                    document.getElementById("Percentage").innerHTML = parseInt(present[id]) / parseInt(total[id]) || 0;
                     document.getElementById("modal-content").innerHTML = create_model(id);
                 }
             }

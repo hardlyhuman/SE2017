@@ -1,6 +1,6 @@
 
 {% extends "home/index.html" %}
-{%  load static %}
+{%  load staticfiles %}
 {% block content %}
     
     <link rel='stylesheet' href="{% static "Fullcalendar/js/Fullcalendar/fullcalendar.css" %}" />
@@ -8,11 +8,6 @@
     <script src="{% static "Fullcalendar/js/lib/moment.min.js" %}"></script>
     <script src="{% static "Fullcalendar/js/Fullcalendar/fullcalendar.js" %}" ></script>
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
 <script>
 
     $(document).ready(function() {
@@ -89,10 +84,8 @@
 });
 
 </script>
-<body>
 <div id='calendar'>
 calendar
 </div>
-
 
 {% endblock %}

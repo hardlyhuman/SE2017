@@ -5,6 +5,7 @@
 {% block content %}
 
 <style>
+
 .abc{
 background-color:black;
 color:white !important;
@@ -37,11 +38,13 @@ top:100px;
 left:50px;
 }
 </style>
+
 <center>
 <h3><b>Assignment Deadlines</b></h3></center>
 <div id="tab">
 <table>
 <tr>
+
 <button id="deadlines" >Deadlines</button>
 <button id="clicked1"  >My Library</button>
 </tr>
@@ -55,8 +58,10 @@ document.getElementById("clicked1").onclick = function () {
         location.href = "{% url 'faculty:MyLibrary' %}";
     };
 </script>
+
 </div>
 <br>
+
 <div class="container" id="right">
 {% if Assignments %}
 <table id="tblSample" class="table table-inverse table-hover" border="1">
@@ -64,6 +69,7 @@ document.getElementById("clicked1").onclick = function () {
 <tr>
   <th>Assignment</th>
 <th>Deadline</th>
+
 </tr>
 </thead>
 <tbody>
@@ -79,5 +85,8 @@ document.getElementById("clicked1").onclick = function () {
 {% else %}
 <h1 style="color:red;">OOPS! No documents</h1>
 {% endif %}
+
 </center>
+
+
 {% endblock %}

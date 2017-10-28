@@ -43,21 +43,22 @@ def ViewProfs(request):
     template = loader.get_template('prof.html')
     context = {'flag':flag,'Courses':CourseList,'Prof_Name':request.session['Prof_Name']}
     return HttpResponse(template.render(context, request))
-
 @login_required
 def CoursePage(request):		
 
 	if request.POST.get('action')=='Save':
+		
 		course=Courses.objects.get(Course_Name=request.session['course'])
 		course.Course_description = request.POST.get('coursedes')
         	course.save()
 	elif request.POST.get('action')=="submit":
 		request.session['course'] =request.POST.get('dropdown')
 	course=Courses.objects.get(Course_Name=request.session['course'])
+
     	template = loader.get_template('prof1.html')
     	context = {'Course':course,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))
-
+	
 @login_required
 def ViewRegisteredStudents(request):
     studentlist = []
@@ -107,34 +108,47 @@ def delete(request):
     return HttpResponse("Your File has been deleted successfully!!! ")
 
 def Delass(request):
-
     if request.method == 'POST':
-
-        asslist = []
-        Assignments = Assignment.objects.all()
-        for ass in Assignments:
-            if ass.Course_ID.Course_Name == request.session['course']:
-                asslist.append(ass)
-
-        return render(request, 'assignment.html', {'Assignments': asslist})
+        form =request.FILES.get('file')
+  	date_joined =datetime.now()
+	if parse(request.POST.get('enddate'))>=date_joined:
+		courses = Courses.objects.all()
+		for corse in courses:
+			if corse.Course_Name == request.session['course']:
+		            course = Courses.objects.get(Course_Name=corse.Course_Name)
+		            break
+		instance = Assignment(Course_ID=course, Assignment_File=request.FILES['file'],End_Time=request.POST.get('enddate'))
+		instance.save()
+	    	s=1
+	else:
+		s=2    
+	return render(request, 'forms.html',{'CourseName':request.session['course'],'s':s})
+	    
     else:
-        CourseList = []
-        if request.user.personnel.Role.Role_name == 'faculty':
-            person_id = request.user.personnel.Person_ID
-            IC = Instructors_Courses.objects.all()
-            for i in range(0, len(IC)):
-                if person_id == IC[i].Inst_ID.Person_ID:
-                    CourseList.append(IC[i].Course_ID.Course_Name)
-    return render(request, 'course_page.html', {'Courses': CourseList})
+	
+		if 'course' in request.session:
+        		
+			s=0        
+    			return render(request, 'forms.html',{'CourseName':request.session['course'],'s':s})
+		else:
+			easygui.msgbox("please select a course",title="ERROR")
+			return redirect('http:../ViewProfs/')
 
-def EditCourseDescription(request):
-    if request.method == 'POST':
-        course = request.POST.get('dropdown')
-        courseobj = Courses.objects.get(Course_Name=course)
-        courseobj.Course_description = request.POST.get('coursedes')
-        courseobj.save()
-        return HttpResponse("Successfully updated!!!")
+def ViewAssignment(request):
+     asslist = []
+     Assignments = Assignment.objects.all()
+     for ass in Assignments:
+	if 'course' in request.session:
+     		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()!=datetime.strptime('1900-01-01',"%Y-%m-%d").date():
+			print ass.Assignment_File
+			asslist.append(ass)
+	else:
+		easygui.msgbox("please select a course",title="ERROR")
+		return redirect('http:../ViewProfs/')
+     return render(request, 'assignment.html', {'Assignments': asslist,'CourseName':request.session['course']})
+  
 
+    
 def OfferCourses(request):
     if request.method == 'POST':
         person_id = request.user.personnel.Person_ID
@@ -145,8 +159,6 @@ def OfferCourses(request):
             IC = Instructors_Courses(Course_ID=corse, Inst_ID=person, Start_Date='2017-1-1',End_Date='2017-1-1')
             IC.save()
 	return redirect('http:../offercourses/')
-
-
     else:
         IC = Instructors_Courses.objects.all()
         IClist = []
@@ -162,7 +174,6 @@ def OfferCourses(request):
 	for course in courses:
 		courselist.append(course.Course_ID)
 		courselist.append(course.Course_Name)
-
         template = loader.get_template('reg.html')
         context = {'Courses': courses1,'Courses1':json.dumps(courselist), 'IC': IC, 'Prof_Name': request.user.username}
     	return HttpResponse(template.render(context, request))
@@ -182,8 +193,6 @@ def ViewAttendance(request):
 		except:
 			easygui.msgbox("      please select a course       ",title="ERROR")
 			return redirect('http:../ViewProfs/')
-
-
 	for student in coursestudents:
 		value=[0,1]
 		if student.Course_ID.Course_Name==request.session['course']:
@@ -219,7 +228,6 @@ def MyLibrary(request):
 		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
 			asslist.append(ass)
     	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
-
 
     else:
 	asslist = []

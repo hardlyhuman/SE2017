@@ -25,7 +25,11 @@ body {
     <link rel="icon" href="../../favicon.ico">
 
     <title>SAMS Attendance</title>
+<<<<<<< HEAD
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+=======
+
+>>>>>>> origin/faculty
     <!-- Bootstrap core CSS -->
     <link href="{% static 'home/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
 
@@ -98,12 +102,20 @@ body {
       </div>
     </nav>
     <script>
+<<<<<<< HEAD
     	  Student_Home="{% url 'students:index'  %}";
           Student_Attendance="{% url 'students:ViewAttendance'  %}";
           Student_Assignments="{% url 'students:AssgnSubmissionStatusPending' %}";
           Student_Timetable="";
           Student_Courses="{% url 'students:addDropCourses' %}";
     
+=======
+          Student_Home="{% url 'students.index'  %}";
+          Student_Attendance="{% url 'students.ViewAttendance '  %}";
+          Student_Assignments="";
+          Student_Timetable="";
+          Student_Courses="";
+>>>>>>> origin/faculty
 
 	  Faculty_Home="{% url 'faculty:ViewProfs' %}";
           Faculty_Attendance="{% url 'faculty:ViewAttendance' %}";
@@ -112,8 +124,14 @@ body {
           Faculty_Courses="{% url 'faculty:OfferCourses' %}";
           Faculty_Timetable="{% url 'faculty:index' %}";
           Faculty_Events="{% url 'faculty:index' %}";
+<<<<<<< HEAD
 	  
 	  {% if user.personnel.Role.Role_name == "Student"%}
+=======
+
+
+          {% if user.personnel.Role.Role_name == "Student"%}
+>>>>>>> origin/faculty
           document.getElementById("home").setAttribute("href",Student_Home);
           document.getElementById("attendace").setAttribute("href",Student_Attendance);
           document.getElementById("assignments").setAttribute("href",Student_Assignments);
@@ -121,8 +139,11 @@ body {
           document.getElementById("timetable").setAttribute("href",Student_Timetable);
           {%endif%}
 
+<<<<<<< HEAD
 
           
+=======
+>>>>>>> origin/faculty
           {% if user.personnel.Role.Role_name == "Faculty" %}
           console.log("killllllllllllllmmmmmmmee");
           document.getElementById("home").setAttribute("href",Faculty_Home);
@@ -150,10 +171,18 @@ body {
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/faculty
     <script>window.jQuery || document.write('<script src="{% static 'home/bootstrap/assets/js/vendor/jquery.min.js'%}"><\/script>')</script>
     <script src="{% static 'home/bootstrap/dist/js/bootstrap.min.js'%}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{% static 'home/bootstrap/ssets/js/ie10-viewport-bug-workaround.js' %}"></script>
+<<<<<<< HEAD
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+=======
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+>>>>>>> origin/faculty
 
 </body>

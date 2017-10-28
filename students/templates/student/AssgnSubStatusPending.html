@@ -1,18 +1,33 @@
+<<<<<<< HEAD
 ﻿{% extends 'home/index.html' %}
 {% block content %}
+=======
+﻿<!DOCTYPE html>
+<html>
+<head>
+>>>>>>> origin/faculty
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
     </style>
+<<<<<<< HEAD
 
 
+=======
+</head>
+<body>
+>>>>>>> origin/faculty
     <div class="panel panel-default">
         <div class="panel-body"><h1>View Submission Status</h1></div>
     </div>
     <div class="container-fluid">
         <div class="row">
+<<<<<<< HEAD
             <div class="form-group col-md-1" style="width:auto">
+=======
+            <div class="form-group col-md-1">
+>>>>>>> origin/faculty
                 <label for="sel1">Course</label>
                 <select class="form-control" id="selcourse" onchange="setCourses()">
                     <option value="default">Select a course</option>
@@ -20,9 +35,15 @@
                     <option value="{{i.Course.Course_ID.Course_Name}}">{{i.Course.Course_ID.Course_Name}}</option>
                     {% endfor %}
                 </select>
+<<<<<<< HEAD
                 <!--<a href="#" id="download" download>download</a>-->
             </div>
             <div class="form-group col-md-1" style="width:auto">
+=======
+                <a href="#" id="download" download>download</a>
+            </div>
+            <div class="form-group col-md-1">
+>>>>>>> origin/faculty
                 <label for="sel1">Assignment</label>
                 <select class="form-control" id="selassign" onchange="setData()">
                     <option value="default">Select a Course</option>
@@ -44,18 +65,31 @@
         <br>
         <div class="row align-items-start">
             <div class="col-md-3"></div>
+<<<<<<< HEAD
             <div class="col-md-6" style="background: grey; width:70%; position: relative">
                 <div class="container-fluid">
                     <div class="row" style="font-size: 20px">
                         <div class="col-md-4" style="width: 30%">Assignment No:<span id="assignno" class="label label-info">None</span></div>
                         <div class="col-md-4" style="width: 30%">Course Name:<span id="coursename" class="label label-info">None</span></div>
                         <div class="col-md-4" style="width: 30%">Score:<span id="score" class="label label-info">None</span></div>
+=======
+            <div class="col-md-6" style="background: grey">
+                <div class="container-fluid">
+                    <div class="row" style="font-size: 20px">
+                        <div class="col-md-4">Assignment No:<span id="assignno" class="label label-info">None</span></div>
+                        <div class="col-md-4">Course Name:<span id="coursename" class="label label-info">None</span></div>
+                        <div class="col-md-4">Score:<span id="score" class="label label-info">None</span></div>
+>>>>>>> origin/faculty
                     </div>
                     <br>
                     <br>
                     <div class="row">
                         <div class="col-md-3"></div>
+<<<<<<< HEAD
                         <div class="col-md-6" style="font-size: 28px; width:60%">Submission status:<span id="status" class="label label-warning">Pending</span></div>
+=======
+                        <div class="col-md-6" style="font-size: 28px">Submission status:<span id="status" class="label label-warning">Pending</span></div>
+>>>>>>> origin/faculty
                         <div class="col-md-3"></div>
                     </div>
                     <br>
@@ -108,7 +142,11 @@
             document.getElementById("assignno").innerHTML = assign_details[id][0];
             document.getElementById("coursename").innerHTML = courses[id];
             document.getElementById("deadline").innerHTML = assign_details[id][1];
+<<<<<<< HEAD
             document.getElementById("score").innerHTML = sub_details[id][0] ;
+=======
+            document.getElementById("score").innerHTML = sub_details[id][0];
+>>>>>>> origin/faculty
             document.getElementById("download").href = assign_details[id][2];
 
         }
@@ -116,5 +154,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="jquery-ui.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<<<<<<< HEAD
 
 {% endblock %}
+=======
+</body>
+</html>
+>>>>>>> origin/faculty

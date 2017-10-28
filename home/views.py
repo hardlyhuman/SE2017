@@ -1,14 +1,18 @@
 from django import template
 from django.contrib.auth import authenticate
+<<<<<<< HEAD
 import sys
 import jwt
 import datetime
 from django.shortcuts import render, render_to_response
 from django.contrib.auth import authenticate
+=======
+>>>>>>> origin/faculty
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+<<<<<<< HEAD
 from django import template
 from django.http import HttpResponse,JsonResponse
 from .forms import PersonnelForm 
@@ -16,12 +20,17 @@ from django.views.decorators.csrf import csrf_exempt
 from ldif3 import LDIFParser
 from rest_framework import exceptions,status
 from rest_framework.renderers import JSONRenderer
+=======
+from django.views.decorators.csrf import csrf_exempt
+from ldif3 import LDIFParser
+>>>>>>> origin/faculty
 from rest_framework.parsers import JSONParser
 from rest_framework_jwt.settings import api_settings
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import *
 from django.contrib.auth.models import User
+<<<<<<< HEAD
 
 from .models import *
 from math import radians, cos, sin, asin, sqrt
@@ -69,12 +78,22 @@ def jwt_accept(function):
 # Create your views here.
 PRIVATE_IPS_PREFIX = ('10.', '172.', '192.',)
 register = template.Library()
+=======
+# Create your views here.
+PRIVATE_IPS_PREFIX = ('10.', '172.', '192.',)
+register = template.Library()
+
+
+>>>>>>> origin/faculty
 @login_required(login_url="login/")
 def index(request):
     if request.user.personnel.Role.Role_name == "Faculty":
         return HttpResponseRedirect('../faculty/ViewProfs')
+<<<<<<< HEAD
     if request.user.personnel.Role.Role_name == "Student":
         return HttpResponseRedirect('../student')
+=======
+>>>>>>> origin/faculty
     now = datetime.datetime.now()
     remote_address = request.META.get('REMOTE_ADDR')
     # set the default value of the ip to be the REMOTE_ADDR if available
@@ -740,6 +759,7 @@ def add_view_timetable(request):
 
 @csrf_exempt
 def validate_user(request):
+<<<<<<< HEAD
 	if request.method == 'POST':
 		print(request.META)
 		data = JSONParser().parse(request)
@@ -785,30 +805,72 @@ def courses_rel_students(request):
 			return JsonResponse(data, status=200, safe=False)
 		else:
 			return HttpResponse(status=404)
+=======
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        username = data['json_data']['username']
+        password = data['json_data']['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            serializer = UserSerializer(user)
+            personaldet = PersonnelSerializer(Personnel.objects.filter(LDAP=user),many=True)
+            dat = serializer.data
+            dat.update(dict(personaldet.data[0]))
+            return JsonResponse(dat, status=200,safe=False)
+        else:
+            return HttpResponse(status=404)
+
+@csrf_exempt
+def courses_rel_students(request):
+    if request.method == 'POST':
+        data = {}
+        data1 = JSONParser().parse(request)
+        ID = data1['course_id']
+        data2 = SCSerializer(Students_Courses.objects.filter(Course_ID=ID), many=True).data
+        x = 0
+        for i in range(len(data2)):
+            temp = PersonnelSerializer(Personnel.objects.get(Person_ID=data2[i]['Student_ID'])).data
+            temp2 = User.objects.all()
+            for b in temp2:
+                try:
+                    if b.personnel.LDAP.id == temp['LDAP']:
+                        data[data2[i]['Student_ID']] = {'Username':b.username,'First_Name':b.first_name,'Last_Name':b.last_name,'Email':b.email}
+                except:
+                    kill=1
+            x += 1
+        if len(data) != 0:
+            return JsonResponse(data, status=200, safe=False)
+        else:
+            return HttpResponse(status=404)
+>>>>>>> origin/faculty
 
 @csrf_exempt
 @api_view([ 'POST'])
 @jwt_accept
 def student_rel_courses(request):
-	if request.method == 'POST':
-		data={}
-		data1 = JSONParser().parse(request)
-		ID = data1['student_id']
-		data2 = SCSerializer(Students_Courses.objects.filter(Student_ID=ID),many=True).data
-		x = 0
-		for i in range(len(data2)):
-			temp = CoursesSerializer(Courses.objects.get(Course_ID=data2[i]['Course_ID'])).data
-			data[x] = {'Course_ID':data2[i]['Course_ID'],'Course_Name':temp['Course_Name'],'Course_description':temp['Course_description'],'Course_Year':temp['Course_Year'],'Course_Status':temp['Course_Status']}
-			x+=1
-		if len(data) != 0:
-			return JsonResponse(data,status=200,safe=False)
-		else:
-			return HttpResponse(status=404)
+    if request.method == 'POST':
+        data = {}
+        data1 = JSONParser().parse(request)
+        ID = data1['student_id']
+        data2 = SCSerializer(Students_Courses.objects.filter(Student_ID=ID), many=True).data
+        x = 0
+        for i in range(len(data2)):
+            temp = CoursesSerializer(Courses.objects.get(Course_ID=data2[i]['Course_ID'])).data
+            data[data2[i]['Course_ID']] = {'Course_ID': data2[i]['Course_ID'], 'Course_Name': temp['Course_Name'],
+                       'Course_description': temp['Course_description'], 'Course_Year': temp['Course_Year'],
+                       'Course_Status': temp['Course_Status']}
+            x += 1
+        if len(data) != 0:
+            return JsonResponse(data, status=200, safe=False)
+        else:
+            return HttpResponse(status=404)
+
 
 @csrf_exempt
 @api_view([ 'POST'])
 @jwt_accept
 def faculty_rel_courses(request):
+<<<<<<< HEAD
 	if request.method == 'POST':
 		data={}
 		data1 = JSONParser().parse(request)
@@ -836,41 +898,65 @@ def student_session(request):
 		print(data.data)
 		return JsonResponse(data.data,status=200,safe=False)
 	return HttpResponse(status=404)
-def faculty_users(request):
-	parser = LDIFParser(open('data.ldif', 'rb'))
-	i=0
-	for dn, Entry in parser.parse():
-		dn.split(',')
-		props=dict(item.split("=") for item in dn.split(","))
-		#print('got entry record: %s' % dn)
-		#print(props)
-		#pprint(Entry)
-		print (Entry["uid"],Entry["givenname"],Entry["sn"],Entry["mail"])
-		u=User.objects.create_user(username=Entry["uid"][0],password="iiits@123",first_name=Entry["givenname"][0],last_name=Entry["sn"][0],email=Entry["mail"][0])
-		p=Personnel(Dept_id=1,LDAP_id=u.id,Role_id=3)
-		p.save()
-def student_users(request):
-	Start=2014
-	End=2018
-	for i in range(2):
-		DEPT=1
-		parser = LDIFParser(open('data'+str(i+1)+'.ldif', 'rb'))
-		for dn, Entry in parser.parse():
-			dn.split(',')
-			props=dict(item.split("=") for item in dn.split(","))
-			try:
-				print (Entry["uid"],Entry["givenname"],Entry["sn"],Entry["mail"])
-			except:
-				DEPT=2
-				continue
-			FName=Entry["givenname"][0]
-			if(len(FName)>30):
-				FName=FName[:20]
+=======
+    if request.method == 'POST':
+        data = {}
+        data1 = JSONParser().parse(request)
+        ID = data1['faculty_id']
+        data2 = ICSerializer(Instructors_Courses.objects.filter(Inst_ID=ID), many=True).data
+        x = 0
+        for i in range(len(data2)):
+            temp = CoursesSerializer(Courses.objects.get(Course_ID=data2[i]['Course_ID'])).data
+            data[data2[i]['Course_ID']] = {'Course_ID': data2[i]['Course_ID'], 'Course_Name': temp['Course_Name'],
+                       'Course_description': temp['Course_description'], 'Course_Credits': temp['Course_Credits'],
+                       'Course_Year': temp['Course_Year'], 'Course_Status': temp['Course_Status']}
+            x += 1
+        if len(data) != 0:
+            return JsonResponse(data, status=200, safe=False)
+        else:
+            return HttpResponse(status=404)
 
-			u=User.objects.create_user(username=Entry["uid"][0],password="iiits@123",first_name=FName,last_name=Entry["sn"][0],email=Entry["mail"][0])
-			p=Personnel(Dept_id=DEPT,LDAP_id=u.id,Role_id=2)
-			p.save()
-			q=Student_Period(Student_ID_id=p.Person_ID,Start_Year=Start,End_Year=End)
-			q.save()
-		Start+=1
-		End+=1
+
+>>>>>>> origin/faculty
+def faculty_users(request):
+    parser = LDIFParser(open('data.ldif', 'rb'))
+    i = 0
+    for dn, Entry in parser.parse():
+        dn.split(',')
+        props = dict(item.split("=") for item in dn.split(","))
+        # print('got entry record: %s' % dn)
+        # print(props)
+        # pprint(Entry)
+        print (Entry["uid"], Entry["givenname"], Entry["sn"], Entry["mail"])
+        u = User.objects.create_user(username=Entry["uid"][0], password="iiits@123", first_name=Entry["givenname"][0],
+                                     last_name=Entry["sn"][0], email=Entry["mail"][0])
+        p = Personnel(Dept_id=1, LDAP_id=u.id, Role_id=3)
+        p.save()
+
+
+def student_users(request):
+    Start = 2014
+    End = 2018
+    for i in range(2):
+        DEPT = 1
+        parser = LDIFParser(open('data' + str(i + 1) + '.ldif', 'rb'))
+        for dn, Entry in parser.parse():
+            dn.split(',')
+            props = dict(item.split("=") for item in dn.split(","))
+            try:
+                print (Entry["uid"], Entry["givenname"], Entry["sn"], Entry["mail"])
+            except:
+                DEPT = 2
+                continue
+            FName = Entry["givenname"][0]
+            if (len(FName) > 30):
+                FName = FName[:20]
+
+            u = User.objects.create_user(username=Entry["uid"][0], password="iiits@123", first_name=FName,
+                                         last_name=Entry["sn"][0], email=Entry["mail"][0])
+            p = Personnel(Dept_id=DEPT, LDAP_id=u.id, Role_id=2)
+            p.save()
+            q = Student_Period(Student_ID_id=p.Person_ID, Start_Year=Start, End_Year=End)
+            q.save()
+        Start += 1
+        End += 1

@@ -23,7 +23,7 @@ body {
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Sticky Footer Navbar Template for Bootstrap</title>
+    <title>SAMS Attendance</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'home/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -97,10 +97,9 @@ body {
       </div>
     </nav>
     <script>
-          Student_Home="";
-          Student_Attendance="";
+          Student_Home="{% url 'students.index'  %}";
+          Student_Attendance="{% url 'students.ViewAttendance '  %}";
           Student_Assignments="";
-          Student_Courses="";
           Student_Timetable="";
           Student_Courses="";
 
@@ -126,7 +125,7 @@ body {
           document.getElementById("home").setAttribute("href",Faculty_Home);
           document.getElementById("attendace").setAttribute("href",Faculty_Attendance);
           document.getElementById("upload_assignments").setAttribute("href",Faculty_UploadAssignments);
-          document.getElementById("view_assignments").setAttribute("href",Faculty_ViewAssignments); 
+          document.getElementById("view_assignments").setAttribute("href",Faculty_ViewAssignments);
           document.getElementById("courses").setAttribute("href",Faculty_Courses);
           document.getElementById("timetable").setAttribute("href",Faculty_Timetable);
 
@@ -148,7 +147,7 @@ body {
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    
+
     <script>window.jQuery || document.write('<script src="{% static 'home/bootstrap/assets/js/vendor/jquery.min.js'%}"><\/script>')</script>
     <script src="{% static 'home/bootstrap/dist/js/bootstrap.min.js'%}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

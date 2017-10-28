@@ -6,6 +6,7 @@
 select{
   margin: 50px;
   border: 1px solid #111;
+
   width: 150px;
   padding: 5px 35px 5px 5px;
   font-size: 16px;
@@ -45,7 +46,7 @@ font-family:"Times New Roman";
 <form action="{% url 'faculty:CoursePage' %}"  method="post" enctype="multipart/form-data">
   {% csrf_token %}
 <select name="dropdown" class="menu"onchange="this.form.submit()" id="sub" required>
-<option  value="" selected="selected"  hidden>--select--</option>	
+<option  value="" selected="selected"  hidden>--select--</option>
 {% for course in Courses %}
 <option value="{{course}}" > {{course}}</option>
 {% endfor %}

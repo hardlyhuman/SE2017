@@ -25,14 +25,17 @@ font-family:"Times New Roman";
   <th>Student ID</th>
 <th>Student Name</th>
   <th>Number of Leave days</th>
+
 </tr>
 </thead>
 <tbody>
 {% for key,value in classes.items %}
 <tr>
+
   <td>{{key}}</td> 
   <td>{{value.0}}</td>
 <td>{{value.1}}</td>
+
 </tr>
 {% endfor %}
 </tbody>

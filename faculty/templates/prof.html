@@ -1,12 +1,8 @@
 {% extends "home/index.html" %}
 {% load static %}
 {% block content %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 <style>
-
 select{
   margin: 50px;
   border: 1px solid #111;
@@ -17,7 +13,6 @@ select{
   border: 1px solid #ccc;
   height: 34px;
 background:url({% static 'images/dropdown.png' %})97% /15% no-repeat #404040;
-
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -36,8 +31,6 @@ height:40px;
 h3{
 font-family:"Times New Roman";
 }
-
-
 </style>
 {% if flag == 0 %}
 <center>
@@ -48,7 +41,6 @@ font-family:"Times New Roman";
     };
 </script>
 {% else %}
-
 <center>
 <h3><b>Please Select A Course </b></h3>
 <form action="{% url 'faculty:CoursePage' %}"  method="post" enctype="multipart/form-data">
@@ -56,14 +48,10 @@ font-family:"Times New Roman";
 <select name="dropdown" class="menu"onchange="this.form.submit()" id="sub" required>
 <option  value="" selected="selected"  hidden>--select--</option>
 {% for course in Courses %}
-
 <option value="{{course}}" > {{course}}</option>
-
 {% endfor %}
 </select><br><br>
-
 </form>
 </center>
 {% endif %}
-
 {% endblock %}

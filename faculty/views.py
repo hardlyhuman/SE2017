@@ -1,27 +1,18 @@
 from __future__ import unicode_literals
-from django.template.context import RequestContext
-import json as simplejson
-from django.http import HttpResponse
-import json
-from django.shortcuts import redirect
-from django.contrib import messages
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render
-from django.template import loader
-from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import login_required
+import json 
+from django.http import *
+from django.shortcuts import *
+from django.template import *
 from home.models import *
-from home.models import Assignment
-from .forms import UploadFileForm
 from home.serializers import *
 import easygui
+
 import json
 from django.utils import timezone
-import datetime
 from datetime import datetime
-from django.utils import formats
 from dateutil.parser import parse
-
+@login_required
 def index(request):
 	all_events = Events.objects.all()
 	serializer = EventsSerializer(all_events, many=True)
@@ -32,8 +23,9 @@ def index(request):
 	print serializer.data
 	return render(request, 'fullcalendar/calendar.html',{"Events":json.dumps(a)})
 
-
-
+	
+	
+@login_required	
 def ViewProfs(request):
     CourseList = []
     if request.user.personnel.Role.Role_name == 'Faculty':
@@ -52,9 +44,9 @@ def ViewProfs(request):
     context = {'flag':flag,'Courses':CourseList,'Prof_Name':request.session['Prof_Name']}
     return HttpResponse(template.render(context, request))
 
+@login_required
+def CoursePage(request):		
 
-
-def CoursePage(request):
 	if request.POST.get('action')=='Save':
 		course=Courses.objects.get(Course_Name=request.session['course'])
 		course.Course_description = request.POST.get('coursedes')
@@ -66,6 +58,7 @@ def CoursePage(request):
     	context = {'Course':course,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))
 
+@login_required
 def ViewRegisteredStudents(request):
     studentlist = []
     course_name = request.GET.get('name')
@@ -76,7 +69,6 @@ def ViewRegisteredStudents(request):
     template = loader.get_template('student.html')
     context = {'Students': json.dumps(studentlist), 'Course': course_name}
     return HttpResponse(template.render(context, request))
-
 def AddAssignment(request):
     s=0;
     if request.method == 'POST':
@@ -175,7 +167,9 @@ def OfferCourses(request):
         context = {'Courses': courses1,'Courses1':json.dumps(courselist), 'IC': IC, 'Prof_Name': request.user.username}
     	return HttpResponse(template.render(context, request))
 
-def ViewAttendance(request):
+@login_required
+def ViewAttendance(request):	
+
     	studentcount={}
 	sessioncount=0
 	coursestudents=Students_Courses.objects.all()
@@ -203,8 +197,8 @@ def ViewAttendance(request):
 		return HttpResponse(request.POST.get('abc'))
     	template = loader.get_template('attendance.html')
     	context = {'classes':studentcount,'CourseName':request.session['course'],'workingdays':sessioncount}
-    	return HttpResponse(template.render(context, request))
-
+    	return HttpResponse(template.render(context, request))	
+@login_required
 def MyLibrary(request):
     s=0
     libfiles=[]

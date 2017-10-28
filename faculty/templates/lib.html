@@ -1,9 +1,6 @@
 
 {% extends "home/index.html" %}
 {% load static %}
-{% block nav-course %}
-          <a class="navbar-brand" href="#">{{CourseName}}</a>
-{% endblock %}
 {% block content %}
 
 <style>
@@ -13,7 +10,7 @@ position:absolute;
 top:100px;
 left:50px;
 }
-h3{
+h3,h2{
 font-family:"Times New Roman";
 }
 #clicked1{
@@ -69,7 +66,7 @@ if(r==1){
 }, 3000);
 }
 </script>
-<center><h3><b>MyLibrary</b></h3></center>
+<center><h3><b>{{CourseName}} Library</b></h3></center>
 <div id="tab">
 <table>
 <tr>

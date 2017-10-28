@@ -137,35 +137,36 @@ def OfferCourses(request):
         context = {'Courses': courses1,'Courses1':json.dumps(courselist), 'IC': IC, 'Prof_Name': request.user.username}
     	return HttpResponse(template.render(context, request))
 @login_required
-def ViewAttendance(request):	
-    	studentcount={}
-	sessioncount=0
-	coursestudents=Students_Courses.objects.all()
+def ViewAttendance(request):
+	sessionlist={}
+	sessions=Attendance_Session.objects.all()
 	students=Attendance.objects.all()
-    	classes=Attendance_Session.objects.all()
-	for Class in classes:
-		try:
-			if Class.Course_Slot.Course_ID.Course_Name==request.session['course']:
-				sessioncount=sessioncount+1
-		except:
-			easygui.msgbox("      please select a course       ",title="ERROR")
-			return redirect('http:../ViewProfs/')
-			
-		
-	for student in coursestudents:
-		value=[0,1]
-		if student.Course_ID.Course_Name==request.session['course']:
-			value[0]=student.Student_ID.LDAP.username
-			value[1]=sessioncount
-			studentcount[student.Student_ID.Person_ID]=value	
-	for student in students:
-		if student.ASession_ID.Course_Slot.Course_ID.Course_Name==request.session['course'] and student.Marked=='P':
-			studentcount[student.Student_ID.Person_ID][1]=studentcount[student.Student_ID.Person_ID][1]-1
-	if request.method=="POST":
-		return HttpResponse(request.POST.get('abc'))			    
+	for session in sessions:
+		if session.Course_Slot.Course_ID.Course_Name==request.session['course']:
+			sessionlist[session.Session_ID]=[session.Date_time.date,0]
+	for session in sessionlist:
+		for student in students:
+			if session==student.ASession_ID.Session_ID and student.Marked=='P':
+				sessionlist[session][1]=sessionlist[session][1]+1				    
     	template = loader.get_template('attendance.html')
-    	context = {'classes':studentcount,'CourseName':request.session['course'],'workingdays':sessioncount}
+    	context = {'sessions':sessionlist,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))	
+@login_required
+def ViewAttendanceDetails(request):
+	slotid=request.GET.get('id')
+	session=Attendance_Session.objects.get(Session_ID=slotid)
+	students=Attendance.objects.all()
+	studentlist=[]
+	for student in students:
+		if str(student.ASession_ID.Session_ID)==str(slotid):
+			studentlist.append(student)
+	template = loader.get_template('details.html')
+    	context = {'students':studentlist,'CourseName':request.session['course'],'date':session.Date_time.date}
+    	return HttpResponse(template.render(context, request))
+	
+	
+	
+
 @login_required
 def MyLibrary(request):
     s=0

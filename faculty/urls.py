@@ -9,6 +9,7 @@ url(r'^ViewAssignment/$',views.ViewAssignment,name='ViewAssignment'),
 url(r'^offercourses/$',views.OfferCourses,name='OfferCourses'),  
 url(r'^coursepage/$',views.CoursePage,name='CoursePage'),
 url(r'^index/$',views.index,name='index'), 
-url(r'^lib/$',views.MyLibrary,name='MyLibrary'),      
+url(r'^lib/$',views.MyLibrary,name='MyLibrary'),  
+url(r'^details/$',views.ViewAttendanceDetails,name='ViewAttendanceDetails'),      
 ]
 

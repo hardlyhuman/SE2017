@@ -2,7 +2,8 @@
 {% block content %}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 <script type="text/javascript">
@@ -11,6 +12,7 @@
     if (datefield.type!="date"){ //if browser doesn't support input type="date", load files for jQuery UI Date Picker
         document.write('<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />\n')
         document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"><\/script>\n')
+
         document.write('<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"><\/script>\n')
     }
 </script>
@@ -116,8 +118,6 @@ font-family:"Times New Roman";
 <table id="tblSample" class="table table-inverse table-hover" border="1" >
 <thead class="tabel table-inverse abc">
 <tr>
-
-
 <th>Course</th>
 
   <th>Faculty </th>
@@ -222,6 +222,13 @@ $(document).ready(function(){
 	    var t='<div class="alert alert-success"> <strong>Success!</strong></div>';
 document.getElementById("demo").innerHTML=t;
 
+
     }
+$(document).ready(function(){
+    $('input[type="checkbox"]').click(function(){
+        var inputValue = $(this).attr("value");
+        $("." + inputValue).toggle();
+    });
+});
 </script>
 {% endblock %}

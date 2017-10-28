@@ -62,7 +62,7 @@
 					 </select>
 				</div>
 			</div>
-			<div class="info-box col-md-4" style="height:60vh">
+			<div class="info-box col-md-4" style="height:50vh; width:70%">
 				<br />
 				<p>Number of classes Taken : <span id ="classesTaken" class="label label-default">None</span></p><br />
 				<p>Number of classes Attended : <span id="classesAttended" class="label label-primary">None</span></p><br />
@@ -106,7 +106,7 @@
                     document.getElementById("classesTaken").innerHTML = total[id];
                     document.getElementById("classesAttended").innerHTML = present[id];
                     document.getElementById("classesAbsent").innerHTML = absent[id].length;
-                    document.getElementById("Percentage").innerHTML = parseInt(present[id]) / parseInt(total[id]);
+                    document.getElementById("Percentage").innerHTML = parseInt(present[id]) / parseInt(total[id]) || 0;
                     document.getElementById("modal-content").innerHTML = create_model(id);
                 }
             }

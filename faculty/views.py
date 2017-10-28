@@ -1,27 +1,16 @@
 from __future__ import unicode_literals
-from django.template.context import RequestContext
-import json as simplejson
-from django.http import HttpResponse
-import json
-from django.shortcuts import redirect
-from django.contrib import messages
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render
-from django.template import loader
-from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import login_required
+import json 
+from django.http import *
+from django.shortcuts import *
+from django.template import *
 from home.models import *
-from home.models import Assignment
-from .forms import UploadFileForm
 from home.serializers import *
 import easygui
-import json
-from django.utils import timezone 
-import datetime
+from django.utils import * 
 from datetime import datetime
-from django.utils import formats
 from dateutil.parser import parse
-
+@login_required
 def index(request):
 	all_events = Events.objects.all()
 	serializer = EventsSerializer(all_events, many=True)
@@ -33,7 +22,7 @@ def index(request):
 	return render(request, 'fullcalendar/calendar.html',{"Events":json.dumps(a)})
 	
 	
-	
+@login_required	
 def ViewProfs(request):
     CourseList = []
     if request.user.personnel.Role.Role_name == 'Faculty':
@@ -52,7 +41,7 @@ def ViewProfs(request):
     context = {'flag':flag,'Courses':CourseList,'Prof_Name':request.session['Prof_Name']}
     return HttpResponse(template.render(context, request))
 
-
+@login_required
 def CoursePage(request):		
 	if request.POST.get('action')=='Save':
 		
@@ -72,11 +61,11 @@ def CoursePage(request):
 	
 	
 
-
+@login_required
 def AddAssignment(request):
     s=0
     if request.method == 'POST':
-        form =request.FILES.get('file')
+        
   	date_joined =datetime.now()
 	if parse(request.POST.get('enddate'))>=date_joined:
 		courses = Courses.objects.all()
@@ -94,13 +83,13 @@ def AddAssignment(request):
     else:
 	
 		if 'course' in request.session:
-        		form = UploadFileForm()
+        		
 			s=0        
-    			return render(request, 'forms.html',{'CourseName':request.session['course'],'form': form, 'request': request,'s':s})
+    			return render(request, 'forms.html',{'CourseName':request.session['course'],'s':s})
 		else:
 			easygui.msgbox("please select a course",title="ERROR")
 			return redirect('http:../ViewProfs/')
-
+@login_required
 def ViewAssignment(request):
      asslist = []
      Assignments = Assignment.objects.all()
@@ -115,7 +104,7 @@ def ViewAssignment(request):
      return render(request, 'assignment.html', {'Assignments': asslist,'CourseName':request.session['course']})
   
 
-    
+@login_required    
 def OfferCourses(request):
     if request.method == 'POST':
         person_id = request.user.personnel.Person_ID
@@ -147,7 +136,7 @@ def OfferCourses(request):
         template = loader.get_template('reg.html')
         context = {'Courses': courses1,'Courses1':json.dumps(courselist), 'IC': IC, 'Prof_Name': request.user.username}
     	return HttpResponse(template.render(context, request))
-
+@login_required
 def ViewAttendance(request):	
     	studentcount={}
 	sessioncount=0
@@ -177,7 +166,7 @@ def ViewAttendance(request):
     	template = loader.get_template('attendance.html')
     	context = {'classes':studentcount,'CourseName':request.session['course'],'workingdays':sessioncount}
     	return HttpResponse(template.render(context, request))	
-
+@login_required
 def MyLibrary(request):
     s=0
     libfiles=[]

@@ -1,77 +1,76 @@
-<html>
-<head>
+{% extends "home/index.html" %}
+{% block nav-course %}
+          <a class="navbar-brand" href="#">{{CourseName}}</a>
+{% endblock %}
+{% block content %}
 <style>
-#main{
- padding: 0px, auto;
-    width: 500px;
- margin-left:30px;
-margin-top:30px;
- float:left;
+h3{
+font-family:"Times New Roman";
 }
-#child-right{
-padding: 0px, auto;
-    float: right;
-    width: 500px;
-   
-  
+#coursedescription{
+position:absolute;
+left:500px;
+margin:0 auto;
+}
+#citizenBtn{
+background-color:black !important;
+color:white !important;
+border-radius:10px;
+height:35px;
+position:relative;
+margin-left:120px;
+
+}
+
+textarea{
+border:solid 1px black;
+}
+#description{
+width:50%;
+height:70%;
+
+
+}
+#save{
+background-color:black !important;
+color:white !important;
+border-radius:10px;
+height:35px;
+
 }
 </style>
+<br><br>
 
-</head>
-<body>
+<div id="coursedescription">
 
-
-<h1>Welcome {{Prof_Name}}</h1>
-<div id="child-right">
-<script>
-var courses=JSON.parse("{{Courses|escapejs}}");
-var coursedes=JSON.parse("{{Coursedes|escapejs}}");
-
-for(i=0;i<courses.length;i++)
-{
-document.write('<br>');
- document.write('<a  href="../ViewRegisteredStudents?name='+courses[i]+'"> '+courses[i]+'</a>');
-document.write('<br><br>');
-document.write(coursedes[i]);
-document.write('<br>');
-}
-</script>
-</div>
+<h3><b>Course Name:&nbsp{{Course.Course_Name }}</b></h3>
+<h3><b>Course Credits:&nbsp{{Course.Course_Credits }}</b></h3>
+<h3><b>Course Description:</h3><div id="description">{{Course.Course_description}}</div>
 <br>
-<div id="main">
-<button id="Addass" class="float-left submit-button" >Add Assignment</button><br><br>
-<button id="Delass" class="float-left submit-button" >Delete Assignments</button><br><br>
-<button id="Editdes" class="float-left submit-button" >Edit Course Description</button><br><br>
-<button id="offercourses" class="float-left submit-button" >Offer Courses</button>
-</div>
-<script type="text/javascript">
-    document.getElementById("Addass").onclick = function () {
-        location.href = "{% url 'faculty:AddAssignment' %}";
-    };
-document.getElementById("offercourses").onclick = function () {
-        location.href = "{% url 'faculty:OfferCourses' %}";
-    };
-document.getElementById("Editdes").onclick = function () {
-        location.href = "{% url 'faculty:EditCourseDescription' %}";
-    };
- document.getElementById("Delass").onclick = function () {
-        location.href = "{% url 'faculty:Delass' %}";
 
-    };
+<form id = "citizenForm" action="{% url 'faculty:CoursePage' %}" method="post" style="display:none">
+{% csrf_token %}
+
+<textarea style="background-color:#f2f2f2 !important;" rows="2" cols="50" maxlength="255" name="coursedes">{{Course.Course_description}}</textarea>
+ <input type="submit" id="save" name="action" class="btn btn-primary btn-md" value="Save">
+
+</form>
+<button id= "citizenBtn" class="btn btn-primary btn-md" onclick="showForm('citizenForm')">Edit</button>
+</div>
+<script>
+
+var showForm = function(id){
+  document.getElementById(id).style.display = '';
+}
+ var button = document.getElementById('citizenBtn')
+    button.addEventListener('click',hideshow,false);
+
+    function hideshow() {
+
+        this.style.display = 'none'
+    }
 </script>
 
-</body>
-</html>
 
 
-
-
-
-
-
-
-
-
-
-
-
+{% endblock %}

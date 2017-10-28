@@ -15,17 +15,12 @@ left:50px;
 }
 h3{
 font-family:"Times New Roman";
-
-
 }
-
 #clicked1{
 background-color:black !important;
 color:white !important;
 border-radius:10px;
-
 height:35px;
-
 }
 #deadlines{
 background-color:#999999 !important;
@@ -59,7 +54,6 @@ text-align:center;
 #main div{
 display:inline-block;
 }
-
 </style>
 <br>
 <p id="demo"></p>
@@ -103,7 +97,6 @@ document.getElementById("clicked1").onclick = function () {
 </div>
     {% endfor %}
 </div>
-
 {% endif %}
 <center>
 <form action="{% url 'faculty:MyLibrary' %}" method="post" enctype="multipart/form-data">
@@ -111,4 +104,3 @@ document.getElementById("clicked1").onclick = function () {
 	<input type="file"  id="file" onchange="this.form.submit()" name='files' multiple />
     </form></center>
 {% endblock %}
-

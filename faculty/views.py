@@ -45,7 +45,6 @@ def ViewProfs(request):
     return HttpResponse(template.render(context, request))
 @login_required
 def CoursePage(request):		
-
 	if request.POST.get('action')=='Save':
 		
 		course=Courses.objects.get(Course_Name=request.session['course'])
@@ -58,7 +57,6 @@ def CoursePage(request):
     	template = loader.get_template('prof1.html')
     	context = {'Course':course,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))
-	
 @login_required
 def ViewRegisteredStudents(request):
     studentlist = []

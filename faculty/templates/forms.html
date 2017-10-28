@@ -4,9 +4,6 @@
 <a class="navbar-brand" href="#">{{CourseName}}</a>
 {% endblock %}
 {% block content %}
-
-
-
 <script type="text/javascript">
     var datefield=document.createElement("input")
     datefield.setAttribute("type", "date")
@@ -43,17 +40,14 @@ height:35px;
 .file{
 margin-left:15px;
 }
-
 #duration1{
 margin-left:5px;
 }
 input[type=file] {
     display: inline-block;
 }
-
 </style>
 <br>
-
 <p id="demo"></p>
 <script>
 var c={{s}};
@@ -67,6 +61,16 @@ if(r==1){
         $(this).remove();
     });
 }, 3000);
+}
+else if(r==2){
+	var t='<div class="alert alert-danger"> <strong>OOPS! Select a valid Deadline</strong></div>';
+	document.getElementById("demo").innerHTML=t;
+	window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+}, 3000);
+
 }
 </script>
 <center><h3><b>Upload Assignment</b> </h3></center>

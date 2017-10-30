@@ -3,12 +3,13 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from ldif3 import LDIFParser
 from rest_framework.parsers import JSONParser
 from .serializers import *
 from django.contrib.auth.models import User
+from .forms import *
 # Create your views here.
 PRIVATE_IPS_PREFIX = ('10.', '172.', '192.',)
 register = template.Library()
@@ -750,3 +751,23 @@ def student_users(request):
             q.save()
         Start += 1
         End += 1
+
+def EditProfile(request):
+    obj = Personnel.objects.get(LDAP_id=request.user.id)
+    personID=obj.Person_ID
+    pObj = Personnel.objects.get(Person_ID=personID)
+    fObj , created = NotificationTime.objects.get_or_create(Personnel_ID=pObj)
+    #print fObj,'********************'
+    if request.method == 'POST':
+        form = ProfileForm( request.POST, user = request.user, instance = fObj)
+        if form.is_valid():            
+            model_instance = form.save(commit=False)
+            #print personID, request.user.username
+            #print '########################'
+            model_instance.Personnel_ID = pObj
+            model_instance.save()
+            return HttpResponseRedirect('/')
+    else:
+        form = ProfileForm(None,user = request.user, instance = fObj)
+    return render(request, "home/profile.html", {'form': form})
+  

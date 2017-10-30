@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'SE2017.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
+'''if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -101,17 +101,15 @@ if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
         }
     }
 else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'HOST': 'localhost',
-            'NAME': 'se2017',
-            'USER': 'root',
-            'PASSWORD': '5qlDevelop#r',
-
-
-
-        }
+'''
+DATABASES = {
+    'default': {        
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '127.0.0.1',
+        'NAME': 'se2017',
+        'USER': 'root',
+        'PASSWORD': '5qlDevelop#r',
+    }
     }
 
 # Password validation

@@ -159,8 +159,7 @@ class Timetable(models.Model):
     Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
     Class_ID=models.CharField(max_length=10,default='')
     def __str__(self):
-        return str(self.T_ID)
-
+        return str(self.Course_ID)
 class NotificationTime(models.Model):
     notification_time_choices =((15,15),
                                 (30,30),
@@ -168,4 +167,3 @@ class NotificationTime(models.Model):
                                 (120,120))
     Personnel_ID = models.ForeignKey(Personnel, to_field = 'Person_ID')
     Notification_time = models.IntegerField(choices=notification_time_choices,default=30)
-    

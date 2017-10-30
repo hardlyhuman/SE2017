@@ -40,4 +40,5 @@ urlpatterns = [
 	url(r'^facultyusers/',views.faculty_users),
 	url(r'^studentusers/',views.student_users),
     url(r'^profile/$', views.EditProfile, name='EditProfile'),
+    url(r'^student_session/',views.student_session),
 ]

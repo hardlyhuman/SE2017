@@ -1,23 +1,65 @@
 {% extends "home/index.html" %}
+{% load static %}
 {% block content %}
+<style>
 
+select{
+  margin: 50px;
+  border: 1px solid #111;
+
+  width: 150px;
+  padding: 5px 35px 5px 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  height: 34px;
+background:url({% static 'images/dropdown.png' %})97% /15% no-repeat #404040;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+color:white;
+border-radius:10px;
+ }
+#offer{
+background-color:black!important;
+color:white !important;
+border-radius:10px;
+width:15%;
+font-size:20px;
+font-family:"Times New Roman";
+height:40px;
+}
+h3{
+font-family:"Times New Roman";
+}
+
+
+</style>
 {% if flag == 0 %}
-
-<a href="{% url 'faculty:OfferCourses' %}">Offer Courses</a>
+<center>
+<button id="offer"  >Offer Courses</button></center>
+<script type="text/javascript">
+    document.getElementById("offer").onclick = function () {
+        location.href = "{% url 'faculty:OfferCourses' %}";
+    };
+</script>
 {% else %}
 
-<h2>Please Select a Course</h2><br>
-<form action="{% url 'faculty:CoursePage' %}" method="post" enctype="multipart/form-data">
+<center>
+<h3><b>Please Select A Course </b></h3>
+<form action="{% url 'faculty:CoursePage' %}"  method="post" enctype="multipart/form-data">
   {% csrf_token %}
-<select  name="dropdown" class="menu" id="sub" required>
-<option value="" selected="selected"  hidden> choose course</option>
+<select name="dropdown" class="menu"onchange="this.form.submit()" id="sub" required>
+<option  value="" selected="selected"  hidden>--select--</option>
 {% for course in Courses %}
 
 <option value="{{course}}" > {{course}}</option>
 
 {% endfor %}
 </select><br><br>
-<input type="submit" name="action" value="submit"  class="btn btn-outline-success">
+
 </form>
+</center>
 {% endif %}
+
 {% endblock %}

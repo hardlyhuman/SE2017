@@ -1,0 +1,331 @@
+﻿{%  extends 'home/index.html' %}
+{% block content %}
+  <meta charset="UTF-8">
+  <title>Students</title>
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Raleway:400,500,800">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <style>
+  html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #eee;
+  font-family: 'Raleway';
+}
+
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.icon {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: block;
+  fill: rgba(51, 51, 51, 0.5);
+  margin-right: 20px;
+  -webkit-transition: all .2s ease-out;
+  transition: all .2s ease-out;
+}
+
+.icon.active {
+  fill: #E74C3C;
+}
+
+#wrapper {
+  width: 80%;
+  height: 70%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
+  overflow: hidden;
+}
+
+#left-side {
+  height: 70%;
+  width: 25%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+#left-side ul li {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  line-height: 34px;
+  color: rgba(51, 51, 51, 0.5);
+  font-weight: 500;
+  cursor: pointer;
+  -webkit-transition: all .2s ease-out;
+  transition: all .2s ease-out;
+}
+#left-side ul li:hover {
+  color: #333333;
+  -webkit-transition: all .2s ease-out;
+  transition: all .2s ease-out;
+}
+#left-side ul li:hover > .icon {
+  fill: #333;
+}
+#left-side ul li.active {
+  color: #333333;
+}
+#left-side ul li.active:hover > .icon {
+  fill: #E74C3C;
+}
+
+#border {
+  height: 288px;
+  width: 1px;
+  background-color: rgba(51, 51, 51, 0.2);
+}
+#border #line.one {
+  width: 5px;
+  height: 54px;
+  background-color: #E74C3C;
+  margin-left: -2px;
+  margin-top: 35px;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+#border #line.two {
+  width: 5px;
+  height: 54px;
+  background-color: #E74C3C;
+  margin-left: -2px;
+  margin-top: 89px;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+#border #line.three {
+  width: 5px;
+  height: 54px;
+  background-color: #E74C3C;
+  margin-left: -2px;
+  margin-top: 143px;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+#border #line.four {
+  width: 5px;
+  height: 54px;
+  background-color: #E74C3C;
+  margin-left: -2px;
+  margin-top: 197px;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+#right-side {
+  height: 300px;
+  width: 75%;
+  overflow: hidden;
+}
+#right-side #first, #right-side #second, #right-side #third, #right-side #fourth {
+  position: absolute;
+  height: 300px;
+  width: 75%;
+  -webkit-transition: all .6s ease-in-out;
+  transition: all .6s ease-in-out;
+  margin-top: -350px;
+  opacity: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+#right-side #first h1, #right-side #second h1, #right-side #third h1, #right-side #fourth h1 {
+  font-weight: 800;
+  color: #333;
+}
+#right-side #first p, #right-side #second p, #right-side #third p, #right-side #fourth p {
+  color: #333;
+  font-weight: 500;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+#right-side #first.active, #right-side #second.active, #right-side #third.active, #right-side #fourth.active {
+  margin-top: 0px;
+  opacity: 1;
+  -webkit-transition: all .6s ease-in-out;
+  transition: all .6s ease-in-out;
+}
+
+  </style>
+
+<!-- ICONS -->
+
+<div id="wrapper">
+  <div id="left-side">
+    <ul>
+      <li class="choose active">
+        Welcome
+      </li>
+      <li class="ship">
+        Add/Drop Courses
+      </li>
+      <li class="pay">
+        Attendance
+      </li>
+      <li class="wrap">
+        Assignments
+      </li>
+      
+    </ul>
+  </div>
+
+  <div id="border">
+    <div id="line" class="one"></div>
+  </div>
+
+  <div id="right-side">
+    <div id="first" class="active">
+      <h1>Welcome {{user.first_name}}</h1>
+      <p>Welcome to SAMS-2017,You can use this portal to register for courses , view your attendacne and check your assignment statuses.</p>
+    </div>
+
+    <div id="second">
+      <h1>Attendance</h1>
+      <p>You can use this portal to view your attendance. Click on the attendance tab on the top or here to view your attendance details . </p>
+        <a href="/student/viewattendance"><button class="btn btn-info">View Attendance</button></a>
+    </div>
+    <div id="third">
+      <h1>Assignments</h1>
+
+      <p>You can use this portal to check your assignment submission status . Click on the assignment tab on the top or the View Assignments button below.</p>
+        <a href="/student/assgnsubstatuspending"><button class="btn btn-info">View Assignments</button></a>
+    </div>
+    <div id="fourth">
+      <h1>Add/Drop Course</h1>
+      <p>You can register for courses or modify your selection in the add/drop panel . Click on the course tab on the top or the add/drop course button below.</p>
+        <a href="/student/adddropcourses"><button class="btn btn-info">Add/Drop Course</button></a>
+    </div>
+  </div>
+</div>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+    <script>
+      $(".choose").click(function() {
+  $(".choose").addClass("active");
+  $(".choose > .icon").addClass("active");
+  $(".pay").removeClass("active");
+  $(".wrap").removeClass("active");
+  $(".ship").removeClass("active");
+  $(".pay > .icon").removeClass("active");
+  $(".wrap > .icon").removeClass("active");
+  $(".ship > .icon").removeClass("active");
+  $("#line").addClass("one");
+  $("#line").removeClass("two");
+  $("#line").removeClass("three");
+  $("#line").removeClass("four");
+})
+
+$(".pay").click(function() {
+  $(".pay").addClass("active");
+  $(".pay > .icon").addClass("active");
+  $(".choose").removeClass("active");
+  $(".wrap").removeClass("active");
+  $(".ship").removeClass("active");
+  $(".choose > .icon").removeClass("active");
+  $(".wrap > .icon").removeClass("active");
+  $(".ship > .icon").removeClass("active");
+  $("#line").addClass("two");
+  $("#line").removeClass("one");
+  $("#line").removeClass("three");
+  $("#line").removeClass("four");
+})
+
+$(".wrap").click(function() {
+  $(".wrap").addClass("active");
+  $(".wrap > .icon").addClass("active");
+  $(".pay").removeClass("active");
+  $(".choose").removeClass("active");
+  $(".ship").removeClass("active");
+  $(".pay > .icon").removeClass("active");
+  $(".choose > .icon").removeClass("active");
+  $(".ship > .icon").removeClass("active");
+  $("#line").addClass("three");
+  $("#line").removeClass("two");
+  $("#line").removeClass("one");
+  $("#line").removeClass("four");
+})
+
+$(".ship").click(function() {
+  $(".ship").addClass("active");
+  $(".ship > .icon").addClass("active");
+  $(".pay").removeClass("active");
+  $(".wrap").removeClass("active");
+  $(".choose").removeClass("active");
+  $(".pay > .icon").removeClass("active");
+  $(".wrap > .icon").removeClass("active");
+  $(".choose > .icon").removeClass("active");
+  $("#line").addClass("four");
+  $("#line").removeClass("two");
+  $("#line").removeClass("three");
+  $("#line").removeClass("one");
+})
+
+$(".choose").click(function() {
+  $("#first").addClass("active");
+  $("#second").removeClass("active");
+  $("#third").removeClass("active");
+  $("#fourth").removeClass("active");
+})
+
+$(".pay").click(function() {
+  $("#first").removeClass("active");
+  $("#second").addClass("active");
+  $("#third").removeClass("active");
+  $("#fourth").removeClass("active");
+})
+
+$(".wrap").click(function() {
+  $("#first").removeClass("active");
+  $("#second").removeClass("active");
+  $("#third").addClass("active");
+  $("#fourth").removeClass("active");
+})
+
+$(".ship").click(function() {
+  $("#first").removeClass("active");
+  $("#second").removeClass("active");
+  $("#third").removeClass("active");
+  $("#fourth").addClass("active");
+})
+    </script>
+
+{% endblock %}

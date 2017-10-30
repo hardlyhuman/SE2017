@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 from __future__ import absolute_import
+import datetime
 import os
 import djcelery
 from celery.schedules import crontab
@@ -36,7 +37,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
-    'students.apps.StudentsConfig',
+    'students',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -86,11 +87,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'SE2017.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated'),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+JWT_AUTH = {
+    "JWT_EXPIRATION_DELTA":datetime.timedelta(days=1)
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-'''if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
+if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -101,8 +114,7 @@ WSGI_APPLICATION = 'SE2017.wsgi.application'
         }
     }
 else:
-'''
-DATABASES = {
+    DATABASES = {
     'default': {        
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '127.0.0.1',
@@ -110,6 +122,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '5qlDevelop#r',
     }
+
     }
 
 # Password validation
@@ -182,3 +195,4 @@ LOGOUT_REDIRECT_URL = '/'
 
 MEDIA_URL='/AssignmentsFolder/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'home/AssignmentsFolder')
+

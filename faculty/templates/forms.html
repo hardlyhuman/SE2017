@@ -1,9 +1,12 @@
 
 {% extends "home/index.html" %}
 {% block nav-course %}
-<a class="navbar-brand" href="#">{{CourseName}}</a>
+          <a class="navbar-brand" href="#">{{CourseName}}</a>
 {% endblock %}
 {% block content %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script type="text/javascript">
     var datefield=document.createElement("input")
     datefield.setAttribute("type", "date")
@@ -13,6 +16,7 @@
         document.write('<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"><\/script>\n')
     }
 </script>
+
 <script>
 if (datefield.type!="date"){
     jQuery(function($){
@@ -20,16 +24,20 @@ if (datefield.type!="date"){
     })
 }
 </script>
+
+
 <style>
-h3,h2{
+h3{
 font-family:"Times New Roman";
 }
+
 .upload{
 background-color:black !important;
 color:white !important;
 border-radius:10px;
 margin-left:80px;
 height:35px;
+
 }
 .reset{
 background-color:#999999 !important;
@@ -40,15 +48,20 @@ height:35px;
 .file{
 margin-left:15px;
 }
+
 #duration1{
 margin-left:5px;
 }
 input[type=file] {
     display: inline-block;
 }
+
 </style>
+{{s}}
 <br>
+
 <p id="demo"></p>
+
 <script>
 var c={{s}};
 console.log(c);
@@ -61,6 +74,7 @@ if(r==1){
         $(this).remove();
     });
 }, 3000);
+
 }
 else if(r==2){
 	var t='<div class="alert alert-danger"> <strong>OOPS! Select a valid Deadline</strong></div>';
@@ -70,10 +84,10 @@ else if(r==2){
         $(this).remove();
     });
 }, 3000);
+
 }
 </script>
-
-<center><h3><b>Upload {{CourseName}} Assignment</b> </h3></center>
+<center><h3><b>Upload Assignment</b> </h3></center>
 <br>
 <center>
 <form action="" method="post" enctype="multipart/form-data">
@@ -83,4 +97,5 @@ else if(r==2){
         <input type="submit" class="upload" value="Upload">
         <input type="reset" value="Reset"class="reset" >
     </form></center>
+
 {% endblock %}

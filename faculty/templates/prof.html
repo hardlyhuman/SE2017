@@ -2,18 +2,15 @@
 {% load static %}
 {% block content %}
 <style>
-
 select{
   margin: 50px;
   border: 1px solid #111;
-
   width: 150px;
   padding: 5px 35px 5px 5px;
   font-size: 16px;
   border: 1px solid #ccc;
   height: 34px;
 background:url({% static 'images/dropdown.png' %})97% /15% no-repeat #404040;
-
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -32,8 +29,6 @@ height:40px;
 h3{
 font-family:"Times New Roman";
 }
-
-
 </style>
 {% if flag == 0 %}
 <center>
@@ -44,7 +39,6 @@ font-family:"Times New Roman";
     };
 </script>
 {% else %}
-
 <center>
 <h3><b>Please Select A Course </b></h3>
 <form action="{% url 'faculty:CoursePage' %}"  method="post" enctype="multipart/form-data">
@@ -52,14 +46,10 @@ font-family:"Times New Roman";
 <select name="dropdown" class="menu"onchange="this.form.submit()" id="sub" required>
 <option  value="" selected="selected"  hidden>--select--</option>
 {% for course in Courses %}
-
 <option value="{{course}}" > {{course}}</option>
-
 {% endfor %}
 </select><br><br>
-
 </form>
 </center>
 {% endif %}
-
 {% endblock %}

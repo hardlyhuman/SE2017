@@ -1,13 +1,10 @@
 {% extends "home/index.html" %}
 {% block nav-course %}
-          <a class="navbar-brand" href="#">{{CourseName}}</a>
+<a class="navbar-brand" href="#">{{CourseName}}</a>
 {% endblock %}
 {% block content %}
 
-
 <style>
-
-
 .abc{
 background-color:black;
 color:white !important;
@@ -18,7 +15,6 @@ color:white !important;
 border-radius:10px;
 width:45%;
 height:35px;
-
 }
 #clicked1{
 background-color:#999999 !important;
@@ -26,7 +22,7 @@ color:white !important;
 border-radius:10px;
 height:35px;
 }
-h3{
+h3,h2{
 font-family:"Times New Roman";
 }
 h5{
@@ -41,41 +37,12 @@ top:100px;
 left:50px;
 }
 </style>
-<script>
-function addColumn(tblId)
-{
-	var tblHeadObj = document.getElementById(tblId).tHead;
-	for (var h=0; h<tblHeadObj.rows.length; h++) {
-		var newTH = document.createElement('th');
-		tblHeadObj.rows[h].appendChild(newTH);
-		newTH.innerHTML = '[th] row:' + h + ', cell: ' + (tblHeadObj.rows[h].cells.length - 1)
-	}
-
-	var tblBodyObj = document.getElementById(tblId).tBodies[0];
-	for (var i=0; i<tblBodyObj.rows.length; i++) {
-		var newCell = tblBodyObj.rows[i].insertCell(-1);
-		newCell.innerHTML = '[td] row:' + i + ', cell: ' + (tblBodyObj.rows[i].cells.length - 1)
-	}
-}
-function deleteColumn(tblId)
-{
-	var allRows = document.getElementById(tblId).rows;
-	for (var i=0; i<allRows.length; i++) {
-		if (allRows[i].cells.length > 1) {
-			allRows[i].deleteCell(-1);
-		}
-	}
-}
-</script>
-
 <center>
-
-<h3><b>Assignment Deadlines</b></h3></center>
+<h3><b>{{CourseName}} Assignment Deadlines</b></h3></center>
 
 <div id="tab">
 <table>
 <tr>
-
 <button id="deadlines" >Deadlines</button>
 <button id="clicked1"  >My Library</button>
 </tr>
@@ -89,10 +56,8 @@ document.getElementById("clicked1").onclick = function () {
         location.href = "{% url 'faculty:MyLibrary' %}";
     };
 </script>
-
 </div>
 <br>
-
 <div class="container" id="right">
 {% if Assignments %}
 <table id="tblSample" class="table table-inverse table-hover" border="1">
@@ -100,8 +65,6 @@ document.getElementById("clicked1").onclick = function () {
 <tr>
   <th>Assignment</th>
 <th>Deadline</th>
-
-
 </tr>
 </thead>
 <tbody>
@@ -117,8 +80,5 @@ document.getElementById("clicked1").onclick = function () {
 {% else %}
 <h1 style="color:red;">OOPS! No documents</h1>
 {% endif %}
-
 </center>
-
-
 {% endblock %}

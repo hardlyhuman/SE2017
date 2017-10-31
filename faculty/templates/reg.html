@@ -1,13 +1,37 @@
 {% extends "home/index.html" %}
 {% block content %}
 
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+<script type="text/javascript">
+    var datefield=document.createElement("input")
+    datefield.setAttribute("type", "date")
+    if (datefield.type!="date"){ //if browser doesn't support input type="date", load files for jQuery UI Date Picker
+        document.write('<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />\n')
+    }
+</script>
+
+<script>
+if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
+    jQuery(function($){ //on document.ready
+        $('#duration').datepicker({dateFormat:'yy-mm-dd'}).val();
+    })
+}
+if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
+    jQuery(function($){ //on document.ready
+        $('#duration1').datepicker({dateFormat:'yy-mm-dd'}).val();
+    })
+}
+</script>
 <style>
+
 .abc{
 background-color:black;
 color:white !important;
 }
 /*Please do not remove below checkbox class */
 .checkbox {}
+
 input[type="checkbox"] {
     width: auto;
     opacity: 0.00000001;
@@ -81,19 +105,25 @@ h3{
 font-family:"Times New Roman";
 }
 </style>
+
 </head>
 <div class="container" >
 <center>
-<h3><b>Course Offerings</b></h3></center>
+<h3><b>Offered & Unoffered Courses</b></h3></center>
 <table id="tblSample" class="table table-inverse table-hover" border="1" >
 <thead class="tabel table-inverse abc">
 <tr>
+
 <th>Course</th>
+
   <th>Faculty </th>
 </tr>
 </thead>
 <tbody>
-{% for course in Courses %}    
+
+{% for course in Courses %}
+
+
 <tr>
 <td>
  <form action="{% url 'faculty:OfferCourses' %}" method="post" enctype="multipart/form-data">
@@ -106,25 +136,38 @@ font-family:"Times New Roman";
 </form>
 </div>
 </td><td></td></tr>
+
         <br>
     {% endfor %}
+
+
+
 {% for instructor in IC %}
 <tr>
+
 <td ><div class="checkbox">
   <label>
      <input type="checkbox" disabled="disabled" checked="checked">
      <i class="helper"></i><h5><b>{{instructor.Course_ID.Course_Name}}</b></h5>
   </label>
-</div></td><td><h5><b>{{instructor.Inst_ID.LDAP.username}}</b></h5></td> 
+</div></td><td><h5><b>{{instructor.Inst_ID.LDAP.username}}</b></h5></td>
+
 </tr>
 {% endfor %}
+
+
+
+
+
 </tbody>
 </table>
+
 </div>
+
 <script>
 var courses=JSON.parse('{{Courses1|escapejs}}');
 console.log(courses);
-function cTrig(clickedid) {
+function cTrig(clickedid) { 
       if (document.getElementById(clickedid).checked == false) {
         return false;
       } else {
@@ -136,6 +179,7 @@ if(courses[i]==courseid)
 var coursename=courses[i+1];
 break;
 }
+	var text_msg = 'Confirm offering ';
  }      var box= confirm('Confirm offering '+' '+coursename+' ?');
         if (box==true)
 {
@@ -143,8 +187,8 @@ break;
             return true;
 }
         else
-           document.getElementById(clickedid).checked =false;   
-
+           document.getElementById(clickedid).checked =false;
+            
       }
     }
 $(document).ready(function(){
@@ -154,4 +198,12 @@ $(document).ready(function(){
     });
 });
 </script>
+
+
+
+
+
+
+
+
 {% endblock %}

@@ -20,6 +20,7 @@ def index(request):
 		a.append({"title":i["Event_Name"],"start":i["Event_Date"],"allDay":True})
 	print serializer.data
 	return render(request, 'fullcalendar/calendar.html',{"Events":json.dumps(a)})
+
 	
 	
 @login_required	
@@ -34,36 +35,55 @@ def ViewProfs(request):
                 CourseList.append(IC[i].Course_ID.Course_Name)
 	if CourseList==[]:
             flag=0
-	    
+
 	else:
             flag=1
     template = loader.get_template('prof.html')
     context = {'flag':flag,'Courses':CourseList,'Prof_Name':request.session['Prof_Name']}
     return HttpResponse(template.render(context, request))
-
 @login_required
 def CoursePage(request):		
 	if request.POST.get('action')=='Save':
 		
 		course=Courses.objects.get(Course_Name=request.session['course'])
 		course.Course_description = request.POST.get('coursedes')
-		try:
-        		course.save()
-		except:
-			easygui.msgbox("Oops!Data Too Long.",title="ERROR")
-					
-	else:   
-		request.session['course'] =request.POST.get('dropdown')	
-	course=get_object_or_404(Courses,Course_Name=request.session['course']) 				
+        	course.save()
+	elif request.POST.get('action')=="submit":
+		request.session['course'] =request.POST.get('dropdown')
+	course=Courses.objects.get(Course_Name=request.session['course'])
+
     	template = loader.get_template('prof1.html')
     	context = {'Course':course,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))
-	
-	
+@login_required
+def ViewRegisteredStudents(request):
+    studentlist = []
+    course_name = request.GET.get('name')
+    students = Students_Courses.objects.all()
+    for student in students:
+        if course_name == student.Course_ID.Course_Name:
+            studentlist.append(student.Student_ID.LDAP.username)
+    template = loader.get_template('student.html')
+    context = {'Students': json.dumps(studentlist), 'Course': course_name}
+    return HttpResponse(template.render(context, request))
+def AddAssignment(request):
+    s=0;
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            courses = Courses.objects.all()
+            for corse in courses:
+                if corse.Course_Name == request.session['course']:
+                    course = Courses.objects.get(Course_Name=corse.Course_Name)
+                    break
+            instance = Assignment(Course_ID=course, Assignment_File=request.FILES['file'])
+            instance.save()
+	    s=1
 
 @login_required
 def AddAssignment(request):
     s=0
+
     if request.method == 'POST':
         
   	date_joined =datetime.now()
@@ -115,8 +135,6 @@ def OfferCourses(request):
             IC = Instructors_Courses(Course_ID=corse, Inst_ID=person, Start_Date='2017-1-1',End_Date='2017-1-1')
             IC.save()
 	return redirect('http:../offercourses/')
-	
-	
     else:
         IC = Instructors_Courses.objects.all()
         IClist = []
@@ -132,7 +150,6 @@ def OfferCourses(request):
 	for course in courses:
 		courselist.append(course.Course_ID)
 		courselist.append(course.Course_Name)
-		
         template = loader.get_template('reg.html')
         context = {'Courses': courses1,'Courses1':json.dumps(courselist), 'IC': IC, 'Prof_Name': request.user.username}
     	return HttpResponse(template.render(context, request))
@@ -148,6 +165,7 @@ def ViewAttendance(request):
 		for student in students:
 			if session==student.ASession_ID.Session_ID and student.Marked=='P':
 				sessionlist[session][1]=sessionlist[session][1]+1				    
+
     	template = loader.get_template('attendance.html')
     	context = {'sessions':sessionlist,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))	
@@ -186,17 +204,14 @@ def MyLibrary(request):
      	Assignments = Assignment.objects.all()
      	for ass in Assignments:
 		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
-			asslist.append(ass)       
+			asslist.append(ass)
     	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
-	
-	    
+
     else:
 	asslist = []
-	s=0 
+	s=0
      	Assignments = Assignment.objects.all()
      	for ass in Assignments:
 		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
-			asslist.append(ass)       
+			asslist.append(ass)
     	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
-	
-

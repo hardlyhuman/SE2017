@@ -23,8 +23,8 @@ body {
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Sticky Footer Navbar Template for Bootstrap</title>
-
+    <title>SAMS Attendance</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="{% static 'home/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
 
@@ -97,12 +97,12 @@ body {
       </div>
     </nav>
     <script>
-          Student_Home="";
-          Student_Attendance="";
-          Student_Assignments="";
-          Student_Courses="";
+    	  Student_Home="{% url 'students:index'  %}";
+          Student_Attendance="{% url 'students:ViewAttendance'  %}";
+          Student_Assignments="{% url 'students:AssgnSubmissionStatusPending' %}";
           Student_Timetable="";
-          Student_Courses="";
+          Student_Courses="{% url 'students:addDropCourses' %}";
+    
 
 	  Faculty_Home="{% url 'faculty:ViewProfs' %}";
           Faculty_Attendance="{% url 'faculty:ViewAttendance' %}";
@@ -111,9 +111,8 @@ body {
           Faculty_Courses="{% url 'faculty:OfferCourses' %}";
           Faculty_Timetable="{% url 'faculty:index' %}";
           Faculty_Events="{% url 'faculty:index' %}";
-
-
-          {% if user.personnel.Role.Role_name == "Student"%}
+	  
+	  {% if user.personnel.Role.Role_name == "Student"%}
           document.getElementById("home").setAttribute("href",Student_Home);
           document.getElementById("attendace").setAttribute("href",Student_Attendance);
           document.getElementById("assignments").setAttribute("href",Student_Assignments);
@@ -121,12 +120,14 @@ body {
           document.getElementById("timetable").setAttribute("href",Student_Timetable);
           {%endif%}
 
+
+          
           {% if user.personnel.Role.Role_name == "Faculty" %}
           console.log("killllllllllllllmmmmmmmee");
           document.getElementById("home").setAttribute("href",Faculty_Home);
           document.getElementById("attendace").setAttribute("href",Faculty_Attendance);
           document.getElementById("upload_assignments").setAttribute("href",Faculty_UploadAssignments);
-          document.getElementById("view_assignments").setAttribute("href",Faculty_ViewAssignments); 
+          document.getElementById("view_assignments").setAttribute("href",Faculty_ViewAssignments);
           document.getElementById("courses").setAttribute("href",Faculty_Courses);
           document.getElementById("timetable").setAttribute("href",Faculty_Timetable);
 
@@ -148,11 +149,9 @@ body {
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    
     <script>window.jQuery || document.write('<script src="{% static 'home/bootstrap/assets/js/vendor/jquery.min.js'%}"><\/script>')</script>
     <script src="{% static 'home/bootstrap/dist/js/bootstrap.min.js'%}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{% static 'home/bootstrap/ssets/js/ie10-viewport-bug-workaround.js' %}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </body>

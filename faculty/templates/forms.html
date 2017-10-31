@@ -4,20 +4,18 @@
 <a class="navbar-brand" href="#">{{CourseName}}</a>
 {% endblock %}
 {% block content %}
-
-
 <script type="text/javascript">
     var datefield=document.createElement("input")
     datefield.setAttribute("type", "date")
     if (datefield.type!="date"){
         document.write('<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />\n')
         document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"><\/script>\n')
-        document.write('<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"><\/script>\n') 
+        document.write('<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"><\/script>\n')
     }
 </script>
 <script>
 if (datefield.type!="date"){
-    jQuery(function($){ 
+    jQuery(function($){
         $('#duration1').datepicker({dateFormat:'yy-mm-dd'}).val();
     })
 }
@@ -60,7 +58,7 @@ if(r==1){
 	document.getElementById("demo").innerHTML=t;
 	window.setTimeout(function() {
     $(".alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove(); 
+        $(this).remove();
     });
 }, 3000);
 }
@@ -69,7 +67,7 @@ else if(r==2){
 	document.getElementById("demo").innerHTML=t;
 	window.setTimeout(function() {
     $(".alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove(); 
+        $(this).remove();
     });
 }, 3000);
 }

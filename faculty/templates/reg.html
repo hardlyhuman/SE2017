@@ -12,7 +12,7 @@ input[type="checkbox"] {
     width: auto;
     opacity: 0.00000001;
    position:absolute;
-    left: 0; 
+    left: 0;
     margin-left: -20px;
 }
 .helper {
@@ -124,7 +124,7 @@ font-family:"Times New Roman";
 <script>
 var courses=JSON.parse('{{Courses1|escapejs}}');
 console.log(courses);
-function cTrig(clickedid) { 
+function cTrig(clickedid) {
       if (document.getElementById(clickedid).checked == false) {
         return false;
       } else {
@@ -144,6 +144,7 @@ break;
 }
         else
            document.getElementById(clickedid).checked =false;   
+
       }
     }
 $(document).ready(function(){

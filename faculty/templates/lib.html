@@ -1,9 +1,6 @@
 
 {% extends "home/index.html" %}
 {% load static %}
-{% block nav-course %}
-          <a class="navbar-brand" href="#">{{CourseName}}</a>
-{% endblock %}
 {% block content %}
 
 <style>
@@ -13,7 +10,7 @@ position:absolute;
 top:100px;
 left:50px;
 }
-h3{
+h3,h2{
 font-family:"Times New Roman";
 }
 #clicked1{
@@ -69,7 +66,7 @@ if(r==1){
 }, 3000);
 }
 </script>
-<center><h3><b>MyLibrary</b></h3></center>
+<center><h3><b>{{CourseName}} Library</b></h3></center>
 <div id="tab">
 <table>
 <tr>
@@ -93,7 +90,6 @@ document.getElementById("clicked1").onclick = function () {
 <div id="limit">
     <a href="{{document.Assignment_File.url}}"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD7SeZ_d0TQKBXnwh2JEl3BPErckP2H9sdR5XfqlOOw8CoiJ8l" alt="{{ document.Assignment_File.name }}" width="60" height="60" border="1"></a> 
 <p id="limit1"><h5><b>{{ document.Assignment_File.name|slice:"18:" }}</b></h5></p>
-
 </div>
     {% endfor %}
 </div>

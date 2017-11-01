@@ -178,32 +178,28 @@ def ViewAttendanceDetails(request):
 	for student in students:
 		if str(student.ASession_ID.Session_ID)==str(slotid):
 			studentlist.append(student)
-	template = loader.get_template('details.html')
-    	context = {'students':studentlist,'CourseName':request.session['course'],'date':session.Date_time.date}
-    	return HttpResponse(template.render(context, request))
+			template = loader.get_template('details.html')
+			context = {'students':studentlist,'CourseName':request.session['course'],'date':session.Date_time.date}
+			return HttpResponse(template.render(context, request))
+		else:
+			IC = Instructors_Courses.objects.all()
+			IClist = []
+			courselist=[]
+			for ic in IC:
+			    IClist.append(ic.Course_ID)
+			person_id = request.user.personnel.Person_ID
+			courses = Courses.objects.all()
+			courses1 = []
+			for corse in courses:
+			    if corse not in IClist:
+			        courses1.append(corse)
+		for course in courses:
+			courselist.append(course.Course_ID)
+			courselist.append(course.Course_Name)
 
-
-
-
-    else:
-        IC = Instructors_Courses.objects.all()
-        IClist = []
-	courselist=[]
-        for ic in IC:
-            IClist.append(ic.Course_ID)
-        person_id = request.user.personnel.Person_ID
-        courses = Courses.objects.all()
-        courses1 = []
-        for corse in courses:
-            if corse not in IClist:
-                courses1.append(corse)
-	for course in courses:
-		courselist.append(course.Course_ID)
-		courselist.append(course.Course_Name)
-
-        template = loader.get_template('reg.html')
-        context = {'Courses': courses1,'Courses1':json.dumps(courselist), 'IC': IC, 'Prof_Name': request.user.username}
-    	return HttpResponse(template.render(context, request))
+	        template = loader.get_template('reg.html')
+	        context = {'Courses': courses1,'Courses1':json.dumps(courselist), 'IC': IC, 'Prof_Name': request.user.username}
+	    	return HttpResponse(template.render(context, request))
 
 @login_required
 def MyLibrary(request):

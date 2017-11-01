@@ -83,21 +83,12 @@ class LoginTable(models.Model):
 
 @python_2_unicode_compatible
 class Assignment(models.Model):
-<<<<<<< HEAD
     Assign_ID = models.AutoField(primary_key=True)
     Assignment_File = models.FileField(upload_to='AssignmentsFolder/', default="hello.pdf")
     Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
     Start_Time = models.DateTimeField(default=utils.timezone.now)
     End_Time = models.DateTimeField(default=utils.timezone.now)
 
-    @property
-=======
-    Assign_ID=models.AutoField(primary_key=True)
-    Assignment_File = models.FileField(upload_to='AssignmentsFolder/',default="hello.pdf")
-    Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
-    Start_Time=models.DateTimeField(default=utils.timezone.now)
-    End_Time=models.DateTimeField(default=utils.timezone.now)
->>>>>>> master
     def __str__(self):
         return str(self.Assign_ID)
 

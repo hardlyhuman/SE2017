@@ -1,14 +1,14 @@
 
 from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
-import json 
+import json
 from django.http import *
 from django.shortcuts import *
 from django.template import *
 from home.models import *
 from home.serializers import *
 import easygui
-from django.utils import * 
+from django.utils import *
 from datetime import datetime
 from dateutil.parser import parse
 @login_required
@@ -22,9 +22,9 @@ def index(request):
 	print serializer.data
 	return render(request, 'fullcalendar/calendar.html',{"Events":json.dumps(a)})
 
-	
-	
-@login_required	
+
+
+@login_required
 def ViewProfs(request):
     CourseList = []
     if request.user.personnel.Role.Role_name == 'Faculty':
@@ -43,9 +43,9 @@ def ViewProfs(request):
     context = {'flag':flag,'Courses':CourseList,'Prof_Name':request.session['Prof_Name']}
     return HttpResponse(template.render(context, request))
 @login_required
-def CoursePage(request):		
+def CoursePage(request):
 	if request.POST.get('action')=='Save':
-		
+
 		course=Courses.objects.get(Course_Name=request.session['course'])
 		course.Course_description = request.POST.get('coursedes')
         	course.save()
@@ -86,7 +86,7 @@ def AddAssignment(request):
     s=0
 
     if request.method == 'POST':
-        
+
   	date_joined =datetime.now()
 	if parse(request.POST.get('enddate'))>=date_joined:
 		courses = Courses.objects.all()
@@ -98,14 +98,14 @@ def AddAssignment(request):
 		instance.save()
 	    	s=1
 	else:
-		s=2    
+		s=2
 	return render(request, 'forms.html',{'CourseName':request.session['course'],'s':s})
-	    
+
     else:
-	
+
 		if 'course' in request.session:
-        		
-			s=0        
+
+			s=0
     			return render(request, 'forms.html',{'CourseName':request.session['course'],'s':s})
 		else:
 			easygui.msgbox("please select a course",title="ERROR")
@@ -123,9 +123,9 @@ def ViewAssignment(request):
 		easygui.msgbox("please select a course",title="ERROR")
 		return redirect('http:../ViewProfs/')
      return render(request, 'assignment.html', {'Assignments': asslist,'CourseName':request.session['course']})
-  
 
-@login_required    
+
+@login_required
 def OfferCourses(request):
     if request.method == 'POST':
         person_id = request.user.personnel.Person_ID
@@ -165,11 +165,11 @@ def ViewAttendance(request):
 	for session in sessionlist:
 		for student in students:
 			if session==student.ASession_ID.Session_ID and student.Marked=='P':
-				sessionlist[session][1]=sessionlist[session][1]+1				    
+				sessionlist[session][1]=sessionlist[session][1]+1
 
     	template = loader.get_template('attendance.html')
     	context = {'sessions':sessionlist,'CourseName':request.session['course']}
-    	return HttpResponse(template.render(context, request))	
+    	return HttpResponse(template.render(context, request))
 @login_required
 def ViewAttendanceDetails(request):
 	slotid=request.GET.get('id')
@@ -179,12 +179,28 @@ def ViewAttendanceDetails(request):
 	for student in students:
 		if str(student.ASession_ID.Session_ID)==str(slotid):
 			studentlist.append(student)
-	template = loader.get_template('details.html')
-    	context = {'students':studentlist,'CourseName':request.session['course'],'date':session.Date_time.date}
-    	return HttpResponse(template.render(context, request))
-	
-	
-	
+			template = loader.get_template('details.html')
+			context = {'students':studentlist,'CourseName':request.session['course'],'date':session.Date_time.date}
+			return HttpResponse(template.render(context, request))
+		else:
+			IC = Instructors_Courses.objects.all()
+			IClist = []
+			courselist=[]
+			for ic in IC:
+			    IClist.append(ic.Course_ID)
+			person_id = request.user.personnel.Person_ID
+			courses = Courses.objects.all()
+			courses1 = []
+			for corse in courses:
+			    if corse not in IClist:
+			        courses1.append(corse)
+		for course in courses:
+			courselist.append(course.Course_ID)
+			courselist.append(course.Course_Name)
+
+	        template = loader.get_template('reg.html')
+	        context = {'Courses': courses1,'Courses1':json.dumps(courselist), 'IC': IC, 'Prof_Name': request.user.username}
+	    	return HttpResponse(template.render(context, request))
 
 @login_required
 def MyLibrary(request):

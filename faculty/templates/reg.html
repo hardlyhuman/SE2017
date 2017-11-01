@@ -93,7 +93,7 @@ font-family:"Times New Roman";
 </tr>
 </thead>
 <tbody>
-{% for course in Courses %}    
+{% for course in Courses %}
 <tr>
 <td>
  <form action="{% url 'faculty:OfferCourses' %}" method="post" enctype="multipart/form-data">
@@ -115,7 +115,7 @@ font-family:"Times New Roman";
      <input type="checkbox" disabled="disabled" checked="checked">
      <i class="helper"></i><h5><b>{{instructor.Course_ID.Course_Name}}</b></h5>
   </label>
-</div></td><td><h5><b>{{instructor.Inst_ID.LDAP.username}}</b></h5></td> 
+</div></td><td><h5><b>{{instructor.Inst_ID.LDAP.username}}</b></h5></td>
 </tr>
 {% endfor %}
 </tbody>

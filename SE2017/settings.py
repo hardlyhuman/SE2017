@@ -125,7 +125,6 @@ else:
 
 
 
-        }
     }
 
 # Password validation

@@ -12,7 +12,7 @@ from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render
 from django import template
 from django.http import HttpResponse,JsonResponse
-from .forms import PersonnelForm 
+from .forms import PersonnelForm
 from django.views.decorators.csrf import csrf_exempt
 from ldif3 import LDIFParser
 from rest_framework import exceptions,status
@@ -32,18 +32,61 @@ jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
 
 def haversine(lon1, lat1, lon2, lat2):
     """
-    Calculate the great circle distance between two points 
+    Calculate the great circle distance between two points
     on the earth (specified in decimal degrees)
     """
-    # convert decimal degrees to radians 
+    # convert decimal degrees to radians
     lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
 
 
-    # haversine formula 
-    dlon = lon2 - lon1 
-    dlat = lat2 - lat1 
+    # haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
     a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-    c = 2 * asin(sqrt(a)) 
+    c = 2 * asin(sqrt(a))
+    r = 6371000.0 # Radius of earth in kilometers. Use 3956 for miles
+    return c * r
+
+#custom decorators for JWT verification
+def jwt_accept(function):
+	def wrap(request, *args, **kwargs):
+		try:
+			token = request.META['HTTP_AUTHORIZATION'].split()[1]
+		except KeyError:
+			return Response({"message","No Token Found"}, status=status.HTTP_400_BAD_REQUEST)
+		try:
+			payload = jwt_decode_handler(token)
+		except jwt.ExpiredSignature:
+			return Response({"message","Signature has expired."}, status=status.HTTP_406_NOT_ACCEPTABLE)
+		except jwt.DecodeError:
+			return Response({"message","Error decoding signature."}, status=status.HTTP_400_BAD_REQUEST)
+		except jwt.InvalidTokenError:
+			return Response({"message","Invalid Token"}, status=status.HTTP_401_UNAUTHORIZED)
+		return function(request, *args, **kwargs)
+	wrap.__doc__=function.__doc__
+	wrap.__name__=function.__name__
+	return wrap
+
+from .models import *
+from math import radians, cos, sin, asin, sqrt
+jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
+
+def haversine(lon1, lat1, lon2, lat2):
+    """
+    Calculate the great circle distance between two points
+    on the earth (specified in decimal degrees)
+    """
+    # convert decimal degrees to radians
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+
+    # haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a))
     r = 6371000.0 # Radius of earth in kilometers. Use 3956 for miles
     return c * r
 
@@ -885,7 +928,7 @@ def EditProfile(request):
     #print fObj,'********************'
     if request.method == 'POST':
         form = ProfileForm( request.POST, user = request.user, instance = fObj)
-        if form.is_valid():            
+        if form.is_valid():
             model_instance = form.save(commit=False)
             #print personID, request.user.username
             #print '########################'
@@ -895,4 +938,3 @@ def EditProfile(request):
     else:
         form = ProfileForm(None,user = request.user, instance = fObj)
     return render(request, "home/profile.html", {'form': form})
-  

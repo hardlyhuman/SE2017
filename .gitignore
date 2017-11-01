@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 SE2017/settings.py
+settings.py
 # C extensions
 *.so
 

@@ -115,7 +115,7 @@ if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
     }
 else:
     DATABASES = {
-    'default': {        
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '127.0.0.1',
         'NAME': 'se2017',
@@ -195,4 +195,3 @@ LOGOUT_REDIRECT_URL = '/'
 
 MEDIA_URL='/AssignmentsFolder/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'home/AssignmentsFolder')
-

@@ -17,7 +17,7 @@ class ProfileForm(forms.ModelForm):
 		self.name = self.user.username
 		super(ProfileForm, self).__init__(*args, **kwargs)
 		self.fields['username'] = forms.CharField(label = 'Username',initial = self.name, disabled = 'disabled')
-	
+
 	class Meta:
 		model = NotificationTime
 		fields = ('Notification_time',)

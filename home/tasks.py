@@ -41,7 +41,7 @@ def send_notification():
         if (1 == 1):
             courses.append(courseId.Course_Name)
             roomNum.append(ttcourse.Class_ID)
-            classTime.append(ttcourse.Start_time)            
+            classTime.append(ttcourse.Start_time)
             faculty.append(sameCourseFacultyHolder)
             sameCourseFacultyHolder = []
     for cIndex in range(len(courses)):

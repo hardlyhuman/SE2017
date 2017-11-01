@@ -122,10 +122,8 @@ else:
             'NAME': 'se2017',
             'USER': 'root',
             'PASSWORD': '5qlDevelop#r',
+            }
 
-
-
-        }
     }
 
 # Password validation
@@ -198,4 +196,3 @@ LOGOUT_REDIRECT_URL = '/'
 
 MEDIA_URL='/AssignmentsFolder/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'home/AssignmentsFolder')
-

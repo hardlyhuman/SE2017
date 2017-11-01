@@ -1,3 +1,4 @@
+
 from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 import json 
@@ -214,4 +215,4 @@ def MyLibrary(request):
      	for ass in Assignments:
 		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
 			asslist.append(ass)
-    	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
+	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})

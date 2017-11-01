@@ -8,10 +8,11 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render
 from django import template
 from django.http import HttpResponse,JsonResponse
-from .forms import PersonnelForm 
+from .forms import PersonnelForm
 from django.views.decorators.csrf import csrf_exempt
 from ldif3 import LDIFParser
 from rest_framework import exceptions,status
@@ -22,6 +23,49 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import *
 from django.contrib.auth.models import User
+from .forms import *
+from .models import *
+from math import radians, cos, sin, asin, sqrt
+jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
+
+def haversine(lon1, lat1, lon2, lat2):
+    """
+    Calculate the great circle distance between two points
+    on the earth (specified in decimal degrees)
+    """
+    # convert decimal degrees to radians
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+
+    # haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a))
+    r = 6371000.0 # Radius of earth in kilometers. Use 3956 for miles
+    return c * r
+
+#custom decorators for JWT verification
+def jwt_accept(function):
+	def wrap(request, *args, **kwargs):
+		try:
+			token = request.META['HTTP_AUTHORIZATION'].split()[1]
+		except KeyError:
+			return Response({"message","No Token Found"}, status=status.HTTP_400_BAD_REQUEST)
+		try:
+			payload = jwt_decode_handler(token)
+		except jwt.ExpiredSignature:
+			return Response({"message","Signature has expired."}, status=status.HTTP_406_NOT_ACCEPTABLE)
+		except jwt.DecodeError:
+			return Response({"message","Error decoding signature."}, status=status.HTTP_400_BAD_REQUEST)
+		except jwt.InvalidTokenError:
+			return Response({"message","Invalid Token"}, status=status.HTTP_401_UNAUTHORIZED)
+		return function(request, *args, **kwargs)
+	wrap.__doc__=function.__doc__
+	wrap.__name__=function.__name__
+	return wrap
 
 from .models import *
 from math import radians, cos, sin, asin, sqrt
@@ -31,18 +75,18 @@ jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
 
 def haversine(lon1, lat1, lon2, lat2):
     """
-    Calculate the great circle distance between two points 
+    Calculate the great circle distance between two points
     on the earth (specified in decimal degrees)
     """
-    # convert decimal degrees to radians 
+    # convert decimal degrees to radians
     lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
 
 
-    # haversine formula 
-    dlon = lon2 - lon1 
-    dlat = lat2 - lat1 
+    # haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
     a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-    c = 2 * asin(sqrt(a)) 
+    c = 2 * asin(sqrt(a))
     r = 6371000.0 # Radius of earth in kilometers. Use 3956 for miles
     return c * r
 
@@ -850,27 +894,47 @@ def faculty_users(request):
 		p=Personnel(Dept_id=1,LDAP_id=u.id,Role_id=3)
 		p.save()
 def student_users(request):
-	Start=2014
-	End=2018
-	for i in range(2):
-		DEPT=1
-		parser = LDIFParser(open('data'+str(i+1)+'.ldif', 'rb'))
-		for dn, Entry in parser.parse():
-			dn.split(',')
-			props=dict(item.split("=") for item in dn.split(","))
-			try:
-				print (Entry["uid"],Entry["givenname"],Entry["sn"],Entry["mail"])
-			except:
-				DEPT=2
-				continue
-			FName=Entry["givenname"][0]
-			if(len(FName)>30):
-				FName=FName[:20]
+    Start = 2014
+    End = 2018
+    for i in range(2):
+        DEPT = 1
+        parser = LDIFParser(open('data' + str(i + 1) + '.ldif', 'rb'))
+        for dn, Entry in parser.parse():
+            dn.split(',')
+            props = dict(item.split("=") for item in dn.split(","))
+            try:
+                print (Entry["uid"], Entry["givenname"], Entry["sn"], Entry["mail"])
+            except:
+                DEPT = 2
+                continue
+            FName = Entry["givenname"][0]
+            if (len(FName) > 30):
+                FName = FName[:20]
 
-			u=User.objects.create_user(username=Entry["uid"][0],password="iiits@123",first_name=FName,last_name=Entry["sn"][0],email=Entry["mail"][0])
-			p=Personnel(Dept_id=DEPT,LDAP_id=u.id,Role_id=2)
-			p.save()
-			q=Student_Period(Student_ID_id=p.Person_ID,Start_Year=Start,End_Year=End)
-			q.save()
-		Start+=1
-		End+=1
+            u = User.objects.create_user(username=Entry["uid"][0], password="iiits@123", first_name=FName,
+                                         last_name=Entry["sn"][0], email=Entry["mail"][0])
+            p = Personnel(Dept_id=DEPT, LDAP_id=u.id, Role_id=2)
+            p.save()
+            q = Student_Period(Student_ID_id=p.Person_ID, Start_Year=Start, End_Year=End)
+            q.save()
+        Start += 1
+        End += 1
+
+def EditProfile(request):
+    obj = Personnel.objects.get(LDAP_id=request.user.id)
+    personID=obj.Person_ID
+    pObj = Personnel.objects.get(Person_ID=personID)
+    fObj , created = NotificationTime.objects.get_or_create(Personnel_ID=pObj)
+    #print fObj,'********************'
+    if request.method == 'POST':
+        form = ProfileForm( request.POST, user = request.user, instance = fObj)
+        if form.is_valid():
+            model_instance = form.save(commit=False)
+            #print personID, request.user.username
+            #print '########################'
+            model_instance.Personnel_ID = pObj
+            model_instance.save()
+            return HttpResponseRedirect('/')
+    else:
+        form = ProfileForm(None,user = request.user, instance = fObj)
+    return render(request, "home/profile.html", {'form': form})

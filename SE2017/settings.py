@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 from __future__ import absolute_import
+import datetime
 import os
 import djcelery
 from celery.schedules import crontab
@@ -36,7 +37,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
-    'students.apps.StudentsConfig',
+    'students',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -86,6 +87,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'SE2017.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated'),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+JWT_AUTH = {
+    "JWT_EXPIRATION_DELTA":datetime.timedelta(days=1)
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -102,15 +115,14 @@ if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
     }
 else:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'HOST': 'localhost',
-            'NAME': 'se2017',
-            'USER': 'root',
-            'PASSWORD': '5qlDevelop#r',
+    'default': {        
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '127.0.0.1',
+        'NAME': 'se2017',
+        'USER': 'root',
+        'PASSWORD': '5qlDevelop#r',
+    }
 
-           
-        }
     }
 
 # Password validation
@@ -134,7 +146,7 @@ AUTH_PASSWORD_VALIDATORS = [
 REDIS_HOST = 'localhost'
 REDIS_PORT = '6379'
 BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 
 CELERY_ACCEPT_CONTENT = ['json']

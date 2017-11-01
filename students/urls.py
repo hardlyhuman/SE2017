@@ -1,13 +1,12 @@
-from django.conf.urls import url,include
+from django.conf.urls import url
 from . import views
-
+app_name='students'
 urlpatterns = [
-        url(r'^$',views.dashboard,name='dashboard'),
-        url(r'^viewattendance/', views.ViewAttendance, name='ViewAttendance'),
-        url(r'^CourseRegistration/', views.CourseRegistration, name='CourseRegistration'),
-        url(r'^AddCourse/', views.AddCourse, name='AddCourse'),
-        url(r'^DropCourse/', views.DropCourse, name='DropCourse'),
-        url(r'^MarkAttendance/', views.MarkAttendance, name='MarkAttendance'),
-        url(r'^assgnsubstatus/', views.AssgnSubStatus, name='AssgnSubmissionStatus'),
-        url(r'^enroll-course/',    views.StudentEnrollCourseView.as_view(),    name='student_enroll_course'),
+        url(r'^$',views.dashboard,name='index'),
+        url(r'^viewattendance/', views.viewattendance , name='ViewAttendance'),
+        url(r'^assgnsubstatuspending/', views.AssgnSubStatusPending, name='AssgnSubmissionStatusPending'),
+        url(r'^assgnsubstatusoverdue/', views.AssgnSubStatusOverdue, name='AssgnSubStatusOverdue'),
+        url(r'^assgnsubstatussubmitted/', views.AssgnSubStatusSubmitted, name='AssgnSubStatusSubmitted'),
+        url(r'^adddropcourses/', views.addDropCourses, name='addDropCourses'),
+        url(r'^register/', views.registerCourses, name='register'),
 ]

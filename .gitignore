@@ -12,11 +12,10 @@ SE2017/settings.py
 env/
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
-lib/
+
 lib64/
 parts/
 sdist/
@@ -69,7 +68,7 @@ docs/_build/
 target/
 
 # Migrations
-home/migrations/
+home/migrations
 home/migrations/*
 
 .idea/
@@ -88,6 +87,9 @@ celerybeat-schedule
 # dotenv
 .env
 
+#settings.py
+db.sqlite3
+
 # virtualenv
 .venv
 venv/
@@ -103,7 +105,6 @@ ENV/
 # mkdocs documentation
 /site
 
-settings.py
-
 # mypy
 .mypy_cache/
+home/AssignmentsFolder

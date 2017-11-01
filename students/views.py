@@ -1,150 +1,144 @@
-# -*- coding: utf-8 -*-
+#Emergency Edit Protocol : 10/20/2017
+
 from __future__ import unicode_literals
 
-#from braces.views import LoginRequiredMixin
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-import json
-from django.template import loader
 from home.models import *
-from students.forms import CourseEnrollForm
-from django.http import HttpResponse
-from django.views.generic.base import TemplateView
-from django.forms.models import model_to_dict
+from django.utils import timezone
 
-# Create your views here.
 
-"""
+
+
 @login_required(login_url="/login/")
 def dashboard(request):
-    return render(request, 'student/dashboard.html')"""
+    user = request.user;
+    print(user)
+    return render(request, "student/index.html", dict(name=user))
 
-def ViewRegCourse(request):
-    CourseList = []
-    if request.user.personnel.Role.Role_name == "student":
-        person_id = request.user.personnel.Person_ID
-        SC = Students_Courses.objects.all()
-        for i in range(0, len(SC)):
-            if person_id == SC[i].Student_ID.Person_ID:
-                CourseList.append(SC[i].Course_ID.Course_Name)
 
-    template = loader.get_template('student/dashboard.html')
-    context = dict(Course=json.dumps(CourseList), Stud_Name=request.user.username)
-    return HttpResponse(template.render(context, request))
-"""
 
-def ViewAttendance(request, StuId):
-    CourseId = 0
-    Total = 25
-    present = 0
-    Atnd = Attendance.objects.select_related("ASession_ID")
-    for each in Atnd:
-        if each['Student_ID'] == StuId:
-            if each['Marked'] == 'P':
-                present += 1
-    return render(request, 'student/ViewAttendance.html', {'Total': Total, 'present': present, 'Absent': Total - present, 'percent': (present/Total)*100})
-"""
+@login_required(login_url="/login/")
+def viewattendance(request):
+    try:
+        user = request.user;                                                 
+        userPersonnelObj=Personnel.objects.filter(LDAP=user)
+        MyCourses = Students_Courses.objects.filter(Student_ID=userPersonnelObj[0].Person_ID); 
+        CourseAttendanceContext  = [];
 
-""""@login_required(login_url="/login/")
-def CourseRegistration(request, ):
+        for course in MyCourses:
+            AttendanceSessions = Attendance_Session.objects.filter(Course_Slot = course.Course_ID.Course_ID)
+            classesPresent = 0
+            totalClasses = 0
+            absentDays = []
+            for sessions in AttendanceSessions:
+                try:
+                    attendanceObject = Attendance.objects.filter(Student_ID = userPersonnelObj[0].Person_ID).filter(ASession_ID=sessions.Session_ID)
+                    
+                    totalClasses += 1
+                    if(attendanceObject[0].Marked == 'P'):
+                        classesPresent += 1
+                    elif(attendanceObject[0].Marked == 'A'):
+                        absentDays.append(attendanceObject[0].Date_time)
+                except:
+                    pass
+            retObj = dict(course=course,present = classesPresent,total = totalClasses,absentDays = absentDays)
+            CourseAttendanceContext.append(retObj)
+        context = dict(CourseAttendanceContext=CourseAttendanceContext)
+    except:
+        context = dict(ErrorMessage = "No Registered Classes")
+    return render(request, "student/ViewAttendance.html", context)
 
+
+
+
+def AssgnSubStatusPending(request):
+    user =  request.user;
+    pendingAssignments = []
+    StudentObject=Personnel.objects.filter(LDAP=user.id)
+    CoursesByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID)
+    for course in CoursesByStudent:
+        AssignmentsForCourse = Assignment.objects.filter(Course_ID = course.Course_ID.Course_ID)
+        for assignment in AssignmentsForCourse:
+            submissionsByStudent = Submissions.objects.filter(Assign_ID = assignment).filter(Student_ID = StudentObject[0].Person_ID)
+            if(submissionsByStudent.count() == 0):
+                now = timezone.now()
+                if (assignment.End_Time > now):
+                    assignContextObject = dict(Course = course,assignment = assignment)
+                    pendingAssignments.append(assignContextObject)
+    return render(request, 'student/AssgnSubStatusPending.html', dict(pendingAssignments=pendingAssignments))
+
+
+
+
+def AssgnSubStatusOverdue(request):
+    user =  request.user;
+    overdueAssignments = []
+    StudentObject=Personnel.objects.filter(LDAP=user.id)
+    CoursesByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID)
+    for course in CoursesByStudent:
+        AssignmentsForCourse = Assignment.objects.filter(Course_ID = course.Course_ID.Course_ID)
+        for assignment in AssignmentsForCourse:
+            submissionsByStudent = Submissions.objects.filter(Assign_ID = assignment).filter(Student_ID = StudentObject[0].Person_ID)
+            if(submissionsByStudent.count() == 0):
+                now = timezone.now()
+                if (assignment.End_Time < now):
+                    assignContextObject = dict(Course = course,assignment = assignment)
+                    overdueAssignments.append(assignContextObject)
+    return render(request, 'student/AssgnSubStatusOverdue.html', dict(overdueAssignments=overdueAssignments))
+
+
+
+
+
+def AssgnSubStatusSubmitted(request):
+    user =  request.user;
+    submittedAssignments = []
+    StudentObject=Personnel.objects.filter(LDAP=user.id)
+    CoursesByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID)
+    for course in CoursesByStudent:
+        AssignmentsForCourse = Assignment.objects.filter(Course_ID = course.Course_ID.Course_ID)
+        for assignment in AssignmentsForCourse:
+            submissionsByStudent = Submissions.objects.filter(Assign_ID = assignment).filter(Student_ID = StudentObject[0].Person_ID)
+            if(submissionsByStudent.count() != 0):
+                assignContextObject = dict(Course = course,assignment = assignment,submission = submissionsByStudent)
+                submittedAssignments.append(assignContextObject)
+    return render(request, 'student/AssgnSubStatusSubmitted.html', dict(submittedAssignments=submittedAssignments))
+
+def addDropCourses(request):
+    user = request.user
+    StudentObject=Personnel.objects.filter(LDAP=user.id)
     
-    course = None
-    form_class = CourseEnrollForm
-    
-    return render(request, 'student/CourseRegistration.html', {'courses': c})"""
-"""
-class StudentEnrollCourseView(LoginRequiredMixin, FormView):
-    course = None
-    form_class = CourseEnrollForm
+    courses = Courses.objects.all()
+    courseSelectionOption = []
+    for course in courses:
+        CourseByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID).filter(Course_ID = course.Course_ID)
+        selected = True
+        if CourseByStudent.count() == 0:
+            selected = False
+        FacultyForCourse = Instructors_Courses.objects.filter(Course_ID = course.Course_ID)
+        if(FacultyForCourse.count() != 0):
+            faculty = FacultyForCourse[0].Inst_ID
+        else:
+            faculty = "Yet To Be Decided"
+        courseSelectionObj = dict(course=course,selected=selected,faculty = faculty)
+        courseSelectionOption.append(courseSelectionObj)
+    return render(request,'student/CourseRegistration.html',dict(courses = courseSelectionOption))
 
-
-    def form_valid(self, form):
-        self.course = form.cleaned_data['course']
-        self.course.students.add(self.request.user)
-        return super(StudentEnrollCourseView,
-                     self).form_valid(form)
-
-    @property
-    def get_success_url(self):
-        return reverse_lazy('student_course_detail',
-                            args=[self.course.id])
-"""
-def register(request, year):
-    
-
-
-@login_required(login_url="/login/")
-def MarkAttendance(request):
-    return render(request, 'student/MarkAttendance.html')
-
-
-@login_required(login_url="/login/")
-def AddCourse(request):
-    return render(request, 'student/AddCourse.html')
-
-
-@login_required(login_url="/login/")
-def DropCourse(request):
-    return render(request, 'student/DropCourse.html')
-
-@login_required(login_url="/login/")
-class ViewAttendance(TemplateView):
-    template_name = 'student/ViewAttendance.html'
-
-    def get(self, request, *args, **kwargs):
-        try:
-            if request.user.personnel.Role.Role_name == "student":
-                person_id = request.user.personnel.Person_ID
-            my_courses_list = [i.Course.course_title for i in person_id.Students_Courses_set.all()]
-            courses_registered = [model_to_dict(Students_Courses.objects.get(course_title=i)) for i in my_courses_list]
-
-            dic = {}
-            absent_on = [[i.course_title, i.date] for i in
-                         Attendance.objects.filter(student_id=person_id.Stu).filter(status="A")]
-
-            # Making a dictionary { Course: [date1, date2, ....], .... }
-            for c in absent_on:
-                if c[0] not in dic:
-                    dic[c[0]] = [c[1]]
-                else:
-                    dic[c[0]] += [c[1]]
-
-            # Converting date to a dic as follows - { Month1: [day1, day2, .. ], ..... }
-            month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
-                           "October", "November", "December"]
-            for course in dic:
-
-                month_dic = {}
-                for date in dic[course]:
-
-                    t_month = month_names[date.month - 1]
-                    if t_month not in month_dic:
-                        month_dic[t_month] = [date]
-                    else:
-                        month_dic[t_month] += [date]
-                dic[course] = month_dic
-
-            context = {'courses_registered': courses_registered, 'branch': Branch_of_study, 'absent_on': dic}
-
-            return render(request, self.template_name, context)
-        except:
-            return render(request, self.template_name, {'error_message': 'No data found'})
-
-
-@login_required(login_url="/login/")
-def AssgnSubStatus(request, StuId):
-
-    AssgnId = 0
-    Assgn = Submissions.objects.all().filter(Student_ID__submissions=StuId)
-    for each in Assgn:
-        if each['Assign_ID']==AssgnId:
-            status = each['Sub_Status']
-            score = each['Score']
-
-
-
-    return render(request, 'student/AssgnSubStatus.html', dict(status=status, score=score))
+def registerCourses(request):
+    user = request.user
+    StudentObject=Personnel.objects.filter(LDAP=user.id)
+    courses = Courses.objects.all()
+    for course in courses:
+        CourseByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID).filter(Course_ID = course.Course_ID)
+        if (request.POST.get(str(course.Course_ID)) and CourseByStudent.count() == 0):       
+            registerStudent = CourseByStudent.create(Student_ID = StudentObject[0],Course_ID = course,Reg_Date = datetime.datetime.now())
+        elif (CourseByStudent.count() != 0 and not request.POST.get(str(course.Course_ID))):
+            CourseByStudent.delete()
+    return render(request, "student/index.html", {})
 
 

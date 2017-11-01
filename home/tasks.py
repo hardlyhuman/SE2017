@@ -12,31 +12,40 @@ def say_hello():
 @app.task
 def send_notification():
     now = datetime.datetime.now()
-    lastTimeToCheck = now + datetime.timedelta(hours=2)
-    courseList = Timetable.objects.filter(T_days = now.weekday(), Start_time__lt= lastTimeToCheck, Start_time__gt=now.time()).values_list('Course_ID','Class_ID','Start_time')
-    courseNames = []
-    roomNumber =[]
-    facultyNames=[]    
-    classTime=[]
-    for i in range(len(courseList)):
-        course_id = courseList[i][0]
-        a=Courses.objects.filter(Course_ID = courseList[i][0]).values_list('Course_Name')
-        inst_ids = Instructors_Courses.objects.filter(Course_ID = courseList[i][0]).values_list('Inst_ID')
-        temp=[]
-        for inst in inst_ids:
-            ldap = Personnel.objects.filter(Person_ID = inst[0])
-            temp.append(ldap[0])
-        facultyNames.append(temp)
-        courseNames.append(a[0])        
-        classTime.append(courseList[i][2].strftime('%H:%M'))
-        roomNumber.append(courseList[i][1])
-        print inst_ids, ldap[0]
-    print '*******************'
-    print courseNames
-    print roomNumber
-    print facultyNames    
-    print classTime
-    for i in range(len(courseNames)):
-        for j in facultyNames[i]:
-            send_mail(courseNames[i][0]+" class reminder", "Dear Professor "+str(j)+" you have a class at "+ classTime[i]+"hrs in room number " +str(roomNumber[i]),'ItDept.iiits@gmail.com',['vaishali0001sharma@gmail.com'],fail_silently=False,)
-    
+    ttCourseList = Timetable.objects.filter(T_days = now.weekday(), Start_time__gt = now.time())
+    courses = []
+    faculty = []
+    roomNum = []
+    classTime = []
+    print '%%%%%%%%%%%%', len(ttCourseList), ttCourseList
+    for ttcourse in ttCourseList:
+        courseId = ttcourse.Course_ID
+        facultyCourseIds = Instructors_Courses.objects.filter(Course_ID = courseId)
+        addCourse = False
+        sameCourseFacultyHolder = []
+        for facultyCourseId in facultyCourseIds:
+            sameCourseFaculty = []
+            facultyName = facultyCourseId.Inst_ID.LDAP
+            notificationTimeObj = NotificationTime.objects.get(Personnel_ID = facultyCourseId.Inst_ID )
+            notificationTime = notificationTimeObj.Notification_time
+            checkTime = now + datetime.timedelta(minutes = notificationTime)
+            print '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'
+            print "********"+str(checkTime) + '************',ttcourse.Start_time
+            print '***********' +str(now.time()) + '**************' , ttcourse.Start_time
+            if checkTime.time() >= ttcourse.Start_time and now.time() < ttcourse.Start_time:
+                print '333333'
+                sameCourseFaculty.append(facultyName)
+            if len(sameCourseFaculty) > 0:
+                addCourse = True
+                sameCourseFacultyHolder = sameCourseFaculty
+        if (1 == 1):
+            courses.append(courseId.Course_Name)
+            roomNum.append(ttcourse.Class_ID)
+            classTime.append(ttcourse.Start_time)            
+            faculty.append(sameCourseFacultyHolder)
+            sameCourseFacultyHolder = []
+    for cIndex in range(len(courses)):
+        for fac in faculty[cIndex]:
+            send_mail(str(courses[cIndex])+" class reminder", "Dear Professor "+str(fac)+\
+                  " you have a class at "+ str(classTime[cIndex])+"hrs in room number "+str(roomNum[cIndex]),'ItDept.iiits@gmail.com',['vaishali0001sharma@gmail.com',],\
+                  fail_silently=False,)

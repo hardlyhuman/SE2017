@@ -1,3 +1,4 @@
+
 from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 import json
@@ -64,6 +65,7 @@ def CoursePage(request):
 @login_required
 def AddAssignment(request):
     s=0
+
     if request.method == 'POST':
 
   	date_joined =datetime.now()

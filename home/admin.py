@@ -33,4 +33,5 @@ admin.site.register(Documents)
 admin.site.register(Submissions)
 admin.site.register(Events)
 admin.site.register(Student_Period)
+admin.site.register(NotificationTime)
 # Register your models here.

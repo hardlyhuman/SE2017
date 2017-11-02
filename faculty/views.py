@@ -7,9 +7,6 @@ from django.template import *
 from home.models import *
 from home.serializers import *
 import easygui
-import json
-from django.utils import timezone
-import datetime
 from django.utils import *
 from datetime import datetime
 from dateutil.parser import parse
@@ -50,18 +47,23 @@ def CoursePage(request):
 
 		course=Courses.objects.get(Course_Name=request.session['course'])
 		course.Course_description = request.POST.get('coursedes')
-        	course.save()
-	elif request.POST.get('action')=="submit":
-		request.session['course'] =request.POST.get('dropdown')
-	course=Courses.objects.get(Course_Name=request.session['course'])
+		try:
+        		course.save()
+		except:
+			easygui.msgbox("Oops!Data Too Long.",title="ERROR")
 
+	else:
+		request.session['course'] =request.POST.get('dropdown')
+	course=get_object_or_404(Courses,Course_Name=request.session['course'])
     	template = loader.get_template('prof1.html')
     	context = {'Course':course,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))
 
+
+
 @login_required
 def AddAssignment(request):
-    s=0;
+    s=0
     if request.method == 'POST':
 
   	date_joined =datetime.now()
@@ -113,6 +115,8 @@ def OfferCourses(request):
             IC = Instructors_Courses(Course_ID=corse, Inst_ID=person, Start_Date='2017-1-1',End_Date='2017-1-1')
             IC.save()
 	return redirect('http:../offercourses/')
+
+
     else:
         IC = Instructors_Courses.objects.all()
         IClist = []
@@ -128,6 +132,7 @@ def OfferCourses(request):
 	for course in courses:
 		courselist.append(course.Course_ID)
 		courselist.append(course.Course_Name)
+
         template = loader.get_template('reg.html')
         context = {'Courses': courses1,'Courses1':json.dumps(courselist), 'IC': IC, 'Prof_Name': request.user.username}
     	return HttpResponse(template.render(context, request))
@@ -162,9 +167,6 @@ def ViewAttendanceDetails(request):
 
 
 
-
-
-
 @login_required
 def MyLibrary(request):
     s=0
@@ -187,6 +189,7 @@ def MyLibrary(request):
 			asslist.append(ass)
     	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
 
+
     else:
 	asslist = []
 	s=0
@@ -194,4 +197,4 @@ def MyLibrary(request):
      	for ass in Assignments:
 		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
 			asslist.append(ass)
-    	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
+	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})

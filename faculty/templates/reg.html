@@ -158,25 +158,4 @@ $(document).ready(function(){
     });
 });
 </script>
-<br>
- <label>Start Date</label><input type="date" name="startdate" id="duration"required><br>
- <label>End Date</label><input  type="date" name="enddate" id="duration1"required>
-
-<br>
-<input type="submit" onclick="clicked();" value="Submit" />
-        </form>
-{% else %}
-<br><h1 style="color:red;">No Courses To Offer</h1>
-{% endif %}
-</ul>
-<p id="demo"></p>
-</center>
-<script>
- function clicked() {
-
-	    var t='<div class="alert alert-success"> <strong>Success!</strong></div>';
-document.getElementById("demo").innerHTML=t;
-
-    }
-</script>
 {% endblock %}

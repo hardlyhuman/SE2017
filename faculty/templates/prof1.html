@@ -1,8 +1,6 @@
 {% extends "home/index.html" %}
-{% block nav-course %}
-          <a class="navbar-brand" href="#">{{CourseName}}</a>
-{% endblock %}
 {% block content %}
+
 <style>
 h3{
 font-family:"Times New Roman";
@@ -10,7 +8,7 @@ font-family:"Times New Roman";
 #coursedescription{
 position:absolute;
 left:500px;
-margin:0 auto;
+
 }
 #citizenBtn{
 background-color:black !important;
@@ -19,9 +17,7 @@ border-radius:10px;
 height:35px;
 position:relative;
 margin-left:120px;
-
 }
-
 textarea{
 border:solid 1px black;
 }
@@ -36,41 +32,35 @@ background-color:black !important;
 color:white !important;
 border-radius:10px;
 height:35px;
-
 }
 </style>
 <br><br>
 
-<div id="coursedescription">
 
+
+
+
+<div id="coursedescription">
 <h3><b>Course Name:&nbsp{{Course.Course_Name }}</b></h3>
 <h3><b>Course Credits:&nbsp{{Course.Course_Credits }}</b></h3>
 <h3><b>Course Description:</h3><div id="description">{{Course.Course_description}}</div>
 <br>
-
 <form id = "citizenForm" action="{% url 'faculty:CoursePage' %}" method="post" style="display:none">
 {% csrf_token %}
-
 <textarea style="background-color:#f2f2f2 !important;" rows="2" cols="50" maxlength="255" name="coursedes">{{Course.Course_description}}</textarea>
  <input type="submit" id="save" name="action" class="btn btn-primary btn-md" value="Save">
-
 </form>
 <button id= "citizenBtn" class="btn btn-primary btn-md" onclick="showForm('citizenForm')">Edit</button>
 </div>
-<script>
 
+<script>
 var showForm = function(id){
   document.getElementById(id).style.display = '';
 }
  var button = document.getElementById('citizenBtn')
     button.addEventListener('click',hideshow,false);
-
     function hideshow() {
-
         this.style.display = 'none'
     }
 </script>
-
-
-
 {% endblock %}

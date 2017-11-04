@@ -22,7 +22,7 @@ class RolesSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Roles
 		fields=('Role_ID','Role_name','level')
-
+#Serializer for Courses table
 class CoursesSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Courses

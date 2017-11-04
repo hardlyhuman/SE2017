@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import datetime
 
 from django import utils
-from django.contrib.auth.models import User
+from django.contrib.gis.auth.models import User
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -15,7 +15,7 @@ class Roles(models.Model):
     Role_name = models.CharField(max_length=50, default="")
     level = models.IntegerField(default=0)
 
-    
+
     def __str__(self):
         return self.Role_name
 
@@ -39,7 +39,7 @@ class Department(models.Model):
     Dept_ID = models.AutoField(primary_key=True)
     Dept_Name = models.CharField(max_length=50, default="")
 
-    
+
 
     def __str__(self):
         return self.Dept_Name
@@ -114,7 +114,7 @@ class Instructors_Courses(models.Model):
     Start_Date = models.DateField(datetime.date(2017, 1, 1))
     End_Date = models.DateField(datetime.date(2017, 1, 1))
 
-    
+
 
     def __str__(self):
         return str((self.Inst_ID))
@@ -128,7 +128,7 @@ class Students_Courses(models.Model):
     Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
     Reg_Date = models.DateField(datetime.date(2017, 1, 1))
 
-    
+
     def __str__(self):
         return str(self.Student_ID) + ' ' + str(self.Course_ID)
 
@@ -160,6 +160,6 @@ class Timetable(models.Model):
     End_time=models.TimeField()
     Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
     Class_ID=models.CharField(max_length=10,default='')
-    
+
     def __str__(self):
         return str(self.T_ID)

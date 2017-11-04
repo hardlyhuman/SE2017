@@ -67,6 +67,7 @@ def jwt_accept(function):
 	wrap.__name__=function.__name__
 	return wrap
 
+# importing all models
 from .models import *
 from math import radians, cos, sin, asin, sqrt
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER

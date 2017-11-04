@@ -39,6 +39,7 @@ class AssignmentSerializer(serializers.ModelSerializer):
 		model=Assignment
 		fields=('Assign_ID','Assignment_File','Course_ID','Start_Time','End_Time')
 
+#Serializer for Submission table
 class SubmissionsSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Submissions
@@ -63,17 +64,19 @@ class SPSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Student_Period
 		fields=('Student_ID','Start_Year','End_Year')
-
+#Serializer for Attendance table
 class AttendanceSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Attendance
 		fields=('Student_ID','ASession_ID','Date_time','Marked')
 
+#Serializer for Attendance table
 class Attendance_SessionSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Attendance_Session
 		fields=('Session_ID','Course_Slot','Date_time','Status','Location')
 
+#Serializer for Timetable table
 class TimetableSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Timetable

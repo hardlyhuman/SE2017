@@ -68,12 +68,13 @@ def jwt_accept(function):#request function
 	return wrap
 
 # importing all models
+
 from .models import *
 from math import radians, cos, sin, asin, sqrt
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
-
+# importing all models
 def haversine(lon1, lat1, lon2, lat2):
     """
     Calculate the great circle distance between two points
@@ -180,6 +181,8 @@ def people(request):
 #..............................................................
 
 
+# importing all models
+
 
 def person(request, pk):
     """
@@ -264,7 +267,10 @@ def department(request, pk):
     elif request.method == 'DELETE':
         one_department.delete()
         return HttpResponse(status=204)
-
+#..............................................................
+#..............................................................
+#..............................................................
+#..............................................................
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
@@ -285,7 +291,10 @@ def add_view_roles(request):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
-
+#..............................................................
+#..............................................................
+#..............................................................
+#..............................................................
 
 @csrf_exempt
 @api_view(['GET', 'POST','DELETE'])
@@ -314,7 +323,10 @@ def role(request, pk):
     elif request.method == 'DELETE':
         one_role.delete()
         return HttpResponse(status=204)
-
+#..............................................................
+#..............................................................
+#..............................................................
+#..............................................................
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
@@ -336,6 +348,9 @@ def add_view_courses(request):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+#..............................................................
+#..............................................................
+#..............................................................
 
 @csrf_exempt
 @api_view(['GET', 'DELETE'])

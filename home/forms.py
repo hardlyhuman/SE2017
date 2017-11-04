@@ -11,7 +11,7 @@ class PersonnelForm(forms.ModelForm):
         fields = ('Person_ID','Role','Dept')
 
 #Form for taking input from user for email frequency
-class ProfileFor(forms.ModelForm):
+class ProfileForm(forms.ModelForm):
 	username = forms.CharField(label = 'dd')
 	def __init__(self, *args, **kwargs):
 		self.user = kwargs.pop('user')

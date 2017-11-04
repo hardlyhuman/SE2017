@@ -12,7 +12,7 @@ class PersonnelSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Personnel
 		fields=('Person_ID','LDAP','Role','Dept')
-
+#Serializer for Department table
 class DepartmentSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Department

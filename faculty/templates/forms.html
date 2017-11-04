@@ -1,64 +1,83 @@
 
 {% extends "home/index.html" %}
+
 {% block content %}
-<style>
-.upload{
-position:relative;
-right:40px;
-}
-</style>
 
-<br>
-<div class="jumbotron container">
-<p id="demo"></p>
 
+<script type="text/javascript">
+    var datefield=document.createElement("input")
+    datefield.setAttribute("type", "date")
+    if (datefield.type!="date"){
+            }
+</script>
 <script>
-{{s}}
-var r={{s}}
-if(r==1){
-
-var t='<div class="alert alert-success"> <strong>Successfully Uploaded!</strong></div>';
-document.getElementById("demo").innerHTML=t;
-//	var d='<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Success!</strong> You have been signed in successfully!</div>';
-//document.getElementById("demo").innerHTML=t;
-	window.setTimeout(function() {
-    $(".alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove(); 
-    });
-}, 4000);
-
+if (datefield.type!="date"){
+    jQuery(function($){
+        $('#duration1').datepicker({dateFormat:'yy-mm-dd'}).val();
+    })
 }
 </script>
-<center><h3>Upload Assignment </h3></center>
+<style>
+h3,h2{
+font-family:"Times New Roman";
+}
+.upload{
+background-color:black !important;
+color:white !important;
+border-radius:10px;
+margin-left:80px;
+height:35px;
+}
+.reset{
+background-color:#999999 !important;
+color:white !important;
+border-radius:10px;
+height:35px;
+}
+.file{
+margin-left:15px;
+}
+#duration1{
+margin-left:5px;
+}
+input[type=file] {
+    display: inline-block;
+}
+</style>
+<br>
+<p id="demo"></p>
+<script>
+var c={{s}};
+console.log(c);
+var r={{s}};
+if(r==1){
+	var t='<div class="alert alert-success"> <strong>Successfully Uploaded!</strong></div>';
+	document.getElementById("demo").innerHTML=t;
+	window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+}, 3000);
+}
+else if(r==2){
+	var t='<div class="alert alert-danger"> <strong>OOPS! Select a valid Deadline</strong></div>';
+	document.getElementById("demo").innerHTML=t;
+	window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+}, 3000);
+}
+</script>
+
+<center><h3><b>Upload {{CourseName}} Assignment</b> </h3></center>
 <br>
 <center>
 <form action="" method="post" enctype="multipart/form-data">
   {% csrf_token %}
-	<div id="uploadBox">
-        {{ form.as_p }}
-	</div>
-        <input type="submit" style="margin:5 35 5 5;" onclick="clicked();" value="Upload"class="upload btn btn-success">
-        <input type="reset" value="Reset" class="btn btn-warning">
+        <table><tr><td align="right" width="35%"><h3><b>File:</b></h3></td><td width="60%"><input type="file" class="file" name="file" required ></td></tr></table><br>
+	<label><h3><b>End Date</b></h3></label>&nbsp<input  type="date" name="enddate" id="duration1" required><br><br>
+        <input type="submit" class="upload" value="Upload">
+        <input type="reset" value="Reset"class="reset" >
     </form></center>
-
-<script>
- function clicked() {
-/*	var r={{s}}
-	if(r==1){
-	    var t='<div class="alert alert-success"> <strong>Successfully Uploaded!</strong></div>';
-document.getElementById("demo").innerHTML=t;
-}
-	window.setTimeout(function() {
-    $(".alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove(); 
-    });
-}, 4000);
-*/
-        
-    }
-</script>
-</div>
 {% endblock %}
-
-
-

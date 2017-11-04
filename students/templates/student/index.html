@@ -1,0 +1,306 @@
+﻿{%  extends 'home/index.html' %}
+{% block content %}
+  <meta charset="UTF-8">
+  <title>Students</title>
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Raleway:400,500,800">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <style>
+        @import 'https://fonts.googleapis.com/css?family=Lato:300,400';
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body, html {
+            font-family: 'Lato', sans-serif;
+            font-size: 1.5vw;
+            height: 100vh;
+            overflow-x: hidden;
+        }
+        .main-content {
+            height: 100%;
+            width:100%;
+            margin-left:5%;
+        }
+        .panel-wrapper {
+            box-shadow: 0px 1px 5px #777;
+        }
+        .panel-head {
+            background-color: #00A5F2;
+            color: #fff;
+            margin-left:-3%;
+            width:106%;
+            padding: 10px 10px;
+        }
+        .attendance {
+            width: 40%;
+            min-height: 80%;
+            font-size: 80%;
+        }
+        .assignments {
+            width: 40%;
+            min-height: 80%;
+            font-size: 80%;
+        }
+    </style>
+
+
+  <style>
+
+
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.icon {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: block;
+  fill: rgba(51, 51, 51, 0.5);
+  margin-right: 20px;
+  -webkit-transition: all .2s ease-out;
+  transition: all .2s ease-out;
+}
+
+.icon.active {
+  fill: #E74C3C;
+}
+
+#wrapper {
+  width: 80%;
+  height: 70%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
+  overflow: hidden;
+}
+
+#left-side {
+  height: 70%;
+  width: 25%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+#left-side ul li {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  line-height: 34px;
+  color: rgba(51, 51, 51, 0.5);
+  font-weight: 500;
+  cursor: pointer;
+  -webkit-transition: all .2s ease-out;
+  transition: all .2s ease-out;
+}
+#left-side ul li:hover {
+  color: #333333;
+  -webkit-transition: all .2s ease-out;
+  transition: all .2s ease-out;
+}
+#left-side ul li:hover > .icon {
+  fill: #333;
+}
+#left-side ul li.active {
+  color: #333333;
+}
+#left-side ul li.active:hover > .icon {
+  fill: #E74C3C;
+}
+
+#border {
+  height: 288px;
+  width: 1px;
+  background-color: rgba(51, 51, 51, 0.2);
+}
+#border #line.one {
+  width: 5px;
+  height: 54px;
+  background-color: #E74C3C;
+  margin-left: -2px;
+  margin-top: 35px;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+#border #line.two {
+  width: 5px;
+  height: 54px;
+  background-color: #E74C3C;
+  margin-left: -2px;
+  margin-top: 89px;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+#border #line.three {
+  width: 5px;
+  height: 54px;
+  background-color: #E74C3C;
+  margin-left: -2px;
+  margin-top: 143px;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+#border #line.four {
+  width: 5px;
+  height: 54px;
+  background-color: #E74C3C;
+  margin-left: -2px;
+  margin-top: 197px;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+#right-side {
+  height: 300px;
+  width: 75%;
+  overflow: hidden;
+}
+#right-side #first, #right-side #second, #right-side #third, #right-side #fourth {
+  position: absolute;
+  height: 300px;
+  width: 75%;
+  -webkit-transition: all .6s ease-in-out;
+  transition: all .6s ease-in-out;
+  margin-top: -350px;
+  opacity: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+#right-side #first h1, #right-side #second h1, #right-side #third h1, #right-side #fourth h1 {
+  font-weight: 800;
+  color: #333;
+}
+#right-side #first p, #right-side #second p, #right-side #third p, #right-side #fourth p {
+  color: #333;
+  font-weight: 500;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+#right-side #first.active, #right-side #second.active, #right-side #third.active, #right-side #fourth.active {
+  margin-top: 0px;
+  opacity: 1;
+  -webkit-transition: all .6s ease-in-out;
+  transition: all .6s ease-in-out;
+}
+
+  </style>
+
+<!-- ICONS -->
+
+<div id="wrapper">
+  <div id="left-side">
+    <ul>
+      <li class="choose active">
+        Welcome
+      </li>
+      <li class="ship">
+        Add/Drop Courses
+      </li>
+      <li class="pay">
+        Attendance
+      </li>
+      <li class="wrap">
+        Assignments
+      </li>
+      
+    </ul>
+  </div>
+
+
+        <h1 style="width:100%">Welcome {{user.first_name}} </h1>
+        <br />
+        <div class="row" style="width:100%;height: 100%">
+            <div class="panel-wrapper attendance col-md-5 row">
+                <div class="panel-head col-md-12">
+                    Attendance
+                </div>
+                <div class="panel-body">
+                    <br />
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Course</th>
+                            <th>Attendance(Month)</th>
+                            <th>Attendance(Overall)</th>
+                        </tr>
+                        {% for course in attendanceContext.CourseAttendanceContext %}
+                            <tr>
+                                <td>
+                                    {{course.course.Course_ID}}
+                                </td>
+                                <td>
+                                    {{course.totalAttendance}}
+                                    {% if course.totalAttendance != "N.A" %}
+                                        %
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{course.monthAttendance}}
+                                    {% if course.monthAttendance != "N.A" %}
+                                    %
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="panel-wrapper assignments col-md-5" style="display: inline-block;margin-left: 5%;">
+                <div class="panel-head">
+                    Pending Assignments
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tr>
+                            <th>Course</th>
+                            <th>Assignment No</th>
+                            <th>Submission Due</th>
+                        </tr>
+                        {% for course in assignmentContext %}
+                        <tr>
+                            <td>{{course.Course.Course_ID}}</td>
+                            <td>{{course.assignment}}</td>
+                            <td>{{course.assignment.End_Time}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+{% endblock %}

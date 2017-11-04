@@ -23,4 +23,9 @@ class ProfileForm(forms.ModelForm):
 		model = NotificationTime
 		fields = ('Notification_time',)
 
-	
+	def save(self, commit=True):
+		obj = Personnel.objects.get(LDAP_id=self.user.id)
+		personID = obj.Person_ID
+		personObj = Personnel.objects.get(Person_ID=personID)
+		obj_ , created = NotificationTime.objects.update_or_create(Personnel_ID=personObj,defaults={'Notification_time':self.cleaned_data.get('Notification_time')})
+		return obj_

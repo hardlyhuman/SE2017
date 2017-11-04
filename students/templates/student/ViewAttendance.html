@@ -1,8 +1,13 @@
-{% extends 'home/index.html' %}
-{% block content %}
+{% extends 'home/index.html %}
+<!DOCTYPE html>
+<html >
+<head>
+    {% block content %}
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 	<meta content="utf-8" http-equiv="encoding">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
     <title>Attendance Register</title>
     <style type="text/css">
 		@import url('https://fonts.googleapis.com/css?family=Open+Sans');
@@ -29,7 +34,8 @@
     		height: :30vh;
     	}
     </style>
-
+</head>
+<body>
 	<div id="absent-days" class="modal fade" role="dialog">
   		<div class="modal-dialog">
     		<div class="modal-content">
@@ -51,7 +57,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h1>Attendace Register</h1>	 	
-		 	<div class="row">
+		 	<!--<div class="row">
 			 	<div class="form-group col-md-2">
 					<label for="sel1">Course</label>
 		  			<select class="form-control" id="sel1" onchange="getData()">
@@ -61,13 +67,36 @@
                           {% endfor %}
 					 </select>
 				</div>
-			</div>
-			<div class="info-box col-md-4" style="height:50vh; width:70%">
+			</div>-->
+			<div class="info-box col-md-4" style="width:100vh;height:60vh; position: absolute;left:450px;top:200px;margin:0px auto" >
 				<br />
-				<p>Number of classes Taken : <span id ="classesTaken" class="label label-default">None</span></p><br />
-				<p>Number of classes Attended : <span id="classesAttended" class="label label-primary">None</span></p><br />
-				<p>Number of classes Absent : <span id="classesAbsent" class="label label-danger">None</span> <button class="btn button btn-info" style="margin-left: 10"%; data-toggle="modal" data-target="#absent-days">Absent Days</button></p><br />
-				<p>Attendance Percentage : <span id="Percentage" class="label label-info">None</span></p><br />
+				<table class="table table-striped table-hover">
+					 <tr>
+						 <th>Course</th>
+                   		 <th>Number of Classes</th>
+						 <th>Present</th>
+                    	 <th>Absent</th>
+						 <th>Percentage</th>
+                	</tr>
+					{% for i in CourseAttendanceContext %}
+						<tr>
+
+							<td>{{ i.course.Course_ID.Course_Name }}</td>
+							<td>{{i.total}}</td>
+							<td>{{i.present}}</td>
+							<script>
+								var temp="{{i.total}}";
+								var temp1="{{i.present}}";
+								var absent=(parseInt(temp)-parseInt(temp1));
+								var percent=(parseInt(temp1)/parseInt(temp));
+								document.getElementById("absent").innerHTML = absent;
+								document.getElementById("percent").innerHTML = percent;
+							</script>
+							<td id="absent"></td>
+							<td id="percent"></td>
+						</tr>
+					{% endfor %}
+					</table>
 			</div>
 		</div>
         <script>  
@@ -83,7 +112,7 @@
             present.push("{{i.present}}");
             absent[temp] = [];
             {% for k in i.absentDays %}
-            absent[temp].push("{{k}}"); 
+            absent[temp].push("{{k}}");
             {% endfor %}
             temp = temp + 1;
             {% endfor %}
@@ -106,7 +135,7 @@
                     document.getElementById("classesTaken").innerHTML = total[id];
                     document.getElementById("classesAttended").innerHTML = present[id];
                     document.getElementById("classesAbsent").innerHTML = absent[id].length;
-                    document.getElementById("Percentage").innerHTML = parseInt(present[id]) / parseInt(total[id]) || 0;
+                    document.getElementById("Percentage").innerHTML = parseInt(present[id]) / parseInt(total[id]);
                     document.getElementById("modal-content").innerHTML = create_model(id);
                 }
             }
@@ -123,4 +152,6 @@
 			  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
 			  crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-{% endblock %}
+	{% endblock %}
+</body>
+</html>

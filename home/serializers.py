@@ -27,7 +27,7 @@ class CoursesSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Courses
 		fields=('Course_ID','Course_Name','Course_description','Course_Credits','Course_Year','Course_Status')
-
+#Serializer for Document table
 class DocumentsSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Documents

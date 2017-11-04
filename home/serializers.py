@@ -33,6 +33,7 @@ class DocumentsSerializer(serializers.ModelSerializer):
 		model=Documents
 		fields=('Doc_ID','Doc_Name','Document')
 
+#Serializer for Assignment table
 class AssignmentSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Assignment

@@ -217,29 +217,11 @@ ul, li {
   -webkit-transition: all .6s ease-in-out;
   transition: all .6s ease-in-out;
 }
-
   </style>
 
 <!-- ICONS -->
 
-<div id="wrapper">
-  <div id="left-side">
-    <ul>
-      <li class="choose active">
-        Welcome
-      </li>
-      <li class="ship">
-        Add/Drop Courses
-      </li>
-      <li class="pay">
-        Attendance
-      </li>
-      <li class="wrap">
-        Assignments
-      </li>
-      
-    </ul>
-  </div>
+
 
 
         <h1 style="width:100%">Welcome {{user.first_name}} </h1>
@@ -254,8 +236,8 @@ ul, li {
                     <table class="table table-striped">
                         <tr>
                             <th>Course</th>
-                            <th>Attendance(Month)</th>
                             <th>Attendance(Overall)</th>
+                            <th>Attendance(Month)</th>
                         </tr>
                         {% for course in attendanceContext.CourseAttendanceContext %}
                             <tr>
@@ -302,5 +284,5 @@ ul, li {
             </div>
         </div>
     </div>
-    <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+
 {% endblock %}

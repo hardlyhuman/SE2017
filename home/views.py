@@ -48,7 +48,7 @@ def haversine(lon1, lat1, lon2, lat2):
     return c * r
 
 #custom decorators for JWT verification
-def jwt_accept(function):
+def jwt_accept(function):#request function
 	def wrap(request, *args, **kwargs):
 		try:
 			token = request.META['HTTP_AUTHORIZATION'].split()[1]
@@ -114,7 +114,7 @@ def jwt_accept(function):
 # Create your views here.
 PRIVATE_IPS_PREFIX = ('10.', '172.', '192.',)
 register = template.Library()
-@login_required(login_url="login/")
+@login_required(login_url="login/")#login credentials
 def index(request):
     if request.user.personnel.Role.Role_name == "Faculty":
         return HttpResponseRedirect('../faculty/ViewProfs')
@@ -163,7 +163,7 @@ def people(request):
 
 
 @csrf_exempt
-@api_view(['GET', 'PUT','DELETE'])
+@api_view(['GET', 'PUT','DELETE'])#requests for get, pull or delete
 @jwt_accept
 def person(request, pk):
     """

@@ -48,7 +48,24 @@ def haversine(lon1, lat1, lon2, lat2):
     return c * r
 
 #custom decorators for JWT verification
-#.....
+def jwt_accept(function):#request function
+	def wrap(request, *args, **kwargs):
+		try:
+			token = request.META['HTTP_AUTHORIZATION'].split()[1]
+		except KeyError:
+			return Response({"message","No Token Found"}, status=status.HTTP_400_BAD_REQUEST)
+		try:
+			payload = jwt_decode_handler(token)
+		except jwt.ExpiredSignature:
+			return Response({"message","Signature has expired."}, status=status.HTTP_406_NOT_ACCEPTABLE)
+		except jwt.DecodeError:
+			return Response({"message","Error decoding signature."}, status=status.HTTP_400_BAD_REQUEST)
+		except jwt.InvalidTokenError:
+			return Response({"message","Invalid Token"}, status=status.HTTP_401_UNAUTHORIZED)
+		return function(request, *args, **kwargs)
+	wrap.__doc__=function.__doc__
+	wrap.__name__=function.__name__
+	return wrap
 
 # importing all models
 

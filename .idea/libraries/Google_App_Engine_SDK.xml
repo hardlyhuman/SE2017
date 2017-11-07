@@ -1,6 +1,33 @@
 <component name="libraryTable">
   <library name="Google App Engine SDK" type="python">
-    <CLASSES />
+    <CLASSES>
+      <root url="file://$USER_HOME$" />
+      <root url="file:///lib/x86_64-linux-gnu" />
+      <root url="file:///lib/crda" />
+      <root url="file:///lib/i386-linux-gnu" />
+      <root url="file:///lib/klibc-k3La8MUnuzHQ0_kG8hokcGAC0PA.so" />
+      <root url="file:///lib/modprobe.d" />
+      <root url="file:///lib/recovery-mode" />
+      <root url="file:///lib/sysvinit" />
+      <root url="file:///lib/firmware" />
+      <root url="file:///lib/ufw" />
+      <root url="file:///lib/linux-sound-base" />
+      <root url="file:///lib/brltty" />
+      <root url="file:///lib/terminfo" />
+      <root url="file:///lib/ld-linux.so.2" />
+      <root url="file:///lib/udev" />
+      <root url="file:///lib/cpp" />
+      <root url="file:///lib/lsb" />
+      <root url="file:///lib/modules" />
+      <root url="file:///lib/bridge-utils" />
+      <root url="file:///lib/init" />
+      <root url="file:///lib/apparmor" />
+      <root url="file:///lib/resolvconf" />
+      <root url="file:///lib/ifupdown" />
+      <root url="file:///lib/hdparm" />
+      <root url="file:///lib/xtables" />
+      <root url="file:///lib/systemd" />
+    </CLASSES>
     <SOURCES />
   </library>
 </component>

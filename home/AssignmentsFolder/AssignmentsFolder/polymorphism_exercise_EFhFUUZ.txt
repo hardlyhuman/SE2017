@@ -1,0 +1,9 @@
+Write a program that:
+1)Defines a hierarchy of classes (e.g. Polygon-rectangle-square; Account-SA-CA-OdCA, etc.), each with a function to save their attribute data to a text file.
+2)Creates a list of objects, each belonging to any one of these classes.
+3)Iterate through this list and save each object to a text file: “data.txt”
+
+1)Extend this program to read from this file and re-create in memory a similar list of objects.
+2)Iterate through this list and save each object to another text file: “data2.txt”
+
+Check to see if the two files are identical or not.

@@ -12,7 +12,7 @@ input[type="checkbox"] {
     width: auto;
     opacity: 0.00000001;
    position:absolute;
-    left: 0; 
+    left: 0;
     margin-left: -20px;
 }
 .helper {
@@ -95,7 +95,7 @@ font-family:"Times New Roman";
 <tbody>
 {% if Courses %}
 
-{% for course in Courses %}    
+{% for course in Courses %}
 <tr>
 <td>
  <form action="{% url 'faculty:OfferCourses' %}" method="post" enctype="multipart/form-data">
@@ -120,7 +120,7 @@ font-family:"Times New Roman";
      <input type="checkbox" disabled="disabled" checked="checked">
      <i class="helper"></i><h5><b>{{instructor.Course_ID.Course_Name}}</b></h5>
   </label>
-</div></td><td><h5><b>{{instructor.Inst_ID.LDAP.username}}</b></h5></td> 
+</div></td><td><h5><b>{{instructor.Inst_ID.LDAP.username}}</b></h5></td>
 </tr>
 {% endfor %}
 </tbody>
@@ -129,7 +129,7 @@ font-family:"Times New Roman";
 <script>
 var courses=JSON.parse('{{Courses1|escapejs}}');
 console.log(courses);
-function cTrig(clickedid) { 
+function cTrig(clickedid) {
       if (document.getElementById(clickedid).checked == false) {
         return false;
       } else {
@@ -148,7 +148,7 @@ break;
             return true;
 }
         else
-           document.getElementById(clickedid).checked =false;   
+           document.getElementById(clickedid).checked =false;
       }
     }
 $(document).ready(function(){

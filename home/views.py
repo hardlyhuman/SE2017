@@ -955,15 +955,12 @@ def student_users(request):
             if (len(FName) > 30):
                 FName = FName[:20]
 
-            try:
-                u = User.objects.create_user(username=Entry["uid"][0], password="iiits@123", first_name=FName,
-                                         last_name=Entry["sn"][0], email=Entry["mail"][0])
-                p = Personnel(Dept_id=DEPT, LDAP_id=u.id, Role_id=2,RollNumber=Entry["gecos"][0])
-                p.save()
-                q = Student_Period(Student_ID_id=p.Person_ID, Start_Year=Start, End_Year=End)
-                q.save()
-            except:
-                continue
+            u = User.objects.create_user(username=Entry["uid"][0], password="iiits@123", first_name=FName,
+                                        last_name=Entry["sn"][0], email=Entry["mail"][0])
+            p = Personnel(Dept_id=DEPT, LDAP_id=u.id, Role_id=2,RollNumber=Entry["gecos"][0])
+            p.save()
+            q = Student_Period(Student_ID_id=p.Person_ID, Start_Year=Start, End_Year=End)
+            q.save()
         Start += 1
         End += 1
 def student_rollno(request):
@@ -986,7 +983,7 @@ def student_rollno(request):
 
             u = User.objects.get(username=Entry["uid"][0])
             p = Personnel.objects.get(LDAP_id=u.id)
-	    p.RollNumber=Entry["gecos"][0]
+            p.RollNumber=Entry["gecos"][0]
             p.save()
         Start += 1
         End += 1
@@ -997,32 +994,25 @@ def EditProfile(request):
     pObj = Personnel.objects.get(Person_ID=personID)
     fObj , created = NotificationTime.objects.get_or_create(Personnel_ID=pObj)
     #print fObj,'********************'
+    form = ProfileForm( request.POST, user = request.user, instance = fObj)
+    form2 = PasswordChangeForm(request.user, request.POST)
     if request.method == 'POST':
-        form = ProfileForm( request.POST, user = request.user, instance = fObj)
-        if form.is_valid():
-            model_instance = form.save(commit=False)
-            #print personID, request.user.username
-            #print '########################'
-            model_instance.Personnel_ID = pObj
-            model_instance.save()
-            return HttpResponseRedirect('/')
-    else:
-        form = ProfileForm(None,user = request.user, instance = fObj)
-    return render(request, "home/profile.html", {'form': form})
-
-
-def change_password(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('home/profile.html')
-        else:
-            messages.error(request, 'Please correct the error below.')
-    else:
-        form = PasswordChangeForm(request.user)
-    return render(request, 'home/profile.html', {
-        'form2': form
-    })
+        if "name1" in request.POST:
+            if form.is_valid():
+                model_instance = form.save(commit=False)
+                #print personID, request.user.username
+                #print '########################'
+                model_instance.Personnel_ID = pObj
+                model_instance.save()
+                return redirect('../profile')
+            else:
+                form = ProfileForm(None,user = request.user, instance = fObj)
+        elif "name2" in request.POST:
+            if form2.is_valid():
+                user = form2.save()
+                update_session_auth_hash(request, user)  # Important!
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('../profile')
+            else:
+                messages.error(request, 'Please correct the error below.')
+    return render(request, 'home/profile.html', {'form':form,'form2': form2})

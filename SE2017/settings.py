@@ -123,7 +123,6 @@ else:
             'PASSWORD': 'PASSWORD',
 
     }
-    }
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 }
@@ -194,3 +193,5 @@ LOGOUT_REDIRECT_URL = '/'
 
 MEDIA_URL='/AssignmentsFolder/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'home/AssignmentsFolder')
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

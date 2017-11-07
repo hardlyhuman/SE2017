@@ -27,6 +27,7 @@ class Personnel(models.Model):
     Role=models.ForeignKey(Roles,to_field='Role_ID',on_delete=models.CASCADE)#Make sure whether this has to be foreign key
     Dept = models.ForeignKey('Department', to_field='Dept_ID', on_delete=models.CASCADE)  # Not sure about this too
     Year = models.IntegerField(default=2013)
+    RollNumber = models.CharField(null=True, max_length=20)
     def __str__(self):
         return self.LDAP.username
 
@@ -90,12 +91,11 @@ class LoginTable(models.Model):
 
 @python_2_unicode_compatible
 class Assignment(models.Model):
-    Assign_ID = models.AutoField(primary_key=True)
-    Assignment_File = models.FileField(upload_to='AssignmentsFolder/', default="hello.pdf")
-    Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
-    Start_Time = models.DateTimeField(default=utils.timezone.now)
-    End_Time = models.DateTimeField(default=utils.timezone.now)
-
+    Assign_ID=models.AutoField(primary_key=True)
+    Assignment_File = models.FileField(upload_to='AssignmentsFolder/',default="hello.pdf")
+    Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
+    Start_Time=models.DateTimeField(default=utils.timezone.now)
+    End_Time=models.DateTimeField(default=utils.timezone.now)
     def __str__(self):
         return str(self.Assign_ID)
 
@@ -115,8 +115,8 @@ class Instructors_Courses(models.Model):
     IC_id = models.AutoField(primary_key=True)
     Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
     Inst_ID = models.ForeignKey(Personnel, to_field='Person_ID', on_delete=models.CASCADE)
-    Start_Date = models.DateField(datetime.date(2017, 1, 1))
-    End_Date = models.DateField(datetime.date(2017, 1, 1))
+    Start_Date = models.DateField(default=datetime.date(2017, 1, 1))
+    End_Date = models.DateField(default=datetime.date(2017, 1, 1))
 
 
 
@@ -130,7 +130,7 @@ class Students_Courses(models.Model):
     SC_ID = models.AutoField(primary_key=True)
     Student_ID = models.ForeignKey(Personnel, to_field='Person_ID', on_delete=models.CASCADE)
     Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
-    Reg_Date = models.DateField(datetime.date(2017, 1, 1))
+    Reg_Date = models.DateField(default=datetime.date(2017, 1, 1))
 
 
     def __str__(self):

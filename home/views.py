@@ -953,11 +953,35 @@ def student_users(request):
                 FName = FName[:20]
 
             u = User.objects.create_user(username=Entry["uid"][0], password="iiits@123", first_name=FName,
-                                         last_name=Entry["sn"][0], email=Entry["mail"][0])
+                                         last_name=Entry["sn"][0], email=Entry["mail"][0],Rollnumber=Entry["gecos"][0])
             p = Personnel(Dept_id=DEPT, LDAP_id=u.id, Role_id=2)
             p.save()
             q = Student_Period(Student_ID_id=p.Person_ID, Start_Year=Start, End_Year=End)
             q.save()
+        Start += 1
+        End += 1
+def student_rollno(request):
+    Start = 2014
+    End = 2018
+    for i in range(2):
+        DEPT = 1
+        parser = LDIFParser(open('data' + str(i + 1) + '.ldif', 'rb'))
+        for dn, Entry in parser.parse():
+            dn.split(',')
+            props = dict(item.split("=") for item in dn.split(","))
+            try:
+                print (Entry["uid"], Entry["givenname"], Entry["sn"], Entry["mail"],Entry["gecos"])
+            except:
+                DEPT = 2
+                continue
+            FName = Entry["givenname"][0]
+            if (len(FName) > 30):
+                FName = FName[:20]
+
+            u = User.objects.get(username=Entry["uid"][0])
+            p = Personnel.objects.get(LDAP_id=u.id)
+	    p.RollNumber=Entry["gecos"][0]
+            p.save()
         Start += 1
         End += 1
 

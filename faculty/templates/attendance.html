@@ -19,14 +19,12 @@ font-family:"Times New Roman";
   <th>Session Date</th>
 <th>Students Present</th>
  </tr>
-
 </thead>
 <tbody>
 {% for key,value in sessions.items %}
 <tr>
 <td>{{value.0}}</td>
 <td><a  href="../details?id={{key}}">{{value.1}}</a></td>
-
 </tr>
 {% endfor %}
 </tbody>

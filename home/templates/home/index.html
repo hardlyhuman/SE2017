@@ -7,7 +7,6 @@
 body {
     padding-bottom: 120px;
 }
-
 </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,29 +20,11 @@ body {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="{% static 'home/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="{% static 'home/bootstrap/assets/css/ie10-viewport-bug-workaround.css' %}" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
+<script src="{% static 'home/bootstrap/dist/js/bootstrap.min.js'%}"></script>
     <link href="{% static 'home/sticky-footer-navbar.css'%}" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="{% static 'home/bootstrap/assets/js/ie-emulation-modes-warning.js'%}"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
+  <body style="margin-bottom: 150px; margin-top:50px">
 
-<<<<<<< HEAD
-  <body>
-=======
-  <body style="margin-bottom: 150px; margin-top:10px">
->>>>>>> master
 
     <!-- Fixed navbar -->
    <nav class="navbar navbar-inverse navbar-fixed-top navbar-toggleable-md">
@@ -56,11 +37,7 @@ body {
             <span class="icon-bar"></span>
           </button>
 {% block nav-course %}
-<<<<<<< HEAD
-          <a class="navbar-brand"  href="#">SAMS</a>
-=======
           <a class="navbar-brand"  style="padding-top:0px" href="#"><img src="{% static 'images/iiits-logo.png' %}" style=" padding: 0px;height:50px"></img></a>
->>>>>>> master
 {% endblock %}
         </div>
         <div id="navbar" class="collapse navbar-collapse">
@@ -84,7 +61,7 @@ body {
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">f<span class="glyphicon glyphicon-user"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span></a>
               <ul class="dropdown-menu">
                 <li>{% if user.is_authenticated %}
 <a href="#"> Hi {{ user.username }}!{% endif %}</a></li>
@@ -134,16 +111,16 @@ body {
           document.getElementById("timetable").setAttribute("href",Faculty_Timetable);
 
           {%endif%}
-
+var jQuery_1_3_2 = $.noConflict(true);
     </script>
 <div class="container">
    {{ user.personnel.Role.Role_name }}
 {% block content %}
 {%  endblock %}
 </div>
+<script src="{% static 'home/bootstrap/dist/js/bootstrap.min.js'%}"></script>
 
  <link href="{% static 'home/sticky-footer-navbar.css'%}" rel="stylesheet">
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="{% static 'home/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
 
 <footer class="footer" style="position: absolute;bottom: 0px;width: 100%;text-align: center;color: white;height: 80px;background-color: #222222;">
@@ -153,13 +130,9 @@ body {
  </p>
       </div>
     </footer>
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script>window.jQuery || document.write('<script src="{% static 'home/bootstrap/assets/js/vendor/jquery.min.js'%}"><\/script>')</script>
     <script src="{% static 'home/bootstrap/dist/js/bootstrap.min.js'%}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{% static 'home/bootstrap/ssets/js/ie10-viewport-bug-workaround.js' %}"></script>
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
 
 </body>

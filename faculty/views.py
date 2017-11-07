@@ -1,3 +1,4 @@
+
 from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 import json
@@ -20,7 +21,6 @@ def index(request):
 		a.append({"title":i["Event_Name"],"start":i["Event_Date"],"allDay":True})
 	print serializer.data
 	return render(request, 'fullcalendar/calendar.html',{"Events":json.dumps(a)})
-
 
 
 @login_required
@@ -47,38 +47,19 @@ def CoursePage(request):
 
 		course=Courses.objects.get(Course_Name=request.session['course'])
 		course.Course_description = request.POST.get('coursedes')
-        	course.save()
-	elif request.POST.get('action')=="submit":
-		request.session['course'] =request.POST.get('dropdown')
-	course=Courses.objects.get(Course_Name=request.session['course'])
+		try:
+        		course.save()
+		except:
+			easygui.msgbox("Oops!Data Too Long.",title="ERROR")
 
+	else:
+		request.session['course'] =request.POST.get('dropdown')
+	course=get_object_or_404(Courses,Course_Name=request.session['course'])
     	template = loader.get_template('prof1.html')
     	context = {'Course':course,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))
-@login_required
-def ViewRegisteredStudents(request):
-    studentlist = []
-    course_name = request.GET.get('name')
-    students = Students_Courses.objects.all()
-    for student in students:
-        if course_name == student.Course_ID.Course_Name:
-            studentlist.append(student.Student_ID.LDAP.username)
-    template = loader.get_template('student.html')
-    context = {'Students': json.dumps(studentlist), 'Course': course_name}
-    return HttpResponse(template.render(context, request))
-def AddAssignment(request):
-    s=0;
-    if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            courses = Courses.objects.all()
-            for corse in courses:
-                if corse.Course_Name == request.session['course']:
-                    course = Courses.objects.get(Course_Name=corse.Course_Name)
-                    break
-            instance = Assignment(Course_ID=course, Assignment_File=request.FILES['file'])
-            instance.save()
-	    s=1
+
+
 
 @login_required
 def AddAssignment(request):
@@ -165,7 +146,6 @@ def ViewAttendance(request):
 		for student in students:
 			if session==student.ASession_ID.Session_ID and student.Marked=='P':
 				sessionlist[session][1]=sessionlist[session][1]+1
-
     	template = loader.get_template('attendance.html')
     	context = {'sessions':sessionlist,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))
@@ -182,28 +162,6 @@ def ViewAttendanceDetails(request):
     	context = {'students':studentlist,'CourseName':request.session['course'],'date':session.Date_time.date}
     	return HttpResponse(template.render(context, request))
 
-
-
-
-    else:
-        IC = Instructors_Courses.objects.all()
-        IClist = []
-	courselist=[]
-        for ic in IC:
-            IClist.append(ic.Course_ID)
-        person_id = request.user.personnel.Person_ID
-        courses = Courses.objects.all()
-        courses1 = []
-        for corse in courses:
-            if corse not in IClist:
-                courses1.append(corse)
-	for course in courses:
-		courselist.append(course.Course_ID)
-		courselist.append(course.Course_Name)
-
-        template = loader.get_template('reg.html')
-        context = {'Courses': courses1,'Courses1':json.dumps(courselist), 'IC': IC, 'Prof_Name': request.user.username}
-    	return HttpResponse(template.render(context, request))
 
 @login_required
 def MyLibrary(request):
@@ -234,4 +192,4 @@ def MyLibrary(request):
      	for ass in Assignments:
 		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
 			asslist.append(ass)
-    	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
+	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})

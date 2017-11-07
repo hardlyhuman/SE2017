@@ -1,15 +1,38 @@
 from django import template
 from django.contrib.auth import authenticate
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/master
 import sys
 import jwt
 import datetime
 from django.shortcuts import render, render_to_response
 from django.contrib.auth import authenticate
+<<<<<<< HEAD
+=======
+>>>>>>> origin/faculty
+=======
+>>>>>>> origin/master
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render
+<<<<<<< HEAD
+<<<<<<< HEAD
+from django import template
+from django.http import HttpResponse,JsonResponse
+from .forms import PersonnelForm 
+from django.views.decorators.csrf import csrf_exempt
+from ldif3 import LDIFParser
+from rest_framework import exceptions,status
+from rest_framework.renderers import JSONRenderer
+=======
+from django.views.decorators.csrf import csrf_exempt
+from ldif3 import LDIFParser
+>>>>>>> origin/faculty
+=======
 from django import template
 from django.http import HttpResponse,JsonResponse
 from .forms import PersonnelForm
@@ -17,12 +40,16 @@ from django.views.decorators.csrf import csrf_exempt
 from ldif3 import LDIFParser
 from rest_framework import exceptions,status
 from rest_framework.renderers import JSONRenderer
+>>>>>>> origin/master
 from rest_framework.parsers import JSONParser
 from rest_framework_jwt.settings import api_settings
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import *
 from django.contrib.auth.models import User
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 from .forms import *
 from .models import *
 from math import radians, cos, sin, asin, sqrt
@@ -66,6 +93,7 @@ def jwt_accept(function):
 	wrap.__doc__=function.__doc__
 	wrap.__name__=function.__name__
 	return wrap
+>>>>>>> origin/master
 
 from .models import *
 from math import radians, cos, sin, asin, sqrt
@@ -75,6 +103,20 @@ jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
 
 def haversine(lon1, lat1, lon2, lat2):
     """
+<<<<<<< HEAD
+    Calculate the great circle distance between two points 
+    on the earth (specified in decimal degrees)
+    """
+    # convert decimal degrees to radians 
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+
+    # haversine formula 
+    dlon = lon2 - lon1 
+    dlat = lat2 - lat1 
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a)) 
+=======
     Calculate the great circle distance between two points
     on the earth (specified in decimal degrees)
     """
@@ -87,6 +129,7 @@ def haversine(lon1, lat1, lon2, lat2):
     dlat = lat2 - lat1
     a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
     c = 2 * asin(sqrt(a))
+>>>>>>> origin/master
     r = 6371000.0 # Radius of earth in kilometers. Use 3956 for miles
     return c * r
 
@@ -110,15 +153,36 @@ def jwt_accept(function):
 	wrap.__name__=function.__name__
 	return wrap
 
+<<<<<<< HEAD
 # Create your views here.
 PRIVATE_IPS_PREFIX = ('10.', '172.', '192.',)
 register = template.Library()
+=======
+# Create your views here.
+PRIVATE_IPS_PREFIX = ('10.', '172.', '192.',)
+register = template.Library()
+
+
+>>>>>>> origin/faculty
+=======
+# Create your views here.
+PRIVATE_IPS_PREFIX = ('10.', '172.', '192.',)
+register = template.Library()
+>>>>>>> origin/master
 @login_required(login_url="login/")
 def index(request):
     if request.user.personnel.Role.Role_name == "Faculty":
         return HttpResponseRedirect('../faculty/ViewProfs')
+<<<<<<< HEAD
+<<<<<<< HEAD
     if request.user.personnel.Role.Role_name == "Student":
         return HttpResponseRedirect('../student')
+=======
+>>>>>>> origin/faculty
+=======
+    if request.user.personnel.Role.Role_name == "Student":
+        return HttpResponseRedirect('../student')
+>>>>>>> origin/master
     now = datetime.datetime.now()
     remote_address = request.META.get('REMOTE_ADDR')
     # set the default value of the ip to be the REMOTE_ADDR if available
@@ -784,6 +848,10 @@ def add_view_timetable(request):
 
 @csrf_exempt
 def validate_user(request):
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/master
 	if request.method == 'POST':
 		print(request.META)
 		data = JSONParser().parse(request)
@@ -802,6 +870,7 @@ def validate_user(request):
 			return JsonResponse(dat,status=200)
 		else:
 			return HttpResponse(status=404)
+<<<<<<< HEAD
 @csrf_exempt
 @api_view(['POST'])
 @jwt_accept
@@ -829,6 +898,74 @@ def courses_rel_students(request):
 			return JsonResponse(data, status=200, safe=False)
 		else:
 			return HttpResponse(status=404)
+=======
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        username = data['json_data']['username']
+        password = data['json_data']['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            serializer = UserSerializer(user)
+            personaldet = PersonnelSerializer(Personnel.objects.filter(LDAP=user),many=True)
+            dat = serializer.data
+            dat.update(dict(personaldet.data[0]))
+            return JsonResponse(dat, status=200,safe=False)
+        else:
+            return HttpResponse(status=404)
+
+=======
+>>>>>>> origin/master
+@csrf_exempt
+@api_view(['POST'])
+@jwt_accept
+def courses_rel_students(request):
+<<<<<<< HEAD
+    if request.method == 'POST':
+        data = {}
+        data1 = JSONParser().parse(request)
+        ID = data1['course_id']
+        data2 = SCSerializer(Students_Courses.objects.filter(Course_ID=ID), many=True).data
+        x = 0
+        for i in range(len(data2)):
+            temp = PersonnelSerializer(Personnel.objects.get(Person_ID=data2[i]['Student_ID'])).data
+            temp2 = User.objects.all()
+            for b in temp2:
+                try:
+                    if b.personnel.LDAP.id == temp['LDAP']:
+                        data[data2[i]['Student_ID']] = {'Username':b.username,'First_Name':b.first_name,'Last_Name':b.last_name,'Email':b.email}
+                except:
+                    kill=1
+            x += 1
+        if len(data) != 0:
+            return JsonResponse(data, status=200, safe=False)
+        else:
+            return HttpResponse(status=404)
+>>>>>>> origin/faculty
+=======
+	if request.method == 'POST':
+		#print(request.META)
+		token=request.META['HTTP_AUTHORIZATION'].split()[1]
+		print(token)
+		data = {}
+		data1 = JSONParser().parse(request)
+		ID = data1['course_id']
+		data2 = SCSerializer(Students_Courses.objects.filter(Course_ID=ID), many=True).data
+		x = 0
+		for i in range(len(data2)):
+			temp = PersonnelSerializer(Personnel.objects.get(Person_ID=data2[i]['Student_ID'])).data
+			temp2 = User.objects.all()
+			for b in temp2:
+				try:
+					if b.personnel.LDAP.id == temp['LDAP']:
+						data[data2[i]['Student_ID']] = {'Username':b.username,'First_Name':b.first_name,'Last_Name':b.last_name,'Email':b.email}
+				except:
+					kill=1
+			x += 1
+		if len(data) != 0:
+			return JsonResponse(data, status=200, safe=False)
+		else:
+			return HttpResponse(status=404)
+>>>>>>> origin/master
 
 @csrf_exempt
 @api_view([ 'POST'])
@@ -853,6 +990,10 @@ def student_rel_courses(request):
 @api_view([ 'POST'])
 @jwt_accept
 def faculty_rel_courses(request):
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/master
 	if request.method == 'POST':
 		data={}
 		data1 = JSONParser().parse(request)
@@ -880,6 +1021,29 @@ def student_session(request):
 		print(data.data)
 		return JsonResponse(data.data,status=200,safe=False)
 	return HttpResponse(status=404)
+<<<<<<< HEAD
+=======
+    if request.method == 'POST':
+        data = {}
+        data1 = JSONParser().parse(request)
+        ID = data1['faculty_id']
+        data2 = ICSerializer(Instructors_Courses.objects.filter(Inst_ID=ID), many=True).data
+        x = 0
+        for i in range(len(data2)):
+            temp = CoursesSerializer(Courses.objects.get(Course_ID=data2[i]['Course_ID'])).data
+            data[data2[i]['Course_ID']] = {'Course_ID': data2[i]['Course_ID'], 'Course_Name': temp['Course_Name'],
+                       'Course_description': temp['Course_description'], 'Course_Credits': temp['Course_Credits'],
+                       'Course_Year': temp['Course_Year'], 'Course_Status': temp['Course_Status']}
+            x += 1
+        if len(data) != 0:
+            return JsonResponse(data, status=200, safe=False)
+        else:
+            return HttpResponse(status=404)
+
+
+>>>>>>> origin/faculty
+=======
+>>>>>>> origin/master
 def faculty_users(request):
 	parser = LDIFParser(open('data.ldif', 'rb'))
 	i=0

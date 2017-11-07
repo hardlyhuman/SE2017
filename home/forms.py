@@ -1,8 +1,12 @@
 from django import forms
+<<<<<<< HEAD
+from .models import *
+=======
 from models import *
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 import json
+>>>>>>> origin/master
 
 class PersonnelForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)

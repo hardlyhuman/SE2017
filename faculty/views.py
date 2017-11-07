@@ -19,11 +19,15 @@ from django.utils import *
 from datetime import datetime
 from dateutil.parser import parse
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 
 
 =======
+=======
+
+>>>>>>> origin/faculty
 @login_required
 >>>>>>> origin/master
 def index(request):
@@ -271,7 +275,7 @@ def MyLibrary(request):
 			course = Courses.objects.get(Course_Name=corse.Course_Name)
 		        break
 	for libfile in libfiles:
-		instance = Assignment(Course_ID=course, Assignment_File=libfile,End_Time='1900-01-01')
+		instance = Assignment(Course_ID=course, Assignment_File=libfile,Start_Time=datetime.now(),End_Time='1900-01-01')
 		instance.save()
 	s=1
 	asslist = []
@@ -304,10 +308,15 @@ def MyLibrary(request):
      	Assignments = Assignment.objects.all()
      	for ass in Assignments:
 		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
+
 			asslist.append(ass)
 <<<<<<< HEAD
     	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
 >>>>>>> origin/faculty
 =======
 	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
+<<<<<<< HEAD
 >>>>>>> origin/master
+=======
+
+>>>>>>> origin/faculty

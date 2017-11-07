@@ -1,11 +1,11 @@
 from __future__ import unicode_literals
-
-import datetime
-
+from django.db import models
+from django import forms
 from django import utils
 from django.contrib.auth.models import User
-from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+# from compositekey import db
+import datetime
 
 
 @python_2_unicode_compatible
@@ -15,22 +15,18 @@ class Roles(models.Model):
     Role_name = models.CharField(max_length=50, default="")
     level = models.IntegerField(default=0)
 
-    
     def __str__(self):
         return self.Role_name
 
-@python_2_unicode_compatible
+#@python_2_unicode_compatible
 class Personnel(models.Model):
     Person_ID=models.AutoField(primary_key=True)
     LDAP=models.OneToOneField(User, on_delete=models.CASCADE)
     Role=models.ForeignKey(Roles,to_field='Role_ID',on_delete=models.CASCADE)#Make sure whether this has to be foreign key
-
+    Dept = models.ForeignKey('Department', to_field='Dept_ID', on_delete=models.CASCADE)  # Not sure about this too
+    RollNumber = models.CharField(null=True, max_length=20)
     def __str__(self):
         return self.LDAP.username
-
-
-    Dept = models.ForeignKey('Department', to_field='Dept_ID', on_delete=models.CASCADE)  # Not sure about this too
-    Year = models.IntegerField(default=2013)
 
 
 
@@ -39,7 +35,7 @@ class Department(models.Model):
     Dept_ID = models.AutoField(primary_key=True)
     Dept_Name = models.CharField(max_length=50, default="")
 
-    
+
 
     def __str__(self):
         return self.Dept_Name
@@ -111,10 +107,10 @@ class Instructors_Courses(models.Model):
     IC_id = models.AutoField(primary_key=True)
     Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
     Inst_ID = models.ForeignKey(Personnel, to_field='Person_ID', on_delete=models.CASCADE)
-    Start_Date = models.DateField(datetime.date(2017, 1, 1))
-    End_Date = models.DateField(datetime.date(2017, 1, 1))
+    Start_Date = models.DateField(default=datetime.date(2017, 1, 1))
+    End_Date = models.DateField(default=datetime.date(2017, 1, 1))
 
-    
+
 
     def __str__(self):
         return str((self.Inst_ID))
@@ -126,9 +122,9 @@ class Students_Courses(models.Model):
     SC_ID = models.AutoField(primary_key=True)
     Student_ID = models.ForeignKey(Personnel, to_field='Person_ID', on_delete=models.CASCADE)
     Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
-    Reg_Date = models.DateField(datetime.date(2017, 1, 1))
+    Reg_Date = models.DateField(default=datetime.date(2017, 1, 1))
 
-    
+
     def __str__(self):
         return str(self.Student_ID) + ' ' + str(self.Course_ID)
 
@@ -160,6 +156,12 @@ class Timetable(models.Model):
     End_time=models.TimeField()
     Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
     Class_ID=models.CharField(max_length=10,default='')
-    
     def __str__(self):
         return str(self.Course_ID)
+class NotificationTime(models.Model):
+    notification_time_choices =((15,15),
+                                (30,30),
+                                (60,60),
+                                (120,120))
+    Personnel_ID = models.ForeignKey(Personnel, to_field = 'Person_ID')
+    Notification_time = models.IntegerField(choices=notification_time_choices,default=30)

@@ -48,10 +48,7 @@ def CoursePage(request):
 		
 		course=Courses.objects.get(Course_Name=request.session['course'])
 		course.Course_description = request.POST.get('coursedes')
-		try:
-        		course.save()
-		except:
-			easygui.msgbox("Oops!Data Too Long.",title="ERROR")
+        	course.save()
 					
 	else:   
 		request.session['course'] =request.POST.get('dropdown')	
@@ -82,26 +79,47 @@ def AddAssignment(request):
 	return render(request, 'forms.html',{'CourseName':request.session['course'],'s':s})
 	    
     else:
+		CourseList=[]
+		person_id = request.user.personnel.Person_ID
+        	IC = Instructors_Courses.objects.all()
+        	for i in range(0, len(IC)):
+            		if person_id == IC[i].Inst_ID.Person_ID:
+                		CourseList.append(IC[i].Course_ID.Course_Name)
 	
 		if 'course' in request.session:
         		
 			s=0        
     			return render(request, 'forms.html',{'CourseName':request.session['course'],'s':s})
+		elif 'course' not in request.session and CourseList==[] :
+			flag=0
+			hint=1
+			return render(request, 'prof.html',{'hint':hint,'flag':flag})
 		else:
-			easygui.msgbox("please select a course",title="ERROR")
-			return redirect('http:../ViewProfs/')
+			flag=0
+			return render(request, 'prof.html',{'hint':flag})
+			
 @login_required
 def ViewAssignment(request):
      asslist = []
+     CourseList = []
      Assignments = Assignment.objects.all()
+     person_id = request.user.personnel.Person_ID
+     IC = Instructors_Courses.objects.all()
+     for i in range(0, len(IC)):
+     	if person_id == IC[i].Inst_ID.Person_ID:
+        	CourseList.append(IC[i].Course_ID.Course_Name)
      for ass in Assignments:
 	if 'course' in request.session:
      		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()!=datetime.strptime('1900-01-01',"%Y-%m-%d").date():
 			print ass.Assignment_File
 			asslist.append(ass)
+	elif 'course' not in request.session and CourseList==[]:
+		flag=0
+		hint=1
+		return render(request, 'prof.html',{'hint':hint,'flag':flag})
 	else:
-		easygui.msgbox("please select a course",title="ERROR")
-		return redirect('http:../ViewProfs/')
+		flag=0
+		return render(request, 'prof.html',{'hint':flag})
      return render(request, 'assignment.html', {'Assignments': asslist,'CourseName':request.session['course']})
   
 
@@ -142,9 +160,23 @@ def ViewAttendance(request):
 	sessionlist={}
 	sessions=Attendance_Session.objects.all()
 	students=Attendance.objects.all()
+	CourseList=[]
+	person_id = request.user.personnel.Person_ID
+        IC = Instructors_Courses.objects.all()
+        for i in range(0, len(IC)):
+        	if person_id == IC[i].Inst_ID.Person_ID:
+                	CourseList.append(IC[i].Course_ID.Course_Name)
 	for session in sessions:
-		if session.Course_Slot.Course_ID.Course_Name==request.session['course']:
-			sessionlist[session.Session_ID]=[session.Date_time.date,0]
+		if 'course' in request.session:
+			if session.Course_Slot.Course_ID.Course_Name==request.session['course']:
+				sessionlist[session.Session_ID]=[session.Date_time.date,0]
+		elif 'course' not in request.session and CourseList==[]:
+			flag=0
+			hint=1
+			return render(request, 'prof.html',{'hint':hint,'flag':flag})
+		else:
+			flag=0
+			return render(request, 'prof.html',{'hint':flag})
 	for session in sessionlist:
 		for student in students:
 			if session==student.ASession_ID.Session_ID and student.Marked=='P':

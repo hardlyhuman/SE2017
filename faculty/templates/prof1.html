@@ -8,7 +8,6 @@ font-family:"Times New Roman";
 #coursedescription{
 position:absolute;
 left:500px;
-
 }
 #citizenBtn{
 background-color:black !important;
@@ -36,10 +35,6 @@ height:35px;
 </style>
 <br><br>
 
-
-
-
-
 <div id="coursedescription">
 <h3><b>Course Name:&nbsp{{Course.Course_Name }}</b></h3>
 <h3><b>Course Credits:&nbsp{{Course.Course_Credits }}</b></h3>
@@ -52,7 +47,6 @@ height:35px;
 </form>
 <button id= "citizenBtn" class="btn btn-primary btn-md" onclick="showForm('citizenForm')">Edit</button>
 </div>
-
 <script>
 var showForm = function(id){
   document.getElementById(id).style.display = '';
@@ -61,6 +55,6 @@ var showForm = function(id){
     button.addEventListener('click',hideshow,false);
     function hideshow() {
         this.style.display = 'none'
-    }   
+    }
 </script>
 {% endblock %}

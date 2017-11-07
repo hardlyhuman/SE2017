@@ -1,17 +1,14 @@
 
 {% extends "home/index.html" %}
-{% block nav-course %}
-<a class="navbar-brand" href="#">{{CourseName}}</a>
-{% endblock %}
+
 {% block content %}
+
+
 <script type="text/javascript">
     var datefield=document.createElement("input")
     datefield.setAttribute("type", "date")
     if (datefield.type!="date"){
-        document.write('<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />\n')
-        document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"><\/script>\n')
-        document.write('<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"><\/script>\n')
-    }
+            }
 </script>
 <script>
 if (datefield.type!="date"){
@@ -24,7 +21,6 @@ if (datefield.type!="date"){
 h3,h2{
 font-family:"Times New Roman";
 }
-
 .upload{
 background-color:black !important;
 color:white !important;
@@ -47,7 +43,6 @@ margin-left:5px;
 input[type=file] {
     display: inline-block;
 }
-
 </style>
 <br>
 <p id="demo"></p>

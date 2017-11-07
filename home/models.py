@@ -109,8 +109,8 @@ class Instructors_Courses(models.Model):
     IC_id = models.AutoField(primary_key=True)
     Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
     Inst_ID = models.ForeignKey(Personnel, to_field='Person_ID', on_delete=models.CASCADE)
-    Start_Date = models.DateField(datetime.date(2017, 1, 1))
-    End_Date = models.DateField(datetime.date(2017, 1, 1))
+    Start_Date = models.DateField(default=datetime.date(2017, 1, 1))
+    End_Date = models.DateField(default=datetime.date(2017, 1, 1))
 
 
 
@@ -124,7 +124,7 @@ class Students_Courses(models.Model):
     SC_ID = models.AutoField(primary_key=True)
     Student_ID = models.ForeignKey(Personnel, to_field='Person_ID', on_delete=models.CASCADE)
     Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
-    Reg_Date = models.DateField(datetime.date(2017, 1, 1))
+    Reg_Date = models.DateField(default=datetime.date(2017, 1, 1))
 
 
     def __str__(self):

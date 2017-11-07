@@ -911,12 +911,15 @@ def student_users(request):
             if (len(FName) > 30):
                 FName = FName[:20]
 
-            u = User.objects.create_user(username=Entry["uid"][0], password="iiits@123", first_name=FName,
-                                         last_name=Entry["sn"][0], email=Entry["mail"][0],Rollnumber=Entry["gecos"][0])
-            p = Personnel(Dept_id=DEPT, LDAP_id=u.id, Role_id=2)
-            p.save()
-            q = Student_Period(Student_ID_id=p.Person_ID, Start_Year=Start, End_Year=End)
-            q.save()
+            try:
+                u = User.objects.create_user(username=Entry["uid"][0], password="iiits@123", first_name=FName,
+                                         last_name=Entry["sn"][0], email=Entry["mail"][0])
+                p = Personnel(Dept_id=DEPT, LDAP_id=u.id, Role_id=2,RollNumber=Entry["gecos"][0])
+                p.save()
+                q = Student_Period(Student_ID_id=p.Person_ID, Start_Year=Start, End_Year=End)
+                q.save()
+            except:
+                continue
         Start += 1
         End += 1
 def student_rollno(request):

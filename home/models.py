@@ -24,7 +24,6 @@ class Personnel(models.Model):
     LDAP=models.OneToOneField(User, on_delete=models.CASCADE)
     Role=models.ForeignKey(Roles,to_field='Role_ID',on_delete=models.CASCADE)#Make sure whether this has to be foreign key
     Dept = models.ForeignKey('Department', to_field='Dept_ID', on_delete=models.CASCADE)  # Not sure about this too
-    Year = models.IntegerField(default=2013)
     RollNumber = models.CharField(null=True, max_length=20)
     def __str__(self):
         return self.LDAP.username
@@ -84,12 +83,11 @@ class LoginTable(models.Model):
 
 @python_2_unicode_compatible
 class Assignment(models.Model):
-    Assign_ID = models.AutoField(primary_key=True)
-    Assignment_File = models.FileField(upload_to='AssignmentsFolder/', default="hello.pdf")
-    Course_ID = models.ForeignKey(Courses, to_field='Course_ID', on_delete=models.CASCADE)
-    Start_Time = models.DateTimeField(default=utils.timezone.now)
-    End_Time = models.DateTimeField(default=utils.timezone.now)
-
+    Assign_ID=models.AutoField(primary_key=True)
+    Assignment_File = models.FileField(upload_to='AssignmentsFolder/',default="hello.pdf")
+    Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
+    Start_Time=models.DateTimeField(default=utils.timezone.now)
+    End_Time=models.DateTimeField(default=utils.timezone.now)
     def __str__(self):
         return str(self.Assign_ID)
 

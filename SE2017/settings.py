@@ -118,12 +118,12 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'HOST': 'localhost',
-            'NAME': 'se017',
+            'NAME': 'se',
             'USER': 'root',
-            'PASSWORD': '5qlDevelop#r',
+            'PASSWORD': 'PASSWORD',
 
     }
-
+    }
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 

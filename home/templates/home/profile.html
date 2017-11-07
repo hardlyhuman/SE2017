@@ -10,4 +10,9 @@
 <input type="submit" value="Submit"></input>
 
 </form>
+<form method="POST" action="{% url 'change_password %}'">
+    {% csrf_token %}
+    {{ form2 }}
+    <button type="submit">Save changes</button>  
+</form>
 {% endblock %}

@@ -1,5 +1,8 @@
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import redirect
 from django import template
-from django.contrib.auth import authenticate
 import sys
 import jwt
 import datetime
@@ -953,7 +956,7 @@ def student_users(request):
                 FName = FName[:20]
 
             u = User.objects.create_user(username=Entry["uid"][0], password="iiits@123", first_name=FName,
-                                         last_name=Entry["sn"][0], email=Entry["mail"][0],Rollnumber=Entry["gecos"][0])
+                                         last_name=Entry["sn"][0], email=Entry["mail"][0],RollNumber=Entry["gecos"][0])
             p = Personnel(Dept_id=DEPT, LDAP_id=u.id, Role_id=2)
             p.save()
             q = Student_Period(Student_ID_id=p.Person_ID, Start_Year=Start, End_Year=End)
@@ -1003,3 +1006,20 @@ def EditProfile(request):
     else:
         form = ProfileForm(None,user = request.user, instance = fObj)
     return render(request, "home/profile.html", {'form': form})
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('home/profile.html')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'home/profile.html', {
+        'form2': form
+    })

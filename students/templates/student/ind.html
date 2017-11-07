@@ -1,4 +1,4 @@
-﻿{%  extends 'home/index.html' %}
+{%  extends 'home/index.html' %}
 {% block content %}
   <meta charset="UTF-8">
   <title>Students</title>
@@ -217,13 +217,34 @@ ul, li {
   -webkit-transition: all .6s ease-in-out;
   transition: all .6s ease-in-out;
 }
+
   </style>
 
 <!-- ICONS -->
 
+<div id="wrapper">
+  <div id="left-side">
+    <ul>
+      <li class="choose active">
+        Welcome
+      </li>
+      <li class="ship">
+        Add/Drop Courses
+      </li>
+      <li class="pay">
+        Attendance
+      </li>
+      <li class="wrap">
+        Assignments
+      </li>
+      
+    </ul>
+  </div>
 
+  <div id="border">
+    <div id="line" class="one"></div>
+  </div>
 
-<<<<<<< HEAD
   <div id="right-side">
     <div id="first" class="active">
       <h1>Welcome {{user.first_name}}</h1>
@@ -233,30 +254,18 @@ ul, li {
     <div id="second">
       <h1>Attendance</h1>
       <p>You can use this portal to view your attendance. Click on the attendance tab on the top or here to view your attendance details . </p>
-<<<<<<< HEAD
         <a href="/student/viewattendance"><button class="btn btn-info">View Attendance</button></a>
-=======
-        <a href="/students/viewattendance"><button class="btn btn-info">View Attendance</button></a>
->>>>>>> origin/faculty
     </div>
     <div id="third">
       <h1>Assignments</h1>
 
       <p>You can use this portal to check your assignment submission status . Click on the assignment tab on the top or the View Assignments button below.</p>
-<<<<<<< HEAD
         <a href="/student/assgnsubstatuspending"><button class="btn btn-info">View Assignments</button></a>
-=======
-        <a href="/students/assgnsubstatuspending"><button class="btn btn-info">View Assignments</button></a>
->>>>>>> origin/faculty
     </div>
     <div id="fourth">
       <h1>Add/Drop Course</h1>
       <p>You can register for courses or modify your selection in the add/drop panel . Click on the course tab on the top or the add/drop course button below.</p>
-<<<<<<< HEAD
         <a href="/student/adddropcourses"><button class="btn btn-info">Add/Drop Course</button></a>
-=======
-        <a href="/students/adddropcourses"><button class="btn btn-info">Add/Drop Course</button></a>
->>>>>>> origin/faculty
     </div>
   </div>
 </div>
@@ -351,68 +360,6 @@ $(".ship").click(function() {
   $("#fourth").addClass("active");
 })
     </script>
-=======
-
-        <h1 style="width:100%">Welcome {{user.first_name}} </h1>
-        <br />
-        <div class="row" style="width:100%;height: 100%">
-            <div class="panel-wrapper attendance col-md-5 row">
-                <div class="panel-head col-md-12">
-                    Attendance
-                </div>
-                <div class="panel-body">
-                    <br />
-                    <table class="table table-striped">
-                        <tr>
-                            <th>Course</th>
-                            <th>Attendance(Overall)</th>
-                            <th>Attendance(Month)</th>
-                        </tr>
-                        {% for course in attendanceContext.CourseAttendanceContext %}
-                            <tr>
-                                <td>
-                                    {{course.course.Course_ID}}
-                                </td>
-                                <td>
-                                    {{course.totalAttendance}}
-                                    {% if course.totalAttendance != "N.A" %}
-                                        %
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {{course.monthAttendance}}
-                                    {% if course.monthAttendance != "N.A" %}
-                                    %
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
-            <div class="panel-wrapper assignments col-md-5" style="display: inline-block;margin-left: 5%;">
-                <div class="panel-head">
-                    Pending Assignments
-                </div>
-                <div class="panel-body">
-                    <table class="table">
-                        <tr>
-                            <th>Course</th>
-                            <th>Assignment No</th>
-                            <th>Submission Due</th>
-                        </tr>
-                        {% for course in assignmentContext %}
-                        <tr>
-                            <td>{{course.Course.Course_ID}}</td>
-                            <td>{{course.assignment}}</td>
-                            <td>{{course.assignment.End_Time}}</td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
->>>>>>> origin/master
 
 {% endblock %}
+

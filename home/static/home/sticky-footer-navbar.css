@@ -6,27 +6,32 @@ html {
 }
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: 150px;
 }
 .footer {
   position: absolute;
-  bottom: 20px;
+  bottom: 0px;
   width: 100%;
- float:center;
- text-align: center;
- color: white;
-  /* Set the fixed height of the footer here */
-  height: 90px;
+  text-align: center;
+  color: white;
+  height: 80px;
   background-color: #222222;
 }
 
-
+.navbar-brand {
+  padding: 0px;
+}
+.navbar-brand>img {
+  height: 100%;
+  padding: 0px;
+  width: auto;
+}
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
 body > .container {
-  padding: 60px 15px 0;
+padding-bottom: 30px;
 }
 .container .text-muted {
   margin: 20px 0;

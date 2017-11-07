@@ -39,5 +39,9 @@ urlpatterns = [
 	url(r'^faculty_rel_courses/',views.faculty_rel_courses),
 	url(r'^facultyusers/',views.faculty_users),
 	url(r'^studentusers/',views.student_users),
+<<<<<<< HEAD
+=======
+    url(r'^profile/$', views.EditProfile, name='EditProfile'),
+>>>>>>> origin/master
     url(r'^student_session/',views.student_session),
 ]

@@ -37,11 +37,15 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-	url(r'^$', include('home.urls'), name='home'),
+	url(r'^', include('home.urls'), name='home'),
     url(r'^login/',  auth_views.login, {'template_name': 'Login/login.html'}, name='login'),
 	url(r'^logout/$', auth_views.logout, {'template_name': 'Login/login.html'}, name='logout'),
 	url(r'^admin/', admin.site.urls),
+<<<<<<< HEAD
     url(r'^students/', include('students.urls'), name='students'),
+=======
+    url(r'^student/', include('students.urls'), name='students'),
+>>>>>>> origin/master
     url(r'^faculty/', include('faculty.urls'), name='faculty'),
     url(r'^api/',include('home.urls')),
 ]

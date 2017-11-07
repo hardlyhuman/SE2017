@@ -1,5 +1,6 @@
 {% extends "home/index.html" %}
 {% block content %}
+<<<<<<< HEAD
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <<<<<<< HEAD
 
@@ -20,28 +21,16 @@
         document.write('<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"><\/script>\n')
     }
 </script>
+=======
+>>>>>>> origin/master
 
-<script>
-if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
-    jQuery(function($){ //on document.ready
-        $('#duration').datepicker({dateFormat:'yy-mm-dd'}).val();
-    })
-}
-if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
-    jQuery(function($){ //on document.ready
-        $('#duration1').datepicker({dateFormat:'yy-mm-dd'}).val();
-    })
-}
-</script>
 <style>
-
 .abc{
 background-color:black;
 color:white !important;
 }
 /*Please do not remove below checkbox class */
 .checkbox {}
-
 input[type="checkbox"] {
     width: auto;
     opacity: 0.00000001;
@@ -115,24 +104,27 @@ h3{
 font-family:"Times New Roman";
 }
 </style>
-
 </head>
 <div class="container" >
 <center>
-<h3><b>Offered & Unoffered Courses</b></h3></center>
+<h3><b>Course Offerings</b></h3></center>
 <table id="tblSample" class="table table-inverse table-hover" border="1" >
 <thead class="tabel table-inverse abc">
 <tr>
-
 <th>Course</th>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
   <th>Faculty </th>
 </tr>
 </thead>
 <tbody>
+{% if Courses %}
 
 {% for course in Courses %}
+<<<<<<< HEAD
 
 =======
 
@@ -145,6 +137,8 @@ font-family:"Times New Roman";
 
 >>>>>>> origin/faculty
 
+=======
+>>>>>>> origin/master
 <tr>
 <td>
  <form action="{% url 'faculty:OfferCourses' %}" method="post" enctype="multipart/form-data">
@@ -157,37 +151,33 @@ font-family:"Times New Roman";
 </form>
 </div>
 </td><td></td></tr>
-
         <br>
     {% endfor %}
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 =======
 
 <<<<<<< HEAD
 
+=======
+{% else %}
+<h3 style="float:right"><b>No Courses To Offer</b></h3>
+{% endif %}
+>>>>>>> origin/master
 {% for instructor in IC %}
 <tr>
-
 <td ><div class="checkbox">
   <label>
      <input type="checkbox" disabled="disabled" checked="checked">
      <i class="helper"></i><h5><b>{{instructor.Course_ID.Course_Name}}</b></h5>
   </label>
 </div></td><td><h5><b>{{instructor.Inst_ID.LDAP.username}}</b></h5></td>
-
 </tr>
 {% endfor %}
-
-
-
-
-
 </tbody>
 </table>
-
 </div>
-
 <script>
 var courses=JSON.parse('{{Courses1|escapejs}}');
 console.log(courses);
@@ -203,8 +193,7 @@ if(courses[i]==courseid)
 var coursename=courses[i+1];
 break;
 }
-	var text_msg = 'Confirm offering ';
- }      var box= confirm(text_msg+' '+coursename+' ?');
+ }      var box= confirm('Confirm offering '+' '+coursename+' ?');
         if (box==true)
 {
 		document.getElementById(clickedid).form.submit();
@@ -212,7 +201,6 @@ break;
 }
         else
            document.getElementById(clickedid).checked =false;
-
       }
     }
 $(document).ready(function(){
@@ -222,6 +210,7 @@ $(document).ready(function(){
     });
 });
 </script>
+<<<<<<< HEAD
 
 
 
@@ -320,4 +309,6 @@ $(document).ready(function(){
 </script>
 >>>>>>> 80126e220c237d4e336a48d8270c86084d474be2
 >>>>>>> origin/faculty
+=======
+>>>>>>> origin/master
 {% endblock %}

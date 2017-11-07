@@ -1,31 +1,31 @@
+
 from __future__ import unicode_literals
+<<<<<<< HEAD
 
 from django.template.context import RequestContext
 import json as simplejson
 from django.http import HttpResponse
+=======
+from django.contrib.auth.decorators import login_required
+>>>>>>> origin/master
 import json
-from django.shortcuts import redirect
-from django.contrib import messages
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render
-from django.template import loader
-from django.shortcuts import render_to_response
+from django.http import *
+from django.shortcuts import *
+from django.template import *
 from home.models import *
-from home.models import Assignment
-from .forms import UploadFileForm
 from home.serializers import *
 import easygui
-import json
-from django.utils import timezone
-import datetime
+from django.utils import *
 from datetime import datetime
-from django.utils import formats
 from dateutil.parser import parse
+<<<<<<< HEAD
 
 
 
 
+=======
+@login_required
+>>>>>>> origin/master
 def index(request):
 	all_events = Events.objects.all()
 	serializer = EventsSerializer(all_events, many=True)
@@ -35,9 +35,15 @@ def index(request):
 		a.append({"title":i["Event_Name"],"start":i["Event_Date"],"allDay":True})
 	print serializer.data
 	return render(request, 'fullcalendar/calendar.html',{"Events":json.dumps(a)})
+<<<<<<< HEAD
 	
 	
 	
+=======
+
+
+@login_required
+>>>>>>> origin/master
 def ViewProfs(request):
     CourseList = []
     if request.user.personnel.Role.Role_name == 'Faculty':
@@ -56,97 +62,79 @@ def ViewProfs(request):
     context = {'flag':flag,'Courses':CourseList,'Prof_Name':request.session['Prof_Name']}
     return HttpResponse(template.render(context, request))
 
+<<<<<<< HEAD
 
+=======
+@login_required
+>>>>>>> origin/master
 def CoursePage(request):
 	if request.POST.get('action')=='Save':
+
 		course=Courses.objects.get(Course_Name=request.session['course'])
 		course.Course_description = request.POST.get('coursedes')
-        	course.save()
-	elif request.POST.get('action')=="submit":
+		try:
+        		course.save()
+		except:
+			easygui.msgbox("Oops!Data Too Long.",title="ERROR")
+
+	else:
 		request.session['course'] =request.POST.get('dropdown')
-	course=Courses.objects.get(Course_Name=request.session['course'])
+	course=get_object_or_404(Courses,Course_Name=request.session['course'])
     	template = loader.get_template('prof1.html')
     	context = {'Course':course,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))
 
-def ViewRegisteredStudents(request):
-    studentlist = []
-    course_name = request.GET.get('name')
-    students = Students_Courses.objects.all()
-    for student in students:
-        if course_name == student.Course_ID.Course_Name:
-            studentlist.append(student.Student_ID.LDAP.username)
-    template = loader.get_template('student.html')
-    context = {'Students': json.dumps(studentlist), 'Course': course_name}
-    return HttpResponse(template.render(context, request))
 
+
+@login_required
 def AddAssignment(request):
-    s=0;
+    s=0
+
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            courses = Courses.objects.all()
-            for corse in courses:
-                if corse.Course_Name == request.session['course']:
-                    course = Courses.objects.get(Course_Name=corse.Course_Name)
-                    break
-            instance = Assignment(Course_ID=course, Assignment_File=request.FILES['file'])
-            instance.save()
-	    s=1
 
-
-            return HttpResponse("Your File has been uploaded successfully!!!")
-
+  	date_joined =datetime.now()
+	if parse(request.POST.get('enddate'))>=date_joined:
+		courses = Courses.objects.all()
+		for corse in courses:
+			if corse.Course_Name == request.session['course']:
+		            course = Courses.objects.get(Course_Name=corse.Course_Name)
+		            break
+		instance = Assignment(Course_ID=course, Assignment_File=request.FILES['file'],End_Time=request.POST.get('enddate'))
+		instance.save()
+	    	s=1
+	else:
+		s=2
+	return render(request, 'forms.html',{'CourseName':request.session['course'],'s':s})
 
     else:
-        CourseList = []
-        form = UploadFileForm()
-	s=0
-    return render(request, 'forms.html',
 
-                 {'CourseName':request.session['course'], 'form': form, 'request': request,'s':s})
+		if 'course' in request.session:
+
+			s=0
+    			return render(request, 'forms.html',{'CourseName':request.session['course'],'s':s})
+		else:
+			easygui.msgbox("please select a course",title="ERROR")
+			return redirect('http:../ViewProfs/')
+@login_required
+def ViewAssignment(request):
+     asslist = []
+     Assignments = Assignment.objects.all()
+     for ass in Assignments:
+	if 'course' in request.session:
+     		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()!=datetime.strptime('1900-01-01',"%Y-%m-%d").date():
+			print ass.Assignment_File
+			asslist.append(ass)
+	else:
+		easygui.msgbox("please select a course",title="ERROR")
+		return redirect('http:../ViewProfs/')
+     return render(request, 'assignment.html', {'Assignments': asslist,'CourseName':request.session['course']})
 
 
-def delete(request):
-    if request.method != 'POST':
-        raise Http404
-    docId = request.POST.getlist('Assignment_File[]')
-    for did in docId:
-        docToDel = get_object_or_404(Assignment, Assign_ID=did)
-        docToDel.Assignment_File.delete()
-        docToDel.delete()
-    return HttpResponse("Your File has been deleted successfully!!! ")
-
-def Delass(request):
-
-    if request.method == 'POST':
-
-        asslist = []
-        Assignments = Assignment.objects.all()
-        for ass in Assignments:
-            if ass.Course_ID.Course_Name == request.session['course']:
-                asslist.append(ass)
-
-        return render(request, 'assignment.html', {'Assignments': asslist})
-    else:
-        CourseList = []
-        if request.user.personnel.Role.Role_name == 'faculty':
-            person_id = request.user.personnel.Person_ID
-            IC = Instructors_Courses.objects.all()
-            for i in range(0, len(IC)):
-                if person_id == IC[i].Inst_ID.Person_ID:
-                    CourseList.append(IC[i].Course_ID.Course_Name)
-    return render(request, 'course_page.html', {'Courses': CourseList})
-
-def EditCourseDescription(request):
-    if request.method == 'POST':
-        course = request.POST.get('dropdown')
-        courseobj = Courses.objects.get(Course_Name=course)
-        courseobj.Course_description = request.POST.get('coursedes')
-        courseobj.save()
-        return HttpResponse("Successfully updated!!!")
-
+<<<<<<< HEAD
 >>>>>>> origin/faculty
+=======
+@login_required
+>>>>>>> origin/master
 def OfferCourses(request):
     if request.method == 'POST':
         person_id = request.user.personnel.Person_ID
@@ -187,6 +175,7 @@ def OfferCourses(request):
         template = loader.get_template('reg.html')
         context = {'Courses': courses1,'Courses1':json.dumps(courselist), 'IC': IC, 'Prof_Name': request.user.username}
     	return HttpResponse(template.render(context, request))
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 def ViewAttendance(request):	
@@ -233,11 +222,44 @@ def ViewAttendance(request):
     	return HttpResponse(template.render(context, request))	
 =======
 		return HttpResponse(request.POST.get('abc'))
+=======
+@login_required
+def ViewAttendance(request):
+	sessionlist={}
+	sessions=Attendance_Session.objects.all()
+	students=Attendance.objects.all()
+	for session in sessions:
+		if session.Course_Slot.Course_ID.Course_Name==request.session['course']:
+			sessionlist[session.Session_ID]=[session.Date_time.date,0]
+	for session in sessionlist:
+		for student in students:
+			if session==student.ASession_ID.Session_ID and student.Marked=='P':
+				sessionlist[session][1]=sessionlist[session][1]+1
+>>>>>>> origin/master
     	template = loader.get_template('attendance.html')
-    	context = {'classes':studentcount,'CourseName':request.session['course'],'workingdays':sessioncount}
+    	context = {'sessions':sessionlist,'CourseName':request.session['course']}
     	return HttpResponse(template.render(context, request))
+<<<<<<< HEAD
 >>>>>>> origin/faculty
+=======
+@login_required
+def ViewAttendanceDetails(request):
+	slotid=request.GET.get('id')
+	session=Attendance_Session.objects.get(Session_ID=slotid)
+	students=Attendance.objects.all()
+	studentlist=[]
+	for student in students:
+		if str(student.ASession_ID.Session_ID)==str(slotid):
+			studentlist.append(student)
+	template = loader.get_template('details.html')
+    	context = {'students':studentlist,'CourseName':request.session['course'],'date':session.Date_time.date}
+    	return HttpResponse(template.render(context, request))
 
+
+>>>>>>> origin/master
+
+
+@login_required
 def MyLibrary(request):
     s=0
     libfiles=[]
@@ -283,5 +305,9 @@ def MyLibrary(request):
      	for ass in Assignments:
 		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
 			asslist.append(ass)
+<<<<<<< HEAD
     	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
 >>>>>>> origin/faculty
+=======
+	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
+>>>>>>> origin/master

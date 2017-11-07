@@ -23,3 +23,8 @@ redis==2.10.6
 six==1.11.0
 sqlparse==0.1.18
 whitenoise==3.3.1
+<<<<<<< HEAD
+=======
+MySQL-python
+mysqlclient
+>>>>>>> origin/master

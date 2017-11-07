@@ -1,4 +1,7 @@
 {% extends "home/index.html" %}
+{% block nav-course %}
+          <a class="navbar-brand" href="#">{{CourseName}}</a>
+{% endblock %}
 {% block content %}
 
 <style>
@@ -11,20 +14,20 @@ font-family:"Times New Roman";
 }
 </style>
 <center>
-<h2>{{CourseName}} Attendance</h2>
+<h3>{{CourseName}} Attendance Status on {{date}}</h3>
 <div class="container">
 <table id="tblSample" class="table table-inverse table-hover" border="1">
 <thead class="tabel table-inverse abc">
 <tr>
-  <th>Session Date</th>
-<th>Students Present</th>
+  <th>Student ID</th>
+<th>Student Name</th>
  </tr>
 </thead>
 <tbody>
-{% for key,value in sessions.items %}
+{% for student in students %}
 <tr>
-<td>{{value.0}}</td>
-<td><a  href="../details?id={{key}}">{{value.1}}</a></td>
+<td>{{student.Student_ID.Person_ID}}</td>
+<td>{{student.Student_ID.LDAP.username}}</td>
 </tr>
 {% endfor %}
 </tbody>
@@ -34,3 +37,4 @@ font-family:"Times New Roman";
 <script>
 </script>
 {% endblock %}
+

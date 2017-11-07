@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 SE2017/settings.py
+settings.py
 # C extensions
 *.so
 
@@ -107,4 +108,8 @@ ENV/
 
 # mypy
 .mypy_cache/
+<<<<<<< HEAD
 home/AssignmentsFolder
+=======
+home/AssignmentsFolder
+>>>>>>> origin/master

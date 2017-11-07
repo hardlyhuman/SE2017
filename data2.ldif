@@ -1,3 +1,33 @@
+# Entry 1: ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people,dc=iiits,d...
+dn: ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people,dc=iiits,dc=in
+description: All UG 2015 CSE students in IIIT Sri City
+objectclass: organizationalUnit
+objectclass: top
+ou: ug2015_cse
+
+# Entry 2: uid=apoorv.b15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=pe...
+dn: uid=apoorv.b15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people,dc=ii
+ its,dc=in
+cn: Apoorv Bankey
+displayname: Apoorv Bankey
+gecos: IS201501002
+gidnumber: 1007
+givenname: Apoorv Bankey
+homedirectory: /home/students/ug/ug2015/cse/apoorv.b15
+loginshell: /bin/bash
+mail: apoorv.b15@iiits.in
+objectclass: top
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: shadowAccount
+postaladdress: IIIT Sri City
+shadowlastchange: 0
+shadowmax: -1
+shadowwarning: 99999
+sn: bankey
+telephonenumber: 000 000 0000
+uid: apoorv.b15
+uidnumber: 5425
 
 # Entry 3: uid=aravindbabu.j15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,...
 dn: uid=aravindbabu.j15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people,
@@ -910,7 +940,7 @@ sn: G
 telephonenumber: 000 000 0000
 uid: savitha.g15
 uidnumber: 5319
-userpassword: dontusemypassword1197
+userpassword: dontusemypassword1501
 
 # Entry 41: uid=shariqsuhail.m15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=student...
 dn: uid=shariqsuhail.m15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people
@@ -1081,7 +1111,31 @@ telephonenumber: 000 000 0000
 uid: srivastava.y15
 uidnumber: 5357
 
-# Entry 48: uid=sunayanrohit.g15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=student...
+# Entry 48: uid=sumanth.m15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=...
+dn: uid=sumanth.m15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people,dc=i
+ iits,dc=in
+cn: Sumanth Venkata Sai Krishna Manduru
+displayname: Sumanth
+gecos: IS201501002
+gidnumber: 1007
+givenname: sumanth
+homedirectory: /home/students/ug/ug2015/cse/Sumanth.m15
+loginshell: /bin/bash
+mail: Sumanth.m15@iiits.in
+objectclass: top
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: shadowAccount
+postaladdress: IIIT Sri City
+shadowlastchange: 0
+shadowmax: -1
+shadowwarning: 99999
+sn: manduru
+telephonenumber: 000 000 0000
+uid: sumanth.m15
+uidnumber: 5333
+
+# Entry 49: uid=sunayanrohit.g15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=student...
 dn: uid=sunayanrohit.g15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people
  ,dc=iiits,dc=in
 cn: Gundala Sunayan Rohit
@@ -1105,7 +1159,7 @@ telephonenumber: 000 000 0000
 uid: sunayanrohit.g15
 uidnumber: 5323
 
-# Entry 49: uid=sunilkumar.b15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,...
+# Entry 50: uid=sunilkumar.b15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,...
 dn: uid=sunilkumar.b15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people,d
  c=iiits,dc=in
 cn: Banoth Sunil Kumar
@@ -1129,7 +1183,31 @@ telephonenumber: 000 000 0000
 uid: sunilkumar.b15
 uidnumber: 5306
 
-# Entry 50: uid=swathireddy.d15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students...
+# Entry 51: uid=suryateja.k15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,o...
+dn: uid=suryateja.k15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people,dc
+ =iiits,dc=in
+cn: Karri Surya Teja
+displayname: Karri Surya Teja
+gecos: IS201501028
+gidnumber: 1007
+givenname: Surya Teja
+homedirectory: /home/students/ug/ug2015/cse/suryateja.k15
+loginshell: /bin/bash
+mail: suryateja.k15@iiits.in
+objectclass: top
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: shadowAccount
+postaladdress: IIIT Sri City
+shadowlastchange: 0
+shadowmax: -1
+shadowwarning: 99999
+sn: Banoth
+telephonenumber: 000 000 0000
+uid: suryateja.k15
+uidnumber: 5328
+
+# Entry 52: uid=swathireddy.d15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students...
 dn: uid=swathireddy.d15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people,
  dc=iiits,dc=in
 cn: Dendi Swathi Reddy
@@ -1153,7 +1231,7 @@ telephonenumber: 000 000 0000
 uid: swathireddy.d15
 uidnumber: 5315
 
-# Entry 51: uid=tanuja.s15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=p...
+# Entry 53: uid=tanuja.s15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=p...
 dn: uid=tanuja.s15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people,dc=ii
  its,dc=in
 cn: Sabbavarapu Sri Gowri Tanuja
@@ -1177,7 +1255,7 @@ telephonenumber: 000 000 0000
 uid: tanuja.s15
 uidnumber: 5345
 
-# Entry 52: uid=tapankrish.s15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,...
+# Entry 54: uid=tapankrish.s15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,...
 dn: uid=tapankrish.s15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people,d
  c=iiits,dc=in
 cn: S R Tapan Krish
@@ -1201,7 +1279,7 @@ telephonenumber: 000 000 0000
 uid: tapankrish.s15
 uidnumber: 5344
 
-# Entry 53: uid=utkal.s15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=pe...
+# Entry 55: uid=utkal.s15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=pe...
 dn: uid=utkal.s15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people,dc=iii
  ts,dc=in
 cn: Sirikonda Utkal
@@ -1225,7 +1303,7 @@ telephonenumber: 000 000 0000
 uid: utkal.s15
 uidnumber: 5348
 
-# Entry 54: uid=vagdevi.k15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=...
+# Entry 56: uid=vagdevi.k15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=...
 dn: uid=vagdevi.k15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people,dc=i
  iits,dc=in
 cn: Kommineni Vagdevi
@@ -1249,7 +1327,7 @@ telephonenumber: 000 000 0000
 uid: vagdevi.k15
 uidnumber: 5329
 
-# Entry 55: uid=vaishali.s15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou...
+# Entry 57: uid=vaishali.s15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou...
 dn: uid=vaishali.s15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people,dc=
  iiits,dc=in
 cn: Vaishali Sharma
@@ -1273,7 +1351,7 @@ telephonenumber: 000 000 0000
 uid: vaishali.s15
 uidnumber: 5353
 
-# Entry 56: uid=vijaykumar.b15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,...
+# Entry 58: uid=vijaykumar.b15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,...
 dn: uid=vijaykumar.b15,ou=ug2015_cse,ou=ug2015,ou=ug,ou=students,ou=people,d
  c=iiits,dc=in
 cn: Boda Vijay Kumar
@@ -1297,14 +1375,14 @@ telephonenumber: 000 000 0000
 uid: vijaykumar.b15
 uidnumber: 5307
 
-# Entry 57: ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=iiits,...
+# Entry 1: ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=iiits,d...
 dn: ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=iiits,dc=in
 description: All UG 2015 ECE students in IIIT Sri City
 objectclass: organizationalUnit
 objectclass: top
 ou: ug2015_ece
 
-# Entry 58: uid=abhishek.m15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou...
+# Entry 2: uid=abhishek.m15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=...
 dn: uid=abhishek.m15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=
  iiits,dc=in
 cn: Mamidi Ratna Abhishek
@@ -1328,7 +1406,31 @@ telephonenumber: 000 000 0000
 uid: abhishek.m15
 uidnumber: 5387
 
-# Entry 59: uid=akshay.d15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
+# Entry 3: uid=aditya.g15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=pe...
+dn: uid=aditya.g15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=ii
+ its,dc=in
+cn: Aditya Gedela
+displayname: Aditya Gedela
+gecos: IS201511012
+gidnumber: 1007
+givenname: Aditya Gedela
+homedirectory: /home/students/ug/ug2015/ece/aditya.g15
+loginshell: /bin/bash
+mail: aditya.g15@iiits.in
+objectclass: top
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: shadowAccount
+postaladdress: IIIT Sri City
+shadowlastchange: 0
+shadowmax: -1
+shadowwarning: 99999
+sn: G
+telephonenumber: 000 000 0000
+uid: aditya.g15
+uidnumber: 5426
+
+# Entry 4: uid=akshay.d15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=pe...
 dn: uid=akshay.d15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=ii
  its,dc=in
 cn: Deeti Akshay Kumar
@@ -1352,7 +1454,31 @@ telephonenumber: 000 000 0000
 uid: akshay.d15
 uidnumber: 5367
 
-# Entry 60: uid=bharatsai.m15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,o...
+# Entry 5: uid=amansingh.v15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou...
+dn: uid=amansingh.v15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc
+ =iiits,dc=in
+cn: Verma Aman Singh Vijay
+displayname: Verma Aman Singh Vijay
+gecos: IS201511046
+gidnumber: 1007
+givenname: Aman Singh Vijay
+homedirectory: /home/students/ug/ug2015/ece/amansingh.v15
+loginshell: /bin/bash
+mail: amansingh.v15@iiits.in
+objectclass: top
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: shadowAccount
+postaladdress: IIIT Sri City
+shadowlastchange: 0
+shadowmax: -1
+shadowwarning: 99999
+sn: Verma
+telephonenumber: 000 000 0000
+uid: amansingh.v15
+uidnumber: 5406
+
+# Entry 6: uid=bharatsai.m15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou...
 dn: uid=bharatsai.m15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc
  =iiits,dc=in
 cn: Mullapudi Bharat Sai
@@ -1376,7 +1502,7 @@ telephonenumber: 000 000 0000
 uid: bharatsai.m15
 uidnumber: 5389
 
-# Entry 61: uid=bhaswanth.i15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,o...
+# Entry 7: uid=bhaswanth.i15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou...
 dn: uid=bhaswanth.i15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc
  =iiits,dc=in
 cn: Inapurapu Satya Sri Bhaswanth
@@ -1400,7 +1526,7 @@ telephonenumber: 000 000 0000
 uid: bhaswanth.i15
 uidnumber: 5374
 
-# Entry 62: uid=dharani.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=...
+# Entry 8: uid=dharani.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
 dn: uid=dharani.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=i
  iits,dc=in
 cn: Kaku Dharani
@@ -1424,7 +1550,31 @@ telephonenumber: 000 000 0000
 uid: dharani.k15
 uidnumber: 5378
 
-# Entry 63: uid=giripranay.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
+# Entry 9: uid=dileepkumar.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
+dn: uid=dileepkumar.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,
+ dc=iiits,dc=in
+cn: Dileep kumar puvvula
+displayname: Dileep kumar
+gecos: IS201511036
+gidnumber: 1007
+givenname: Dileep kumar
+homedirectory: /home/students/ug/ug2015/ece/dileepkumar.p15
+loginshell: /bin/bash
+mail: dileepkumar.p15@iiits.in
+objectclass: top
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: shadowAccount
+postaladdress: IIIT Sri City
+shadowlastchange: 0
+shadowmax: -1
+shadowwarning: 99999
+sn: puvvula
+telephonenumber: 000 000 0000
+uid: dileepkumar.p15
+uidnumber: 5396
+
+# Entry 10: uid=giripranay.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
 dn: uid=giripranay.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,d
  c=iiits,dc=in
 cn: Kona Giri Pranay
@@ -1448,7 +1598,7 @@ telephonenumber: 000 000 0000
 uid: giripranay.k15
 uidnumber: 5384
 
-# Entry 64: uid=gpvsaikumar.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students...
+# Entry 11: uid=gpvsaikumar.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students...
 dn: uid=gpvsaikumar.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,
  dc=iiits,dc=in
 cn: Pamarthi G P V Sai Kumar
@@ -1472,7 +1622,7 @@ telephonenumber: 000 000 0000
 uid: gpvsaikumar.p15
 uidnumber: 5393
 
-# Entry 65: uid=hemanthraj.s15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
+# Entry 12: uid=hemanthraj.s15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
 dn: uid=hemanthraj.s15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,d
  c=iiits,dc=in
 cn: Sampari Hemanth Raj
@@ -1496,7 +1646,7 @@ telephonenumber: 000 000 0000
 uid: hemanthraj.s15
 uidnumber: 5399
 
-# Entry 66: uid=hiranmai.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou...
+# Entry 13: uid=hiranmai.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou...
 dn: uid=hiranmai.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=
  iiits,dc=in
 cn: Karedla Hiranmai
@@ -1520,7 +1670,7 @@ telephonenumber: 000 000 0000
 uid: hiranmai.k15
 uidnumber: 5381
 
-# Entry 67: uid=jawaliyadav.e15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students...
+# Entry 14: uid=jawaliyadav.e15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students...
 dn: uid=jawaliyadav.e15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,
  dc=iiits,dc=in
 cn: Emmadi Jawali Yadav
@@ -1544,7 +1694,7 @@ telephonenumber: 000 000 0000
 uid: jawaliyadav.e15
 uidnumber: 5368
 
-# Entry 68: uid=jayachandra.g15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students...
+# Entry 15: uid=jayachandra.g15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students...
 dn: uid=jayachandra.g15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,
  dc=iiits,dc=in
 cn: G Jayachandra
@@ -1568,7 +1718,7 @@ telephonenumber: 000 000 0000
 uid: jayachandra.g15
 uidnumber: 5369
 
-# Entry 69: uid=karunkumar.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
+# Entry 16: uid=karunkumar.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
 dn: uid=karunkumar.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,d
  c=iiits,dc=in
 cn: Kancharla Karun Kumar
@@ -1592,7 +1742,7 @@ telephonenumber: 000 000 0000
 uid: karunkumar.k15
 uidnumber: 5380
 
-# Entry 70: uid=kevinrahul.s15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
+# Entry 17: uid=kevinrahul.s15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
 dn: uid=kevinrahul.s15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,d
  c=iiits,dc=in
 cn: Kevin Rahul Sanghoi
@@ -1616,7 +1766,7 @@ telephonenumber: 000 000 0000
 uid: kevinrahul.s15
 uidnumber: 5383
 
-# Entry 71: uid=krishnakanth.b15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=student...
+# Entry 18: uid=krishnakanth.b15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=student...
 dn: uid=krishnakanth.b15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people
  ,dc=iiits,dc=in
 cn: Bitra Krishnakanth
@@ -1640,7 +1790,7 @@ telephonenumber: 000 000 0000
 uid: krishnakanth.b15
 uidnumber: 5362
 
-# Entry 72: uid=kushal.b15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
+# Entry 19: uid=kushal.b15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
 dn: uid=kushal.b15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=ii
  its,dc=in
 cn: Kushal Borkar
@@ -1664,7 +1814,7 @@ telephonenumber: 000 000 0000
 uid: kushal.b15
 uidnumber: 5385
 
-# Entry 73: uid=lahari.u15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
+# Entry 20: uid=lahari.u15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
 dn: uid=lahari.u15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=ii
  its,dc=in
 cn: U Lahari
@@ -1688,7 +1838,7 @@ telephonenumber: 000 000 0000
 uid: lahari.u15
 uidnumber: 5403
 
-# Entry 74: uid=madhulatha.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
+# Entry 21: uid=madhulatha.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
 dn: uid=madhulatha.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,d
  c=iiits,dc=in
 cn: K N Madhulatha
@@ -1712,7 +1862,7 @@ telephonenumber: 000 000 0000
 uid: madhulatha.k15
 uidnumber: 5375
 
-# Entry 75: uid=nagasaigoud.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students...
+# Entry 22: uid=nagasaigoud.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students...
 dn: uid=nagasaigoud.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,
  dc=iiits,dc=in
 cn: Padamati Naga Sai Goud
@@ -1736,7 +1886,7 @@ telephonenumber: 000 000 0000
 uid: nagasaigoud.p15
 uidnumber: 5392
 
-# Entry 76: uid=nagasuraj.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,o...
+# Entry 23: uid=nagasuraj.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,o...
 dn: uid=nagasuraj.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc
  =iiits,dc=in
 cn: Pamulapati Naga Suraj
@@ -1760,7 +1910,7 @@ telephonenumber: 000 000 0000
 uid: nagasuraj.p15
 uidnumber: 5394
 
-# Entry 77: uid=nivesh.b15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
+# Entry 24: uid=nivesh.b15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
 dn: uid=nivesh.b15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=ii
  its,dc=in
 cn: Boreddy Nivesh Reddy
@@ -1784,7 +1934,31 @@ telephonenumber: 000 000 0000
 uid: nivesh.b15
 uidnumber: 5363
 
-# Entry 78: uid=prashanth.m15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,o...
+# Entry 25: uid=pavankumar.y15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
+dn: uid=pavankumar.y15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,d
+ c=iiits,dc=in
+cn: Yadlapalli Sai Pavan Kumar
+displayname: Yadlapalli Sai Pavan Kumar
+gecos: IS201511047
+gidnumber: 1007
+givenname: Sai Pavan Kumar
+homedirectory: /home/students/ug/ug2015/ece/pavankumar.y15
+loginshell: /bin/bash
+mail: pavankumar.y15@iiits.in
+objectclass: top
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: shadowAccount
+postaladdress: IIIT Sri City
+shadowlastchange: 0
+shadowmax: -1
+shadowwarning: 99999
+sn: Yadlapalli
+telephonenumber: 000 000 0000
+uid: pavankumar.y15
+uidnumber: 5407
+
+# Entry 26: uid=prashanth.m15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,o...
 dn: uid=prashanth.m15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc
  =iiits,dc=in
 cn: Madugula Prashanth
@@ -1808,7 +1982,7 @@ telephonenumber: 000 000 0000
 uid: prashanth.m15
 uidnumber: 5386
 
-# Entry 79: uid=ragavi.d15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
+# Entry 27: uid=ragavi.d15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
 dn: uid=ragavi.d15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=ii
  its,dc=in
 cn: Dangeti Ragavi
@@ -1832,7 +2006,7 @@ telephonenumber: 000 000 0000
 uid: ragavi.d15
 uidnumber: 5366
 
-# Entry 80: uid=raghu.g15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=pe...
+# Entry 28: uid=raghu.g15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=pe...
 dn: uid=raghu.g15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=iii
  ts,dc=in
 cn: Gedda Raghu
@@ -1856,7 +2030,7 @@ telephonenumber: 000 000 0000
 uid: raghu.g15
 uidnumber: 5371
 
-# Entry 81: uid=rahul.t15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=pe...
+# Entry 29: uid=rahul.t15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=pe...
 dn: uid=rahul.t15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=iii
  ts,dc=in
 cn: Tatichetla Rahul
@@ -1880,7 +2054,7 @@ telephonenumber: 000 000 0000
 uid: rahul.t15
 uidnumber: 5402
 
-# Entry 82: uid=rajalakshmi.v15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students...
+# Entry 30: uid=rajalakshmi.v15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students...
 dn: uid=rajalakshmi.v15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,
  dc=iiits,dc=in
 cn: Rajalakshmi V
@@ -1904,7 +2078,7 @@ telephonenumber: 000 000 0000
 uid: rajalakshmi.v15
 uidnumber: 5397
 
-# Entry 83: uid=ravikumar.s15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,o...
+# Entry 31: uid=ravikumar.s15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,o...
 dn: uid=ravikumar.s15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc
  =iiits,dc=in
 cn: Ravi Kumar Singh
@@ -1928,7 +2102,7 @@ telephonenumber: 000 000 0000
 uid: ravikumar.s15
 uidnumber: 5398
 
-# Entry 84: uid=rayudu.v15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
+# Entry 32: uid=rayudu.v15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
 dn: uid=rayudu.v15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=ii
  its,dc=in
 cn: Velicheti Mallikarjuna Simhachalam Rayudu
@@ -1952,7 +2126,7 @@ telephonenumber: 000 000 0000
 uid: rayudu.v15
 uidnumber: 5405
 
-# Entry 85: uid=rohith.c15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
+# Entry 33: uid=rohith.c15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
 dn: uid=rohith.c15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=ii
  its,dc=in
 cn: Ch Rohith
@@ -1976,7 +2150,7 @@ telephonenumber: 000 000 0000
 uid: rohith.c15
 uidnumber: 5364
 
-# Entry 86: uid=saisuma.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=...
+# Entry 34: uid=saisuma.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=...
 dn: uid=saisuma.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=i
  iits,dc=in
 cn: Kamireddy Sai Suma
@@ -2000,7 +2174,7 @@ telephonenumber: 000 000 0000
 uid: saisuma.k15
 uidnumber: 5379
 
-# Entry 87: uid=saiteja.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=...
+# Entry 35: uid=saiteja.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=...
 dn: uid=saiteja.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=i
  iits,dc=in
 cn: Pabbisetti Sai Teja
@@ -2024,7 +2198,7 @@ telephonenumber: 000 000 0000
 uid: saiteja.p15
 uidnumber: 5391
 
-# Entry 88: uid=sangeetha.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,o...
+# Entry 36: uid=sangeetha.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,o...
 dn: uid=sangeetha.p15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc
  =iiits,dc=in
 cn: Pangoth Sangeetha
@@ -2048,7 +2222,31 @@ telephonenumber: 000 000 0000
 uid: sangeetha.p15
 uidnumber: 5395
 
-# Entry 89: uid=satyasai.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou...
+# Entry 37: uid=sankeerth.y15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,o...
+dn: uid=sankeerth.y15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc
+ =iiits,dc=in
+cn: Yathati Sankeerth
+displayname: Yathati Sankeerth
+gecos: IS201511048
+gidnumber: 1007
+givenname: Sankeerth
+homedirectory: /home/students/ug/ug2015/ece/sankeerth.y15
+loginshell: /bin/bash
+mail: sankeerth.y15@iiits.in
+objectclass: top
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: shadowAccount
+postaladdress: IIIT Sri City
+shadowlastchange: 0
+shadowmax: -1
+shadowwarning: 99999
+sn: Yathati
+telephonenumber: 000 000 0000
+uid: sankeerth.y15
+uidnumber: 5408
+
+# Entry 38: uid=satyasai.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou...
 dn: uid=satyasai.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=
  iiits,dc=in
 cn: Kaisarla Satya Sai
@@ -2072,7 +2270,7 @@ telephonenumber: 000 000 0000
 uid: satyasai.k15
 uidnumber: 5377
 
-# Entry 90: uid=shaiksadiq.a15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
+# Entry 39: uid=shaiksadiq.a15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
 dn: uid=shaiksadiq.a15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,d
  c=iiits,dc=in
 cn: Shaik Sadiq Ahmed
@@ -2096,7 +2294,7 @@ telephonenumber: 000 000 0000
 uid: shaiksadiq.a15
 uidnumber: 5400
 
-# Entry 91: uid=shivaram.n15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou...
+# Entry 40: uid=shivaram.n15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou...
 dn: uid=shivaram.n15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=
  iiits,dc=in
 cn: Naraboina Shivaram
@@ -2120,7 +2318,7 @@ telephonenumber: 000 000 0000
 uid: shivaram.n15
 uidnumber: 5390
 
-# Entry 92: uid=suneelkumar.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students...
+# Entry 41: uid=suneelkumar.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students...
 dn: uid=suneelkumar.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,
  dc=iiits,dc=in
 cn: Korlakota Suneel Kumar
@@ -2144,7 +2342,7 @@ telephonenumber: 000 000 0000
 uid: suneelkumar.k15
 uidnumber: 5376
 
-# Entry 93: uid=sunilkumar.m15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
+# Entry 42: uid=sunilkumar.m15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
 dn: uid=sunilkumar.m15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,d
  c=iiits,dc=in
 cn: Midde Sunil Kumar Shetty
@@ -2168,7 +2366,7 @@ telephonenumber: 000 000 0000
 uid: sunilkumar.m15
 uidnumber: 5388
 
-# Entry 94: uid=swaroop.v15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=...
+# Entry 43: uid=swaroop.v15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=...
 dn: uid=swaroop.v15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=i
  iits,dc=in
 cn: Veesam Venkata Jyothi Swaroop
@@ -2192,7 +2390,7 @@ telephonenumber: 000 000 0000
 uid: swaroop.v15
 uidnumber: 5404
 
-# Entry 95: uid=varshitha.c15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,o...
+# Entry 44: uid=varshitha.c15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,o...
 dn: uid=varshitha.c15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc
  =iiits,dc=in
 cn: Chakka Varshitha
@@ -2216,7 +2414,7 @@ telephonenumber: 000 000 0000
 uid: varshitha.c15
 uidnumber: 5365
 
-# Entry 96: uid=varunnitin.g15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
+# Entry 45: uid=varunnitin.g15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
 dn: uid=varunnitin.g15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,d
  c=iiits,dc=in
 cn: Guru Varun Nitin Gadepalli
@@ -2240,7 +2438,7 @@ telephonenumber: 000 000 0000
 uid: varunnitin.g15
 uidnumber: 5373
 
-# Entry 97: uid=vasavi.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
+# Entry 46: uid=vasavi.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=p...
 dn: uid=vasavi.k15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=ii
  its,dc=in
 cn: Katakam Vasavi
@@ -2264,7 +2462,7 @@ telephonenumber: 000 000 0000
 uid: vasavi.k15
 uidnumber: 5382
 
-# Entry 98: uid=vijaykumar.s15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
+# Entry 47: uid=vijaykumar.s15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
 dn: uid=vijaykumar.s15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,d
  c=iiits,dc=in
 cn: Singu Vijay Kumar
@@ -2288,7 +2486,7 @@ telephonenumber: 000 000 0000
 uid: vijaykumar.s15
 uidnumber: 5401
 
-# Entry 99: uid=vinay.b15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=pe...
+# Entry 48: uid=vinay.b15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=pe...
 dn: uid=vinay.b15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,dc=iii
  ts,dc=in
 cn: Vinay Balla
@@ -2312,7 +2510,7 @@ telephonenumber: 000 000 0000
 uid: vinay.b15
 uidnumber: 5361
 
-# Entry 100: uid=viswanatha.g15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students...
+# Entry 49: uid=viswanatha.g15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,...
 dn: uid=viswanatha.g15,ou=ug2015_ece,ou=ug2015,ou=ug,ou=students,ou=people,d
  c=iiits,dc=in
 cn: Gajjala Viswanatha Reddy

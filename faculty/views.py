@@ -10,6 +10,7 @@ import easygui
 from django.utils import *
 from datetime import datetime
 from dateutil.parser import parse
+
 @login_required
 def index(request):
 	all_events = Events.objects.all()
@@ -179,7 +180,7 @@ def MyLibrary(request):
 			course = Courses.objects.get(Course_Name=corse.Course_Name)
 		        break
 	for libfile in libfiles:
-		instance = Assignment(Course_ID=course, Assignment_File=libfile,End_Time='1900-01-01')
+		instance = Assignment(Course_ID=course, Assignment_File=libfile,Start_Time=datetime.now(),End_Time='1900-01-01')
 		instance.save()
 	s=1
 	asslist = []
@@ -196,5 +197,7 @@ def MyLibrary(request):
      	Assignments = Assignment.objects.all()
      	for ass in Assignments:
 		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
+
 			asslist.append(ass)
 	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
+

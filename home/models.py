@@ -24,7 +24,6 @@ class Personnel(models.Model):
     LDAP=models.OneToOneField(User, on_delete=models.CASCADE)
     Role=models.ForeignKey(Roles,to_field='Role_ID',on_delete=models.CASCADE)#Make sure whether this has to be foreign key
     Dept = models.ForeignKey('Department', to_field='Dept_ID', on_delete=models.CASCADE)  # Not sure about this too
-    Year = models.IntegerField(default=2013)
     RollNumber = models.CharField(null=True, max_length=20)
     def __str__(self):
         return self.LDAP.username

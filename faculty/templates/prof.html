@@ -31,6 +31,7 @@ h3{
 font-family:"Times New Roman";
 }
 </style>
+
 {% if flag == 0 %}
 <center>
 <button id="offer"  >Offer Courses</button></center>
@@ -39,6 +40,31 @@ font-family:"Times New Roman";
         location.href = "{% url 'faculty:OfferCourses' %}";
     };
 </script>
+{% elif hint == 0  %}
+<script>
+alert('Please Select A Course');
+</script>
+<center>
+<h3><b>Please Select A Course </b></h3>
+<form action="{% url 'faculty:CoursePage' %}"  method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+<select name="dropdown" class="menu"onchange="this.form.submit()" id="sub" required>
+<option  value="" selected="selected"  hidden>--select--</option>	
+{% for course in Courses %}
+<option value="{{course}}" > {{course}}</option>
+{% endfor %}
+</select><br><br>
+</form>
+</center>
+{% elif hint == 1 and flag == 0 %}
+<center>
+<button id="offer"  >Offer Courses</button></center>
+<script type="text/javascript">
+    document.getElementById("offer").onclick = function () {
+        location.href = "{% url 'faculty:OfferCourses' %}";
+    };
+</script>
+
 {% else %}
 <center>
 <h3><b>Please Select A Course </b></h3>

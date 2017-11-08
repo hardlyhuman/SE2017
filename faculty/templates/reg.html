@@ -94,8 +94,8 @@ font-family:"Times New Roman";
 </thead>
 <tbody>
 {% if Courses %}
+{% for course in Courses %}
 
-{% for course in Courses %}    
 <tr>
 <td>
  <form action="{% url 'faculty:OfferCourses' %}" method="post" enctype="multipart/form-data">

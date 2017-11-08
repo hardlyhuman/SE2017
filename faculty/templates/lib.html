@@ -116,6 +116,11 @@ document.getElementById("clicked1").onclick = function () {
 </tr>
 
 
+<div id="limit">
+    <a href="{{document.Assignment_File.url}}"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD7SeZ_d0TQKBXnwh2JEl3BPErckP2H9sdR5XfqlOOw8CoiJ8l" alt="{{ document.Assignment_File.name }}" width="60" height="60" border="1"></a>
+<p id="limit1"><h5><b>{{ document.Assignment_File.name|slice:"18:" }}</b></h5></p>
+</div>
+
     {% endfor %}
 </table>
 </div>

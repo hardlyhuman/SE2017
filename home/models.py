@@ -3,6 +3,7 @@ from django.db import models
 from django import forms
 from django import utils
 from django.contrib.auth.models import User
+from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 # from compositekey import db
 import datetime
@@ -14,6 +15,7 @@ class Roles(models.Model):
     Role_ID = models.AutoField(primary_key=True)
     Role_name = models.CharField(max_length=50, default="")
     level = models.IntegerField(default=0)
+
 
     def __str__(self):
         return self.Role_name
@@ -29,6 +31,8 @@ class Personnel(models.Model):
         return self.LDAP.username
 
 
+# Dept=models.ForeignKey(Department,to_field='Dept_ID',on_delete=models.CASCADE)#Not sure about this too
+
 
 @python_2_unicode_compatible
 class Department(models.Model):
@@ -37,6 +41,7 @@ class Department(models.Model):
 
 
 
+    #Head_ID=models.ForeignKey('Personnel',to_field='Person_ID',on_delete=models.CASCADE)
     def __str__(self):
         return self.Dept_Name
 
@@ -47,10 +52,12 @@ class Courses(models.Model):
     Course_ID = models.AutoField(primary_key=True)
     Course_Name = models.CharField(max_length=50, default="")
 
+    # Inst_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
     Course_description = models.CharField(max_length=255, default="")
     Course_Credits = models.IntegerField()
     Course_Year=models.IntegerField()
     Course_Status = models.BooleanField(default = True)
+    #Course_Status = models.BooleanField(default= True)
     def __str__(self):
         return self.Course_Name
 
@@ -92,13 +99,13 @@ class Assignment(models.Model):
         return str(self.Assign_ID)
 
 class Submissions(models.Model):
-
+    #Sub_ID=db.MultiFieldPK('Assign_ID','Student_ID')
+    Sub_ID=models.AutoField(primary_key=True)
 
     Sub_ID=models.AutoField(primary_key=True)
     Assign_ID=models.ForeignKey(Assignment,to_field='Assign_ID',on_delete=models.CASCADE)
     Student_ID=models.ForeignKey(Personnel,to_field='Person_ID',on_delete=models.CASCADE)
     Sub_Time=models.DateTimeField(default=utils.timezone.now)
-    Sub_Status = models.BooleanField(default=False)
     Score=models.FloatField(default=0)
 
 @python_2_unicode_compatible
@@ -130,10 +137,9 @@ class Students_Courses(models.Model):
 
 
 class Events(models.Model):
-    Event_ID = models.AutoField(primary_key=True)
-    Event_Date = models.DateField()
-    Event_Name = models.CharField(default='', max_length=50)
-
+    Event_ID=models.AutoField(primary_key=True)
+    Event_Date=models.DateField()
+    Event_Name=models.CharField(default='',max_length=50)
 
 class Student_Period(models.Model):
     Student_ID = models.ForeignKey(Personnel, to_field='Person_ID')
@@ -156,6 +162,7 @@ class Timetable(models.Model):
     End_time=models.TimeField()
     Course_ID=models.ForeignKey(Courses,to_field='Course_ID',on_delete=models.CASCADE)
     Class_ID=models.CharField(max_length=10,default='')
+
     def __str__(self):
         return str(self.Course_ID)
 class NotificationTime(models.Model):

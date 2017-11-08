@@ -118,7 +118,7 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'HOST': 'localhost',
-            'NAME': 'se2017',
+            'NAME': 'se',
             'USER': 'root',
             'PASSWORD': '5qlDevelop#r',
             }
@@ -192,3 +192,5 @@ LOGOUT_REDIRECT_URL = '/'
 
 MEDIA_URL='/AssignmentsFolder/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'home/AssignmentsFolder')
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

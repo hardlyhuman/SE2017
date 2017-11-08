@@ -120,9 +120,8 @@ else:
             'HOST': 'localhost',
             'NAME': 'se',
             'USER': 'root',
-            'PASSWORD': 'PASSWORD',
-
-    }
+            'PASSWORD': '5qlDevelop#r',
+            }
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 }

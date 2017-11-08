@@ -1,13 +1,93 @@
 {% extends "home/index.html" %}
 {% block content %}
-
-<form method='post'>
-{% csrf_token %}
-<table>
-{{form.as_p}}
-</table>
-
-<input type="submit" value="Submit"></input>
-
-</form>
+<style>
+    body {font-family: "Lato", sans-serif;}
+    
+    /* Style the tab */
+    div.tab {
+        overflow: hidden;
+        border: 1px solid rgb(0, 0, 0);
+        background-color: #222222;
+    }
+    
+    /* Style the buttons inside the tab */
+    div.tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+        color: rgb(163, 162, 162);
+    }
+    
+    /* Change background color of buttons on hover */
+    div.tab button:hover {
+        background-color: rgb(148, 148, 148);
+    }
+    
+    /* Create an active/current tablink class */
+    div.tab button.active {
+        background-color: rgb(7, 7, 7);
+    }
+    
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+</style>
+{% if messages %}
+{%for message in messages %}
+    <script>
+    var msg="{{message}}";
+    alert(msg);
+    </script>
+{%endfor%}
+{%endif%}
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'London')">Email Time</button>
+    <button class="tablinks" onclick="openCity(event, 'Paris')">Password</button>
+  </div>
+  
+  <div id="London" class="tabcontent">
+    <h3>Email Notification Time</h3>
+    <p><form method='post'>
+        {% csrf_token %}
+        <table>
+        {{form.as_p}}
+        </table>
+        <br>
+        <button type="submit" name="name1" value="1">Confirm</button>
+        </form></p>
+  </div>
+  
+  <div id="Paris" class="tabcontent">
+    <h3>Password Change</h3>
+    <p><form method="POST">
+        {% csrf_token %}
+        {{form2.as_p}}
+        <br>
+        <button type="submit" name="name2" value="2">Change Password</button>
+    </form></p> 
+  </div>
+  <script>
+  function openCity(evt, cityName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " active";
+  }
+  </script>
 {% endblock %}

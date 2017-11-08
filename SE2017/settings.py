@@ -125,10 +125,12 @@ else:
             'NAME': 'se2017',
             'USER': 'root',
             'PASSWORD': '5qlDevelop#r',
+
             }
+
+    }
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
-}
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -196,3 +198,5 @@ LOGOUT_REDIRECT_URL = '/'
 
 MEDIA_URL='/AssignmentsFolder/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'home/AssignmentsFolder')
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

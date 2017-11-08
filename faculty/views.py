@@ -41,6 +41,7 @@ def ViewProfs(request):
     template = loader.get_template('prof.html')
     context = {'flag':flag,'Courses':CourseList,'Prof_Name':request.session['Prof_Name']}
     return HttpResponse(template.render(context, request))
+
 @login_required
 def CoursePage(request):		
 	if request.POST.get('action')=='Save':
@@ -151,6 +152,7 @@ def OfferCourses(request):
 	for course in courses:
 		courselist.append(course.Course_ID)
 		courselist.append(course.Course_Name)
+		
         template = loader.get_template('reg.html')
         context = {'Courses': courses1,'Courses1':json.dumps(courselist), 'IC': IC, 'Prof_Name': request.user.username}
     	return HttpResponse(template.render(context, request))

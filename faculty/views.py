@@ -49,6 +49,7 @@ def CoursePage(request):
 		course=Courses.objects.get(Course_Name=request.session['course'])
 		course.Course_description = request.POST.get('coursedes')
         	course.save()
+
 					
 	else:   
 		request.session['course'] =request.POST.get('dropdown')	
@@ -85,6 +86,7 @@ def AddAssignment(request):
         	for i in range(0, len(IC)):
             		if person_id == IC[i].Inst_ID.Person_ID:
                 		CourseList.append(IC[i].Course_ID.Course_Name)
+
 	
 		if 'course' in request.session:
         		

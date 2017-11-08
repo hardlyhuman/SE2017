@@ -198,7 +198,6 @@ def ViewAttendanceDetails(request):
     	context = {'students':studentlist,'CourseName':request.session['course'],'date':session.Date_time.date}
     	return HttpResponse(template.render(context, request))
 
-
 @login_required
 def MyLibrary(request):
     s=0
@@ -220,7 +219,6 @@ def MyLibrary(request):
 		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
 			asslist.append(ass)       
     	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'s':s})
-
     else:
 	asslist = []
 	s=0 

@@ -41,16 +41,18 @@
         border-top: none;
     }
 </style>
+<script>window.jQuery || document.write('<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"><\/script>')</script>
 {% if messages %}
 {%for message in messages %}
     <script>
     var msg="{{message}}";
     alert(msg);
+     
     </script>
 {%endfor%}
 {%endif%}
 <div class="tab">
-    <button class="tablinks" onclick="openCity(event, 'London')">Email Time</button>
+    <button class="tablinks" id="london" onclick="openCity(event, 'London')">Email Time</button>
     <button class="tablinks" onclick="openCity(event, 'Paris')">Password</button>
   </div>
   
@@ -76,6 +78,9 @@
     </form></p> 
   </div>
   <script>
+  var tablinks1 = document.getElementsByClassName("tablinks");
+  tablinks1[0].className+=" active";
+  document.getElementById("London").style.display = "block";
   function openCity(evt, cityName) {
       var i, tabcontent, tablinks;
       tabcontent = document.getElementsByClassName("tabcontent");

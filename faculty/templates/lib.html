@@ -1,33 +1,33 @@
 
 {% extends "home/index.html" %}
 {% load static %}
-{% block nav-course %}
-          <a class="navbar-brand" href="#">{{CourseName}}</a>
-{% endblock %}
+{% load faculty_extras %}
 {% block content %}
 
-
-
-
 <style>
+.abc{
+background-color:black;
+color:white !important;
+}
 #tab{
-margin-top:55px;
+
 position:absolute;
 top:100px;
 left:50px;
 }
-h3{
+h5{
 font-family:"Times New Roman";
-
+text-decoration:none;
+color:black;
 }
-
+h3,h2{
+font-family:"Times New Roman";
+}
 #clicked1{
 background-color:black !important;
 color:white !important;
 border-radius:10px;
-
 height:35px;
-
 }
 #deadlines{
 background-color:#999999 !important;
@@ -35,7 +35,6 @@ color:white !important;
 border-radius:10px;
 height:35px;
 }
-
 div#left {
     width:15%;
     float:left;
@@ -44,33 +43,23 @@ div#left {
 position:absolute;
 top:100px;
 right:0px;
-
 }
 .upload{
 position:relative;
 right:40px;
 }
-h5{
-font-family:"Times New Roman";
-text-decoration:none;
-color:black;
-}
+
 #main{
 width:1000px;
-margin:0 auto 0 auto;
+
 text-align:center;
 }
 #main div{
 display:inline-block;
 }
-
-
 </style>
-{{s}}
 <br>
-
 <p id="demo"></p>
-
 <script>
 var r={{s}};
 if(r==1){
@@ -81,15 +70,12 @@ if(r==1){
         $(this).remove(); 
     });
 }, 3000);
-
 }
 </script>
-<center><h3><b>MyLibrary</b></h3></center>
+<center><h3><b>{{CourseName}} Library</b></h3></center>
 <div id="tab">
 <table>
 <tr>
-
-
 <button id="deadlines" >Deadlines</button>
 <button id="clicked1"  >My Library</button>
 </tr>
@@ -103,34 +89,47 @@ document.getElementById("clicked1").onclick = function () {
         location.href = "{% url 'faculty:MyLibrary' %}";
     };
 </script>
-
 </div>
 {% if MyLibList %}
-<div id="main" class="container">
+<center>
+<div class="container">
+<table class="table table-inverse table-hover" >
+<thead class="tabel table-inverse abc">
+
+<th width="50%">File Name</th>
+<th width="20%">Size</th>
+<th>Uploaded On</th>
+</thead>
 {% for document in MyLibList %}
+<tr >
+<td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD7SeZ_d0TQKBXnwh2JEl3BPErckP2H9sdR5XfqlOOw8CoiJ8l" alt="{{ document.Assignment_File.name }}" width="20" height="20" border="1"><a href="{{document.Assignment_File.url}}" target="_blank"><b><span style="color:black;font-family:Times New Roman;">{{ document.Assignment_File.name|slice:"18:" }}</span></b></a></td>
+
+
+
+
+
+<td width="20%">{{ document.Assignment_File.size|multiply:0.000001}} MB<!--p id='filesize'></p--></td>
+
+
+
+<td>{{ document.Start_Time}}</td>
+</tr>
+
+
 <div id="limit">
-    <a href="{{document.Assignment_File.url}}"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD7SeZ_d0TQKBXnwh2JEl3BPErckP2H9sdR5XfqlOOw8CoiJ8l" alt="{{ document.Assignment_File.name }}" width="60" height="60" border="1"></a> 
+    <a href="{{document.Assignment_File.url}}"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD7SeZ_d0TQKBXnwh2JEl3BPErckP2H9sdR5XfqlOOw8CoiJ8l" alt="{{ document.Assignment_File.name }}" width="60" height="60" border="1"></a>
 <p id="limit1"><h5><b>{{ document.Assignment_File.name|slice:"18:" }}</b></h5></p>
-  
 </div>
 
     {% endfor %}
+</table>
 </div>
-
+</center>
 
 {% endif %}
 <center>
 <form action="{% url 'faculty:MyLibrary' %}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
-
 	<input type="file"  id="file" onchange="this.form.submit()" name='files' multiple />
-	
-      
     </form></center>
-
-
-
 {% endblock %}
-
-
-

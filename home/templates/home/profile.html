@@ -41,6 +41,7 @@
         border-top: none;
     }
 </style>
+<script>window.jQuery || document.write('<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"><\/script>')</script>
 {% if messages %}
 {%for message in messages %}
     <script>
@@ -77,8 +78,9 @@
     </form></p> 
   </div>
   <script>
-        var jq=jQuery.noConflict();
-	jq(document).ready(function($){('#london').click()}); 
+  var tablinks1 = document.getElementsByClassName("tablinks");
+  tablinks1[0].className+=" active";
+  document.getElementById("London").style.display = "block";
   function openCity(evt, cityName) {
       var i, tabcontent, tablinks;
       tabcontent = document.getElementsByClassName("tabcontent");

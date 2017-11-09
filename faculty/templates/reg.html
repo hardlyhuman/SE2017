@@ -1,0 +1,161 @@
+{% extends "home/index.html" %}
+{% block content %}
+
+<style>
+.abc{
+background-color:black;
+color:white !important;
+}
+/*Please do not remove below checkbox class */
+.checkbox {}
+input[type="checkbox"] {
+    width: auto;
+    opacity: 0.00000001;
+   position:absolute;
+    left: 0; 
+    margin-left: -20px;
+}
+.helper {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    cursor: pointer;
+    display: block;
+    font-size: 16px;
+    user-select: none;
+    color: #e7e7e7;
+}
+h5{
+font-family:"Times New Roman";
+text-decoration:none;
+color:black;
+}
+.helper:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 4px;
+    width: 22px;
+    height: 22px;
+    transition: transform 0.28s ease;
+    border-radius: 3px;
+    border: 2px solid #7bbe72;
+}
+.helper:after {
+  content: '';
+    display: block;
+    width: 10px;
+    height: 5px;
+    border-bottom: 2px solid #7bbe72;
+    border-left: 2px solid #7bbe72;
+    -webkit-transform: rotate(-45deg) scale(0);
+    -moz-transform: rotate(-45deg) scale(0);
+    -ms-transform: rotate(-45deg) scale(0);
+    transform: rotate(-45deg) scale(0);
+    position: absolute;
+    top: 12px;
+    left: 10px;
+}
+input[type="checkbox"]:checked ~ .helper::before {
+    color: #7bbe72;
+}
+input[type="checkbox"]:checked ~ .helper::after {
+    -webkit-transform: rotate(-45deg) scale(1);
+    -moz-transform: rotate(-45deg) scale(1);
+    -ms-transform: rotate(-45deg) scale(1);
+    transform: rotate(-45deg) scale(1);
+}
+.checkbox label {
+    min-height: 24px;
+    padding-left: 35px;
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+    vertical-align: sub;
+}
+input[type="checkbox"]:focus + label::before {
+    outline: rgb(59, 153, 252) auto 5px;
+}
+h3{
+font-family:"Times New Roman";
+}
+</style>
+</head>
+<div class="container" >
+<center>
+<h3><b>Course Offerings</b></h3></center>
+<table id="tblSample" class="table table-inverse table-hover" border="1" >
+<thead class="tabel table-inverse abc">
+<tr>
+<th>Course</th>
+  <th>Faculty </th>
+</tr>
+</thead>
+<tbody>
+{% if Courses %}
+{% for course in Courses %}
+
+<tr>
+<td>
+ <form action="{% url 'faculty:OfferCourses' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+<div class="checkbox">
+  <label>
+     <input type="checkbox"  style="background-color:red !important; color:yellow !important;" id="{{ course.Course_ID }}" onchange="cTrig(id)" name="courses[]" value="{{ course.Course_ID }}">
+     <i class="helper"></i><h5><b>{{course.Course_Name}}</b></h5>
+  </label>
+</form>
+</div>
+</td><td></td></tr>
+        <br>
+    {% endfor %}
+{% else %}
+<h3 style="float:right"><b>No Courses To Offer</b></h3>
+{% endif %}
+{% for instructor in IC %}
+<tr>
+<td ><div class="checkbox">
+  <label>
+     <input type="checkbox" disabled="disabled" checked="checked">
+     <i class="helper"></i><h5><b>{{instructor.Course_ID.Course_Name}}</b></h5>
+  </label>
+</div></td><td><h5><b>{{instructor.Inst_ID.LDAP.username}}</b></h5></td> 
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+<script>
+var courses=JSON.parse('{{Courses1|escapejs}}');
+console.log(courses);
+function cTrig(clickedid) { 
+      if (document.getElementById(clickedid).checked == false) {
+        return false;
+      } else {
+var courseid=document.getElementById(clickedid).value;
+for(i=0;i<courses.length;i=i+2)
+{
+if(courses[i]==courseid)
+{
+var coursename=courses[i+1];
+break;
+}
+ }      var box= confirm('Confirm offering '+' '+coursename+' ?');
+        if (box==true)
+{
+		document.getElementById(clickedid).form.submit();
+            return true;
+}
+        else
+           document.getElementById(clickedid).checked =false;   
+      }
+    }
+$(document).ready(function(){
+    $('input[type="checkbox"]').click(function(){
+        var inputValue = $(this).attr("value");
+        $("." + inputValue).toggle();
+    });
+});
+</script>
+{% endblock %}

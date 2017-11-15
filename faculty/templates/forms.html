@@ -1,31 +1,15 @@
+
  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
   $( function() {
-    $( "#duration1" ).datepicker();
+    $( "#duration1" ).datepicker({dateFormat:'yy-mm-dd'}).val();
   } );
   </script>
 {% extends "home/index.html" %}
 
 {% block content %}
-
-
-
-
-<script type="text/javascript">
-    var datefield=document.createElement("input")
-    datefield.setAttribute("type", "date")
-    if (datefield.type!="date"){
-            }
-</script>
-<script>
-if (datefield.type!="date"){
-    jQuery(function($){
-        $('#duration1').datepicker({dateFormat:'yy-mm-dd'}).val();
-    })
-}
-</script>
 <style>
 h3,h2{
 font-family:"Times New Roman";
@@ -56,9 +40,9 @@ input[type=file] {
 <br>
 <p id="demo"></p>
 <script>
-var c={{s}};
+var c={{success}};
 console.log(c);
-var r={{s}};
+var r={{success}};
 if(r==1){
 	var t='<div class="alert alert-success"> <strong>Successfully Uploaded!</strong></div>';
 	document.getElementById("demo").innerHTML=t;

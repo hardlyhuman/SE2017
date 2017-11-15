@@ -40,7 +40,7 @@ font-family:"Times New Roman";
         location.href = "{% url 'faculty:OfferCourses' %}";
     };
 </script>
-{% elif hint == 0  %}
+{% elif hint == '0'  %}
 <script>
 alert('Please Select A Course');
 </script>
@@ -56,7 +56,7 @@ alert('Please Select A Course');
 </select><br><br>
 </form>
 </center>
-{% elif hint == 1 and flag == 0 %}
+{% elif hint == '1' and flag == '0' %}
 <center>
 <button id="offer"  >Offer Courses</button></center>
 <script type="text/javascript">

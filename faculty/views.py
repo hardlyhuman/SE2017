@@ -257,6 +257,7 @@ def MyLibrary(request):
     	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'success':success})
 	
 	    
+
     else:
 	asslist = []
 	success=0 

@@ -48,7 +48,7 @@ if(r==1){
 	document.getElementById("demo").innerHTML=t;
 	window.setTimeout(function() {
     $(".alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove(); 
+        $(this).remove();
     });
 }, 3000);
 }
@@ -57,15 +57,17 @@ else if(r==2){
 	document.getElementById("demo").innerHTML=t;
 	window.setTimeout(function() {
     $(".alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove(); 
+        $(this).remove();
     });
 }, 3000);
 }
 </script>
 
-<center><h3><b>Upload {{CourseName}} Assignment</b> </h3></center>
-<br>
-<center>
+<div class="panel panel-default">
+  <div class="panel-heading" style="background:#222222;color:white;">
+    Upload {{CourseName}} Assignment
+  </div>
+  <div class="panel-body" style="background:#e3e5e8">
 <form action="" method="post" enctype="multipart/form-data">
   {% csrf_token %}
         <table><tr><td align="right" width="35%"><h3><b>File:</b></h3></td><td width="60%"><input type="file" class="file" name="file" required ></td></tr></table><br>
@@ -73,4 +75,5 @@ else if(r==2){
         <input type="submit" class="upload" value="Upload">
         <input type="reset" value="Reset"class="reset" >
     </form></center>
+  </div></div>
 {% endblock %}

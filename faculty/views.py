@@ -227,9 +227,7 @@ def ViewAttendanceDetails(request):
 	template = loader.get_template('details.html')
     	context = {'students':studentlist,'CourseName':request.session['course'],'date':session.Date_time.date}
     	return HttpResponse(template.render(context, request))
-	
-	
-	
+
 
 @login_required
 def MyLibrary(request):

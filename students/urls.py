@@ -8,5 +8,6 @@ urlpatterns = [
         url(r'^assgnsubstatusoverdue/', views.AssgnSubStatusOverdue, name='AssgnSubStatusOverdue'),
         url(r'^assgnsubstatussubmitted/', views.AssgnSubStatusSubmitted, name='AssgnSubStatusSubmitted'),
         url(r'^adddropcourses/', views.addDropCourses, name='addDropCourses'),
+        url(r'^events/', views.upcoming_events, name='event'),
         url(r'^register/', views.registerCourses, name='register'),
 ]

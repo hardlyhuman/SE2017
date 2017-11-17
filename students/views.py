@@ -1,34 +1,45 @@
-# Emergency Edit Protocol : 10/20/2017
+###################################################
+# SE2017/student/views.py: Consists of all the valid methods of student module of SAMS-IIITS
+#__authors__ = "David", "Sri Harsha","Sajas"
+#__copyright__ = "Copyright 2017, SE2017 Course"
+#__Team__ = ["Likhith", "David", "Sri Harsha","Sajas", "Koushik", "Rajeev"]
+#__license__ = "MIT"
+#__version__ = "1.2"
+#__maintainer__ = "Likhith"
+#__email__ = "likhith.l15@iiits.in"
+#__status__ = "Development"
+####################################################
+
 
 from __future__ import unicode_literals
 
-import datetime
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
-from home.models import *
 from django.utils import timezone
+from home.models import *
 
 
 @login_required(login_url="/login/")
 def dashboard(request):
-    user = request.user;
+    '''
+    This function finds out the summary reports of attendance and Pending assignments
+
+    '''
+    user = request.user
 
     try:
-        user = request.user;
+        user = request.user
         userPersonnelObj = Personnel.objects.filter(LDAP=user)
-        MyCourses = Students_Courses.objects.filter(Student_ID=userPersonnelObj[0].Person_ID);
-        CourseAttendanceContext = [];
+        MyCourses = Students_Courses.objects.filter(Student_ID=userPersonnelObj[0].Person_ID)
+        CourseAttendanceContext = []
 
         for course in MyCourses:
             AttendanceSessions = Attendance_Session.objects.filter(Course_Slot=course.Course_ID.Course_ID)
             classesPresent = 0
             totalClasses = 0
             absentDays = []
-            totalClassesIncurrentMonth = 0;
-            totalClassesPresentInCurrentMonth = 0;
+            totalClassesIncurrentMonth = 0
+            totalClassesPresentInCurrentMonth = 0
             for sessions in AttendanceSessions:
                 try:
                     attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(
@@ -84,18 +95,18 @@ def dashboard(request):
 @login_required(login_url="/login/")
 def viewattendance(request):
     try:
-        user = request.user; # getting data of the username
+        user = request.user # getting data of the username
         userPersonnelObj = Personnel.objects.filter(LDAP=user) # getting the data from the table Personnel where LDAP is the username that we got earlier
 
         #the userPersonnelObj contains Person_ID, LDAP, Role 
         
-        MyCourses = Students_Courses.objects.filter(Student_ID=userPersonnelObj[0].Person_ID);
+        MyCourses = Students_Courses.objects.filter(Student_ID=userPersonnelObj[0].Person_ID)
 
         #we now are taking data from Students_Courses table using the Person_ID that we got in the userPersonnelObj and putting it in MyCourses
         #MyCourses contains Student_ID, Course_ID, Reg_Date
 
-        CourseAttendanceContext = [];
-
+        CourseAttendanceContext = []
+        classesPresent = 0
         for course in MyCourses:
             AttendanceSessions = Attendance_Session.objects.filter(Course_Slot=course.Course_ID.Course_ID)
 
@@ -114,16 +125,21 @@ def viewattendance(request):
                     if (attendanceObject[0].Marked == 'P'):
                         classesPresent += 1
                     elif (attendanceObject[0].Marked == 'A'):
-                        absentDays.append(attendanceObject[0].Date_time)
+                        absentDays.append(attendanceObject[0].Date_time)    
                 except:
                     pass
-            retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays)
+            retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays, absent = totalClasses-classesPresent, percent = (classesPresent/totalClasses)*100)
             CourseAttendanceContext.append(retObj)
         context = dict(CourseAttendanceContext=CourseAttendanceContext)
     except:
         context = dict(ErrorMessage="No Registered Classes")
     return render(request, "student/ViewAttendance.html", context)  #rendering the attendance page from templates   def AssgnSubStatusPending(request):
-    user = request.user;
+
+def AssgnSubStatusPending(request):
+    '''
+    function returns Pending Assignments list
+    '''
+    user = request.user
     pendingAssignments = []
     StudentObject = Personnel.objects.filter(LDAP=user.id)
     CoursesByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID)
@@ -141,7 +157,10 @@ def viewattendance(request):
 
 
 def AssgnSubStatusOverdue(request):
-    user = request.user;
+    '''
+    This function returns Overdue Assignments list
+    '''
+    user = request.user
     overdueAssignments = []
     StudentObject = Personnel.objects.filter(LDAP=user.id)
     CoursesByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID)
@@ -159,7 +178,10 @@ def AssgnSubStatusOverdue(request):
 
 
 def AssgnSubStatusSubmitted(request):
-    user = request.user;
+    '''
+    This function lists all the submitted Assignments
+    '''
+    user = request.user
     submittedAssignments = []
     StudentObject = Personnel.objects.filter(LDAP=user.id)
     CoursesByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID)
@@ -175,6 +197,9 @@ def AssgnSubStatusSubmitted(request):
 
 
 def addDropCourses(request):
+    '''
+    Just returns all the courses available for students to take
+    '''
     user = request.user
     StudentObject = Personnel.objects.filter(LDAP=user.id)
 
@@ -197,6 +222,9 @@ def addDropCourses(request):
 
 
 def registerCourses(request):
+    '''
+    This function allows add/drop a course for a student
+    '''
     user = request.user
     StudentObject = Personnel.objects.filter(LDAP=user.id)
     courses = Courses.objects.all()
@@ -209,5 +237,14 @@ def registerCourses(request):
         elif (CourseByStudent.count() != 0 and not request.POST.get(str(course.Course_ID))):
             CourseByStudent.delete()
     return render(request, "student/index.html", {})
+
+@login_required(login_url="/login/")
+def upcoming_events(request):
+    '''
+    This function lists all the events
+    '''
+    events= Events.objects.all()
+    #events.sort(key=lambda r: r.event.Event_Date)
+    return render(request, "student/events.html", {'events':events})
 
 

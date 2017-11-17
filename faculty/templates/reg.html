@@ -2,91 +2,28 @@
 {% block content %}
 
 <style>
-.abc{
-background-color:black;
-color:white !important;
+
+label{
+    display:inline;
+
+}
+.checkbox{
+  align-self: center;
 }
 /*Please do not remove below checkbox class */
-.checkbox {}
-input[type="checkbox"] {
-    width: auto;
-    opacity: 0.00000001;
-   position:absolute;
-    left: 0; 
-    margin-left: -20px;
-}
-.helper {
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    cursor: pointer;
-    display: block;
-    font-size: 16px;
-    user-select: none;
-    color: #e7e7e7;
-}
-h5{
-font-family:"Times New Roman";
-text-decoration:none;
-color:black;
-}
-.helper:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin: 4px;
-    width: 22px;
-    height: 22px;
-    transition: transform 0.28s ease;
-    border-radius: 3px;
-    border: 2px solid #7bbe72;
-}
-.helper:after {
-  content: '';
-    display: block;
-    width: 10px;
-    height: 5px;
-    border-bottom: 2px solid #7bbe72;
-    border-left: 2px solid #7bbe72;
-    -webkit-transform: rotate(-45deg) scale(0);
-    -moz-transform: rotate(-45deg) scale(0);
-    -ms-transform: rotate(-45deg) scale(0);
-    transform: rotate(-45deg) scale(0);
-    position: absolute;
-    top: 12px;
-    left: 10px;
-}
-input[type="checkbox"]:checked ~ .helper::before {
-    color: #7bbe72;
-}
-input[type="checkbox"]:checked ~ .helper::after {
-    -webkit-transform: rotate(-45deg) scale(1);
-    -moz-transform: rotate(-45deg) scale(1);
-    -ms-transform: rotate(-45deg) scale(1);
-    transform: rotate(-45deg) scale(1);
-}
-.checkbox label {
-    min-height: 24px;
-    padding-left: 35px;
-    margin-bottom: 0;
-    font-weight: normal;
-    cursor: pointer;
-    vertical-align: sub;
-}
-input[type="checkbox"]:focus + label::before {
-    outline: rgb(59, 153, 252) auto 5px;
-}
-h3{
-font-family:"Times New Roman";
+/* Above comment duly ignored. Regards, IT Dept */
+.panel-body{
+  background:#e3e5e8;
 }
 </style>
 </head>
-<div class="container" >
-<center>
-<h3><b>Course Offerings</b></h3></center>
-<table id="tblSample" class="table table-inverse table-hover" border="1" >
-<thead class="tabel table-inverse abc">
+<div class="panel panel-default">
+  <div class="panel-heading" style="background:#222222;color:white; align:left;">
+    Course Offerings
+  </div>
+  <div class="panel-body"><center>
+<table id="tblSample" class="table table-bordered" style="background:white; width:80%;">
+<thead style="background: #333333;color:white">
 <tr>
 <th>Course</th>
   <th>Faculty </th>
@@ -103,7 +40,7 @@ font-family:"Times New Roman";
 <div class="checkbox">
   <label>
      <input type="checkbox"  style="background-color:red !important; color:yellow !important;" id="{{ course.Course_ID }}" onchange="cTrig(id)" name="courses[]" value="{{ course.Course_ID }}">
-     <i class="helper"></i><h5><b>{{course.Course_Name}}</b></h5>
+     <b>{{course.Course_Name}}</b>
   </label>
 </form>
 </div>
@@ -111,25 +48,28 @@ font-family:"Times New Roman";
         <br>
     {% endfor %}
 {% else %}
-<h3 style="float:right"><b>No Courses To Offer</b></h3>
+
+<div class="alert alert-info" role="alert" style="width:80%;">No Courses to Offer</div>
 {% endif %}
+
 {% for instructor in IC %}
 <tr>
 <td ><div class="checkbox">
   <label>
      <input type="checkbox" disabled="disabled" checked="checked">
-     <i class="helper"></i><h5><b>{{instructor.Course_ID.Course_Name}}</b></h5>
+    <h5><b>{{instructor.Course_ID.Course_Name}}</b></h5>
   </label>
-</div></td><td><h5><b>{{instructor.Inst_ID.LDAP.username}}</b></h5></td> 
+</div></td><td><h5><b>{{instructor.Inst_ID.LDAP.username}}</b></h5></td>
 </tr>
 {% endfor %}
 </tbody>
 </table>
 </div>
+</div>
 <script>
 var courses=JSON.parse('{{Courses1|escapejs}}');
 console.log(courses);
-function cTrig(clickedid) { 
+function cTrig(clickedid) {
       if (document.getElementById(clickedid).checked == false) {
         return false;
       } else {
@@ -148,7 +88,7 @@ break;
             return true;
 }
         else
-           document.getElementById(clickedid).checked =false;   
+           document.getElementById(clickedid).checked =false;
       }
     }
 $(document).ready(function(){

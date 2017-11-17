@@ -21,21 +21,21 @@ from home.models import *
 
 @login_required(login_url="/login/")
 def dashboard(request):
-    user = request.user;
+    user = request.user
 
     try:
-        user = request.user;
+        user = request.user
         userPersonnelObj = Personnel.objects.filter(LDAP=user)
-        MyCourses = Students_Courses.objects.filter(Student_ID=userPersonnelObj[0].Person_ID);
-        CourseAttendanceContext = [];
+        MyCourses = Students_Courses.objects.filter(Student_ID=userPersonnelObj[0].Person_ID)
+        CourseAttendanceContext = []
 
         for course in MyCourses:
             AttendanceSessions = Attendance_Session.objects.filter(Course_Slot=course.Course_ID.Course_ID)
             classesPresent = 0
             totalClasses = 0
             absentDays = []
-            totalClassesIncurrentMonth = 0;
-            totalClassesPresentInCurrentMonth = 0;
+            totalClassesIncurrentMonth = 0
+            totalClassesPresentInCurrentMonth = 0
             for sessions in AttendanceSessions:
                 try:
                     attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(
@@ -96,12 +96,12 @@ def viewattendance(request):
 
         #the userPersonnelObj contains Person_ID, LDAP, Role 
         
-        MyCourses = Students_Courses.objects.filter(Student_ID=userPersonnelObj[0].Person_ID);
+        MyCourses = Students_Courses.objects.filter(Student_ID=userPersonnelObj[0].Person_ID)
 
         #we now are taking data from Students_Courses table using the Person_ID that we got in the userPersonnelObj and putting it in MyCourses
         #MyCourses contains Student_ID, Course_ID, Reg_Date
 
-        CourseAttendanceContext = [];
+        CourseAttendanceContext = []
         classesPresent = 0
         for course in MyCourses:
             AttendanceSessions = Attendance_Session.objects.filter(Course_Slot=course.Course_ID.Course_ID)

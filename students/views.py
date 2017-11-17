@@ -21,6 +21,10 @@ from home.models import *
 
 @login_required(login_url="/login/")
 def dashboard(request):
+    '''
+    This function finds out the summary reports of attendance and Pending assignments
+
+    '''
     user = request.user
 
     try:
@@ -131,7 +135,10 @@ def viewattendance(request):
         context = dict(ErrorMessage="No Registered Classes")
     return render(request, "student/ViewAttendance.html", context)  #rendering the attendance page from templates   def AssgnSubStatusPending(request):
 
-def AssfnSubStatusPending(request):
+def AssgnSubStatusPending(request):
+    '''
+    function returns Pending Assignments list
+    '''
     user = request.user
     pendingAssignments = []
     StudentObject = Personnel.objects.filter(LDAP=user.id)
@@ -150,6 +157,9 @@ def AssfnSubStatusPending(request):
 
 
 def AssgnSubStatusOverdue(request):
+    '''
+    This function returns Overdue Assignments list
+    '''
     user = request.user
     overdueAssignments = []
     StudentObject = Personnel.objects.filter(LDAP=user.id)
@@ -168,6 +178,9 @@ def AssgnSubStatusOverdue(request):
 
 
 def AssgnSubStatusSubmitted(request):
+    '''
+    This function lists all the submitted Assignments
+    '''
     user = request.user
     submittedAssignments = []
     StudentObject = Personnel.objects.filter(LDAP=user.id)
@@ -184,6 +197,9 @@ def AssgnSubStatusSubmitted(request):
 
 
 def addDropCourses(request):
+    '''
+    Just returns all the courses available for students to take
+    '''
     user = request.user
     StudentObject = Personnel.objects.filter(LDAP=user.id)
 
@@ -206,6 +222,9 @@ def addDropCourses(request):
 
 
 def registerCourses(request):
+    '''
+    This function allows add/drop a course for a student
+    '''
     user = request.user
     StudentObject = Personnel.objects.filter(LDAP=user.id)
     courses = Courses.objects.all()
@@ -221,6 +240,9 @@ def registerCourses(request):
 
 @login_required(login_url="/login/")
 def upcoming_events(request):
+    '''
+    This function lists all the events
+    '''
     events= Events.objects.all()
     #events.sort(key=lambda r: r.event.Event_Date)
     return render(request, "student/events.html", {'events':events})

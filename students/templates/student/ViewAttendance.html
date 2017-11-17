@@ -98,7 +98,7 @@
 						 <th>Present</th>
                     	 <th>Absent</th>
 						 <th>Percentage</th>
-						 <th>Absent Days</th>
+						 <!--<th>Absent Days</th>-->
                 	</tr>
 					{% for ids,i in enumerate(CourseAttendanceContext) %}
 						<tr>
@@ -107,10 +107,10 @@
 							<td>{{i.total}}</td>
 							<td>{{i.present}}</td>
 
-                            <td id="absent"></td>
-                            <td id="percent"></td>
-                            <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#absent-days">Absent days</button></td>
-							<script>
+                            <td>{{i.absent}}</td>
+                            <td>{{i.percent}}</td>
+                            <!--<td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#absent-days">Absent days</button></td>
+							--><script>
 								var total="{{i.total}}";
 								var present="{{i.present}}";
                                 var absentDay=[];

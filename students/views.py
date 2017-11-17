@@ -1,15 +1,22 @@
-# Emergency Edit Protocol : 10/20/2017
+###################################################
+# SE2017/student/views.py: Consists of all the valid methods of student module of SAMS-IIITS
+#__authors__ = "David", "Sri Harsha","Sajas"
+#__copyright__ = "Copyright 2017, SE2017 Course"
+#__Team__ = ["Likhith", "David", "Sri Harsha","Sajas", "Koushik", "Rajeev"]
+#__license__ = "MIT"
+#__version__ = "1.2"
+#__maintainer__ = "Likhith"
+#__email__ = "likhith.l15@iiits.in"
+#__status__ = "Development"
+####################################################
+
 
 from __future__ import unicode_literals
 
-import datetime
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
-from home.models import *
 from django.utils import timezone
+from home.models import *
 
 
 @login_required(login_url="/login/")
@@ -84,7 +91,7 @@ def dashboard(request):
 @login_required(login_url="/login/")
 def viewattendance(request):
     try:
-        user = request.user; # getting data of the username
+        user = request.user # getting data of the username
         userPersonnelObj = Personnel.objects.filter(LDAP=user) # getting the data from the table Personnel where LDAP is the username that we got earlier
 
         #the userPersonnelObj contains Person_ID, LDAP, Role 
@@ -95,7 +102,7 @@ def viewattendance(request):
         #MyCourses contains Student_ID, Course_ID, Reg_Date
 
         CourseAttendanceContext = [];
-
+        classesPresent = 0
         for course in MyCourses:
             AttendanceSessions = Attendance_Session.objects.filter(Course_Slot=course.Course_ID.Course_ID)
 
@@ -123,7 +130,9 @@ def viewattendance(request):
     except:
         context = dict(ErrorMessage="No Registered Classes")
     return render(request, "student/ViewAttendance.html", context)  #rendering the attendance page from templates   def AssgnSubStatusPending(request):
-    user = request.user;
+
+def AssfnSubStatusPending(request):
+    user = request.user
     pendingAssignments = []
     StudentObject = Personnel.objects.filter(LDAP=user.id)
     CoursesByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID)
@@ -141,7 +150,7 @@ def viewattendance(request):
 
 
 def AssgnSubStatusOverdue(request):
-    user = request.user;
+    user = request.user
     overdueAssignments = []
     StudentObject = Personnel.objects.filter(LDAP=user.id)
     CoursesByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID)
@@ -159,7 +168,7 @@ def AssgnSubStatusOverdue(request):
 
 
 def AssgnSubStatusSubmitted(request):
-    user = request.user;
+    user = request.user
     submittedAssignments = []
     StudentObject = Personnel.objects.filter(LDAP=user.id)
     CoursesByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID)

@@ -128,7 +128,7 @@ def viewattendance(request):
                         absentDays.append(attendanceObject[0].Date_time)
                 except:
                     pass
-            retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays)
+            retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays, classesAbsent = totalClasses-classesPresent)
             CourseAttendanceContext.append(retObj)
         context = dict(CourseAttendanceContext=CourseAttendanceContext)
     except:

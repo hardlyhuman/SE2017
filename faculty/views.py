@@ -24,16 +24,12 @@ import datetime
 from dateutil.parser import parse
 @login_required
 def index(request):
-
-	
-
 	all_events = Events.objects.all()
 	serializer = EventsSerializer(all_events, many=True)
 	a=[]
 	for i in serializer.data:
-
 		a.append({"title":i["Event_Name"],"start":i["Event_Date"],"allDay":True})
-	print serializer.data
+	#print serializer.data
 	return render(request, 'fullcalendar/calendar.html',{"Events":json.dumps(a)})
 	
 	

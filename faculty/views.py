@@ -12,18 +12,14 @@
 
 
 from __future__ import unicode_literals
-from django.contrib.auth.decorators import login_required
+
 import json
-from django.http import *
-from django.shortcuts import *
-from django.template import *
-from home.models import *
-from home.serializers import *
-
-
-from django.utils import *
 from datetime import datetime
+
 from dateutil.parser import parse
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import *
+from home.serializers import *
 
 
 @login_required

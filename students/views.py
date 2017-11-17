@@ -201,4 +201,10 @@ def registerCourses(request):
             CourseByStudent.delete()
     return render(request, "student/index.html", {})
 
+@login_required(login_url="/login/")
+def upcoming_events(request):
+    events= Events.objects.all()
+    #events.sort(key=lambda r: r.event.Event_Date)
+    return render(request, "student/events.html", {'events':events})
+
 

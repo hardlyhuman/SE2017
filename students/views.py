@@ -80,25 +80,37 @@ def dashboard(request):
                   dict(name=user, attendanceContext=attendanceContext, assignmentContext=pendingAssignments))
 
 
+
 @login_required(login_url="/login/")
 def viewattendance(request):
     try:
-        user = request.user;
-        userPersonnelObj = Personnel.objects.filter(LDAP=user)
+        user = request.user; # getting data of the username
+        userPersonnelObj = Personnel.objects.filter(LDAP=user) # getting the data from the table Personnel where LDAP is the username that we got earlier
+
+        #the userPersonnelObj contains Person_ID, LDAP, Role 
+        
         MyCourses = Students_Courses.objects.filter(Student_ID=userPersonnelObj[0].Person_ID);
+
+        #we now are taking data from Students_Courses table using the Person_ID that we got in the userPersonnelObj and putting it in MyCourses
+        #MyCourses contains Student_ID, Course_ID, Reg_Date
+
         CourseAttendanceContext = [];
 
         for course in MyCourses:
             AttendanceSessions = Attendance_Session.objects.filter(Course_Slot=course.Course_ID.Course_ID)
-            classesPresent = 0
+
+            #We are taking data from Attendance_Session table using the course_ID that we got earlier.
+            
             totalClasses = 0
             absentDays = []
-            for sessions in AttendanceSessions:
+            for sessions in AttendanceSessions: #looping in AttendanceSessions
                 try:
                     attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(
                         ASession_ID=sessions.Session_ID)
 
-                    totalClasses += 1
+                    #Select alll the data in Attendance table where Sudent_ID is the Person_ID that is available in  UserPersonnelObj and  ASession_ID is the Session_ID s that are available in AttendanceSessions
+
+                    totalClasses += 1                    
                     if (attendanceObject[0].Marked == 'P'):
                         classesPresent += 1
                     elif (attendanceObject[0].Marked == 'A'):
@@ -110,10 +122,7 @@ def viewattendance(request):
         context = dict(CourseAttendanceContext=CourseAttendanceContext)
     except:
         context = dict(ErrorMessage="No Registered Classes")
-    return render(request, "student/ViewAttendance.html", context)
-
-
-def AssgnSubStatusPending(request):
+    return render(request, "student/ViewAttendance.html", context)  #rendering the attendance page from templates   def AssgnSubStatusPending(request):
     user = request.user;
     pendingAssignments = []
     StudentObject = Personnel.objects.filter(LDAP=user.id)

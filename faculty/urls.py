@@ -2,7 +2,8 @@ from django.conf.urls import url
 from . import views
 app_name='faculty'
 urlpatterns =[	
-         url(r'^ViewProfs/$',views.ViewProfs,name='ViewProfs'),
+         url(r'^ViewProfs/(\d+)/$',views.ViewProfs,name='ViewProfs'),
+url(r'^ViewProfs/$',views.ViewProfs,name='ViewProfs'),
  url(r'^ViewAttendance/$',views.ViewAttendance,name='ViewAttendance'),    
 url(r'^AddAssignment/$',views.AddAssignment,name='AddAssignment'),   
 url(r'^ViewAssignment/$',views.ViewAssignment,name='ViewAssignment'),  

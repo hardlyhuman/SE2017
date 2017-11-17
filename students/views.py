@@ -125,10 +125,10 @@ def viewattendance(request):
                     if (attendanceObject[0].Marked == 'P'):
                         classesPresent += 1
                     elif (attendanceObject[0].Marked == 'A'):
-                        absentDays.append(attendanceObject[0].Date_time)
+                        absentDays.append(attendanceObject[0].Date_time)    
                 except:
                     pass
-            retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays, classesAbsent = totalClasses-classesPresent)
+            retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays, absent = totalClasses-classesPresent, percent = (classesPresent/totalClasses)*100)
             CourseAttendanceContext.append(retObj)
         context = dict(CourseAttendanceContext=CourseAttendanceContext)
     except:

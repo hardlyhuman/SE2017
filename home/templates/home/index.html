@@ -78,8 +78,8 @@ body {
     <script>
     	  Student_Home="{% url 'students:index'  %}";
           Student_Attendance="{% url 'students:ViewAttendance'  %}";
-          Student_Assignments="{% url 'students:AssgnSubStatusSubmitted' %}";
-          Student_Timetable="";
+          Student_Assignments="{% url 'students:AssgnSubStatusPending' %}";
+          Student_Timetable="{% url 'students:event' %}";
           Student_Courses="{% url 'students:addDropCourses' %}";
 
 

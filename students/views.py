@@ -44,7 +44,7 @@ def dashboard(request):
                 try:
                     attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(
                         ASession_ID=sessions.Session_ID)
-#		    print (char(attendanceObject[0].Marked))
+
                     totalClasses += 1
 
                     if (attendanceObject[0].Marked == 'P'):

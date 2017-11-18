@@ -56,10 +56,10 @@
                 {% csrf_token %}-->
                 <table class="table table-striped table-hover" id="first_table">
                     <tr>
-                        <th width="8%">Sel</th>
-                        <th>Courses Offered</th>
-                        <th>Credits</th>
-                        <th>Professor</th>
+                        <th width="8%" bgcolor="#555">Sel</th>
+                        <th bgcolor="#555">Courses Offered</th>
+                        <th bgcolor="#555">Credits</th>
+                        <th bgcolor="#555">Professor</th>
                         
                     </tr>
                     {% for course in courses %}
@@ -80,10 +80,10 @@
                 {% csrf_token %}
                 <table class="table table-striped table-hover" id="second_table">
                     <tr>
-                        <th width="8%">Sel</th>
-                        <th>Courses Selected</th>
-                        <th>Credits</th>
-                        <th>Professor</th>
+                        <th width="8%" bgcolor="#555">Sel</th>
+                        <th bgcolor="#555">Courses Selected</th>
+                        <th bgcolor="#555">Credits</th>
+                        <th bgcolor="#555">Professor</th>
                         
                     </tr>
                 </table>
@@ -113,7 +113,7 @@
                     var course = $(element).closest("td").next();
                     var credits = course.closest("td").next();
                     var prof = credits.closest("td").next();
-                    row.insertCell(0).innerHTML = "<input type='checkbox' checked='true' class='list-group-item' name='" + element.value + "' onchange='deselect(this)'/>";
+                    row.insertCell(0).innerHTML = "<input type='checkbox' checked='true' class='list-group-item' value='" + element.value + "' name='" + element.name + "' onchange='deselect(this)'/>";
                     row.insertCell(1).innerHTML = element.name;
                     row.insertCell(2).innerHTML = credits[0].innerHTML;
                     row.insertCell(3).innerHTML = prof[0].innerHTML;

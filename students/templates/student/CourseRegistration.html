@@ -64,7 +64,7 @@
                     </tr>
                     {% for course in courses %}
                     <tr id="{{course.course}}">
-                        <td> <input type="checkbox" class="list-group-item" value="{{course.course}}" name="{{course.course}}" onchange="populate_data(this)" {% if course.selected %}checked{% endif %} /></td>
+                        <td> <input type="checkbox" class="list-group-item" value="{{course.course.Course_ID}}" name="{{course.course}}" onchange="populate_data(this)" {% if course.selected %}checked{% endif %} /></td>
                         <td>{{course.course}}</td>
                         <td>{{course.course.Course_Credits}}</td>
                         <td>{{course.faculty}}</td>
@@ -146,7 +146,7 @@
                 var course = $(element).closest("td").next();
                 var credits = course.closest("td").next();
                 var prof = credits.closest("td").next();
-                row.insertCell(0).innerHTML = "<input type='checkbox' class='list-group-item' value="+element.name+" name="+element.name+" onchange='populate_data(this)' /> ";
+                row.insertCell(0).innerHTML = "<input type='checkbox' class='list-group-item' value="+element.value+" name="+element.name+" onchange='populate_data(this)' /> ";
                 row.insertCell(1).innerHTML = element.name;
                 row.insertCell(2).innerHTML = credits[0].innerHTML;
                 row.insertCell(3).innerHTML = prof[0].innerHTML;               

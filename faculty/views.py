@@ -20,7 +20,7 @@ from django.template import *
 from home.models import *
 from home.serializers import *
 from django.utils import * 
-import datetime
+from datetime import datetime
 from dateutil.parser import parse
 @login_required
 def index(request):

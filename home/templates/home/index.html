@@ -56,8 +56,8 @@ body {
         {% else %}
 	     <li><a href="#contact" id="assignments">Assignments</a></li>
        {% endif %}
-	      <li><a href="#contact" id="timetable">Timetable</a></li>
-             <li><a href="#contact">Events</a></li>
+	     
+             <li><a href="#contact" id="events">Events</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -78,7 +78,7 @@ body {
     <script>
     	  Student_Home="{% url 'students:index'  %}";
           Student_Attendance="{% url 'students:ViewAttendance'  %}";
-          Student_Assignments="{% url 'students:AssgnSubmissionStatusPending' %}";
+          Student_Assignments="{% url 'students:ViewAttendance' %}";
           Student_Timetable="";
           Student_Courses="{% url 'students:addDropCourses' %}";
 
@@ -88,7 +88,7 @@ body {
           Faculty_UploadAssignments="{% url 'faculty:AddAssignment' %}";
           Faculty_ViewAssignments="{% url 'faculty:ViewAssignment' %}";
           Faculty_Courses="{% url 'faculty:OfferCourses' %}";
-          Faculty_Timetable="{% url 'faculty:index' %}";
+          
           Faculty_Events="{% url 'faculty:index' %}";
 
 	  {% if user.personnel.Role.Role_name == "Student"%}
@@ -96,7 +96,7 @@ body {
           document.getElementById("attendace").setAttribute("href",Student_Attendance);
           document.getElementById("assignments").setAttribute("href",Student_Assignments);
           document.getElementById("courses").setAttribute("href",Student_Courses);
-          document.getElementById("timetable").setAttribute("href",Student_Timetable);
+          document.getElementById("events").setAttribute("href",Student_Timetable);
           {%endif%}
 
 
@@ -108,7 +108,7 @@ body {
           document.getElementById("upload_assignments").setAttribute("href",Faculty_UploadAssignments);
           document.getElementById("view_assignments").setAttribute("href",Faculty_ViewAssignments);
           document.getElementById("courses").setAttribute("href",Faculty_Courses);
-          document.getElementById("timetable").setAttribute("href",Faculty_Timetable);
+          document.getElementById("events").setAttribute("href",Faculty_Events);
 
           {%endif%}
 var jQuery_1_3_2 = $.noConflict(true);

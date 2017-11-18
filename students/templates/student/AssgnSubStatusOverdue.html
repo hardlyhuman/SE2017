@@ -13,9 +13,9 @@
 
 <div class="container">
   <ul class="nav nav-tabs">
-	<li><a data-toggle="tab" href="10.0.3.22:8000/student/AssgnSubStatusPending.html">Pending Assignments</a></li>
-	<li><a data-toggle="tab" href="10.0.3.22:8000/student/AssgnSubStatusSubmitted.html">Submitted Assignments</a></li>
-    <li class="active"><a data-toggle="tab" href="10.0.3.22:8000/student/AssgnSubStatusOverdue.html">Overdue Assignments</a></li>
+	<li><a data-toggle="tab" href="{% url 'student/assgnsubstatuspending' %}">Pending Assignments</a></li>
+	<li><a data-toggle="tab" href="{% url 'student/assgnsubstatussubmitted' %}">Submitted Assignments</a></li>
+    <li class="active"><a data-toggle="tab" href="{% overdue 'student/assgnsubstatusoverdue' %}">Overdue Assignments</a></li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane fade in active">

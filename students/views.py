@@ -117,7 +117,7 @@ def viewattendance(request):
             totalClasses = 0
             absentDays = []
             for sessions in AttendanceSessions: #looping in AttendanceSessions
-	        print(sessions.Course_Slot.Course_ID)
+	        print(sessions.Course_Slot.Course_ID.Course_ID)
 		print(course.Course_ID)
 		try:
                     attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(

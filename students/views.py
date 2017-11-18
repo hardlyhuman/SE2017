@@ -44,7 +44,7 @@ def dashboard(request):
                 try:
                     attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(
                         ASession_ID=sessions.Session_ID)
-
+#		    print (char(attendanceObject[0].Marked))
                     totalClasses += 1
 
                     if (attendanceObject[0].Marked == 'P'):
@@ -118,7 +118,7 @@ def viewattendance(request):
                 try:
                     attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(
                         ASession_ID=sessions.Session_ID)
-
+#		    print (attendanceObject)
                     #Select alll the data in Attendance table where Sudent_ID is the Person_ID that is available in  UserPersonnelObj and  ASession_ID is the Session_ID s that are available in AttendanceSessions
 
                     totalClasses += 1                    
@@ -225,6 +225,7 @@ def registerCourses(request):
     '''
     This function allows add/drop a course for a student
     '''
+    print (request.POST)
     user = request.user
     StudentObject = Personnel.objects.filter(LDAP=user.id)
     courses = Courses.objects.all()

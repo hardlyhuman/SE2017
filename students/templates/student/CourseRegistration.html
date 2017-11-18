@@ -190,7 +190,7 @@
                         var course = $(element).closest("td").next();
                         var credits = course.closest("td").next();
                         var prof = credits.closest("td").next();
-                        row.insertCell(0).innerHTML = "<input type='checkbox' checked='true' class='list-group-item' name=" + element.value + " onchange='deselect(this)'/>";
+                        row.insertCell(0).innerHTML = "<input type='checkbox' checked='true' class='list-group-item' value=" + element.value + " name=" + element.name + " onchange='deselect(this)'/>";
                         row.insertCell(1).innerHTML = element.name;
                         row.insertCell(2).innerHTML = credits[0].innerHTML;
                         row.insertCell(3).innerHTML = prof[0].innerHTML;

@@ -94,6 +94,7 @@ def dashboard(request):
 
 @login_required(login_url="/login/")
 def viewattendance(request):
+    #print("HErE")
     try:
         user = request.user # getting data of the username
         userPersonnelObj = Personnel.objects.filter(LDAP=user) # getting the data from the table Personnel where LDAP is the username that we got earlier
@@ -107,25 +108,29 @@ def viewattendance(request):
 
         CourseAttendanceContext = []
         classesPresent = 0
+	#print(MyCourses)
         for course in MyCourses:
-            AttendanceSessions = Attendance_Session.objects.filter(Course_Slot=course.Course_ID.Course_ID)
-
+	    
+            AttendanceSessions = Attendance_Session.objects.all()#(Course_Slot=course.Course_ID.Course_ID)
+            print(AttendanceSessions)
             #We are taking data from Attendance_Session table using the course_ID that we got earlier.
-            
             totalClasses = 0
             absentDays = []
             for sessions in AttendanceSessions: #looping in AttendanceSessions
-                try:
+	        print(sessions.Course_Slot.Course_ID)
+		print(course.Course_ID)
+		try:
                     attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(
                         ASession_ID=sessions.Session_ID)
-#		    print (attendanceObject)
+		   # print (attendanceObject)
                     #Select alll the data in Attendance table where Sudent_ID is the Person_ID that is available in  UserPersonnelObj and  ASession_ID is the Session_ID s that are available in AttendanceSessions
-
+		  # print(attendanceObject[0])
                     totalClasses += 1                    
                     if (attendanceObject[0].Marked == 'P'):
                         classesPresent += 1
                     elif (attendanceObject[0].Marked == 'A'):
-                        absentDays.append(attendanceObject[0].Date_time)    
+                        absentDays.append(attendanceObject[0].Date_time)
+		  
                 except:
                     pass
             retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays, absent = totalClasses-classesPresent, percent = (classesPresent/totalClasses)*100)

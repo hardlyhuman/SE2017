@@ -233,10 +233,15 @@ def registerCourses(request):
         CourseByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID).filter(
             Course_ID=course.Course_ID)
         if (request.POST.get(str(course.Course_ID)) and CourseByStudent.count() == 0):
-            registerStudent = CourseByStudent.create(Student_ID=StudentObject[0], Course_ID=course,
+	    registerStudent = CourseByStudent.create(Student_ID=StudentObject[0], Course_ID=course,
                                                      Reg_Date=datetime.datetime.now())
+	    registerStudent.save()
+	    print(registerStudent)
         elif (CourseByStudent.count() != 0 and not request.POST.get(str(course.Course_ID))):
             CourseByStudent.delete()
+#	    registerStudent = CourseByStudent.create(Student_ID=StudentObject[0], Course_ID=course,
+#                                                     Reg_Date=datetime.datetime.now())
+
     return render(request, "student/index.html", {})
 
 @login_required(login_url="/login/")

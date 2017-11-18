@@ -14,7 +14,7 @@
 from __future__ import unicode_literals
 
 import json
-from datetime import datetime
+import datetime
 
 from dateutil.parser import parse
 from django.contrib.auth.decorators import login_required
@@ -88,7 +88,7 @@ def AddAssignment(request):
     success=0
     if request.method == 'POST':
         
-  	date_joined =datetime.now()
+  	date_joined =datetime.datetime.now()
 	if parse(request.POST.get('enddate'))>=date_joined:
 		courses = Courses.objects.all()
 		for corse in courses:
@@ -133,7 +133,7 @@ def ViewAssignment(request):
         	CourseList.append(IC[i].Course_ID.Course_Name)
      for assignment in Assignments:
 	if 'course' in request.session:
-     		if assignment.Course_ID.Course_Name ==request.session['course'] and assignment.End_Time.date()!=datetime.strptime('1900-01-01',"%Y-%m-%d").date():
+     		if assignment.Course_ID.Course_Name ==request.session['course'] and assignment.End_Time.date()!=datetime.datetime.strptime('1900-01-01',"%Y-%m-%d").date():
 			print assignment.Assignment_File
 			asslist.append(assignment)
 	elif 'course' not in request.session and CourseList==[]:
@@ -254,13 +254,13 @@ def MyLibrary(request):
 			course = Courses.objects.get(Course_Name=corse.Course_Name)
 		        break
 	for libfile in libfiles:
-		instance = Assignment(Course_ID=course, Assignment_File=libfile,Start_Time=datetime.now(),End_Time='1900-01-01')
+		instance = Assignment(Course_ID=course, Assignment_File=libfile,Start_Time=datetime.datetime.now(),End_Time='1900-01-01')
 		instance.save()
 	success=1
 	asslist = []
      	Assignments = Assignment.objects.all()
      	for ass in Assignments:
-		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
+		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.datetime.strptime('1900-01-01',"%Y-%m-%d").date():
 			asslist.append(ass)
     	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'success':success})
 
@@ -271,7 +271,7 @@ def MyLibrary(request):
 	success=0
      	Assignments = Assignment.objects.all()
      	for assignment in Assignments:
-		if assignment.Course_ID.Course_Name ==request.session['course'] and assignment.End_Time.date()==datetime.strptime('1900-01-01',"%Y-%m-%d").date():
+		if assignment.Course_ID.Course_Name ==request.session['course'] and assignment.End_Time.date()==datetime.datetime.strptime('1900-01-01',"%Y-%m-%d").date():
 			asslist.append(assignment)
     	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'success':success})
 

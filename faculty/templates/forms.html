@@ -36,8 +36,21 @@ margin-left:5px;
 input[type=file] {
     display: inline-block;
 }
+.file {
+  visibility: hidden;
+  position: absolute;
+}
 </style>
 <br>
+<script>
+$(document).on('click', '.browse', function(){
+  var file = $(this).parent().parent().parent().find('.file');
+  file.trigger('click');
+});
+$(document).on('change', '.file', function(){
+  $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+});
+</script>
 <p id="demo"></p>
 <script>
 var c={{success}};
@@ -70,10 +83,26 @@ else if(r==2){
   <div class="panel-body" style="background:#e3e5e8">
 <form action="" method="post" enctype="multipart/form-data">
   {% csrf_token %}
-        <table><tr><td align="right" width="35%"><h3><b>File:</b></h3></td><td width="60%"><input type="file" class="file" name="file" required ></td></tr></table><br>
-	<label><h3><b>End Date</b></h3></label>&nbsp<input  type="date" name="enddate" id="duration1" required><br><br>
-        <input type="submit" class="upload" value="Upload">
-        <input type="reset" value="Reset"class="reset" >
+	<div class="form-group">
+        File:<input type="file" class="file"  name="file" required >
+	<div class="input-group col-xs-12">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-folder-open"></i></span>
+      <input type="text" class="form-control input-lg" disabled placeholder="Upload File">
+      <span class="input-group-btn">
+        <button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+      </span>
+    </div>
+	</div>
+	<div class="form-group">
+	<!--End Date:<input  type="date" name="enddate" id="duration1" required><br>
+	 -->End Date:<div class="input-group datepicker col-xs-12">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+      <input  type="date" name="enddate" id="duration1" required><br>
+	</div>
+	</div>
+	<input type="submit" class="btn btn-default"  value="Upload">
+        <input type="reset" class="btn btn-default" value="Reset" >
+</div>
     </form></center>
   </div></div>
 {% endblock %}

@@ -67,8 +67,7 @@ body {
 <a href="#"> Hi {{ user.username }}!{% endif %}</a></li>
                 <li><a href="{% url "logout" %}">Logout</a></li>
                 <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="{% url 'home:EditProfile' %}">Admin Interface</a></li>
+                <li><a href="{% url 'home:EditProfile' %}">Profile Settings</a></li>
               </ul>
             </li>
           </ul>

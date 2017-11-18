@@ -1,8 +1,6 @@
 {% extends 'home/index.html' %}
+{% block content %}
  
-<!DOCTYPE html>
-<html >
-<head>
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 	<meta content="utf-8" http-equiv="encoding">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
@@ -50,7 +48,7 @@
             animation-fill-mode:both;
         }
     </style>
-</head>
+
 <body> 
     <div class="row">
         <div class="col-md-6" style="margin-top:10%">
@@ -101,7 +99,7 @@
         $(document).ready(function () {
             var table1 = document.getElementById("first_table");
             var table2 = document.getElementById("second_table");
-            var total_credits;
+            var total_credits=0;
             var count = 1;
             var id = 1;
             populate_data = function (element) {
@@ -222,3 +220,4 @@
     alert("yo");*/
 </script>
 </body>
+{% endblock %}

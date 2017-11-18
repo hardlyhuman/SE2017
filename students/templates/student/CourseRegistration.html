@@ -62,9 +62,10 @@
                         <th bgcolor="#555">Professor</th>
                         
                     </tr>
+
                     {% for course in courses %}
                     <tr id="{{course.course}}">
-                        <td> <input type="checkbox" class="list-group-item" name="{{course.course.Course_ID}}"  onchange="populate_data(this)" {% if course.selected %}checked{% endif %} /></td>
+                        <td> <input type="checkbox" class="list-group-item" name="{{course.course.Course_ID}}" onchange="populate_data(this)" {% if course.selected %}checked{% endif %} /></td>
                         <td>{{course.course}}</td>
                         <td>{{course.course.Course_Credits}}</td>
                         <td>{{course.faculty}}</td>
@@ -114,7 +115,7 @@
                     var credits = course.closest("td").next();
                     var prof = credits.closest("td").next();
                     row.insertCell(0).innerHTML = "<input type='checkbox' checked='checked' class='list-group-item' name='" + element.name + "' onchange='deselect(this)' >";
-                    row.insertCell(1).innerHTML = element.name;
+                    row.insertCell(1).innerHTML = course[0].innerHTML;
                     row.insertCell(2).innerHTML = credits[0].innerHTML;
                     row.insertCell(3).innerHTML = prof[0].innerHTML;
                     total_credits += parseInt(credits[0].innerHTML);
@@ -147,7 +148,7 @@
                 var credits = course.closest("td").next();
                 var prof = credits.closest("td").next();
                 row.insertCell(0).innerHTML = "<input type='checkbox' class='list-group-item' name='"+element.name+"' onchange='populate_data(this)' > ";
-                row.insertCell(1).innerHTML = element.name;
+                row.insertCell(1).innerHTML = course[0].innerHTML;
                 row.insertCell(2).innerHTML = credits[0].innerHTML;
                 row.insertCell(3).innerHTML = prof[0].innerHTML;               
                 var row1 = element.closest("tr");
@@ -191,7 +192,7 @@
                         var credits = course.closest("td").next();
                         var prof = credits.closest("td").next();
                         row.insertCell(0).innerHTML = "<input type='checkbox' checked='true' class='list-group-item' name='" + element.name + "' onchange='deselect(this)'>";
-                        row.insertCell(1).innerHTML = element.name;
+                        row.insertCell(1).innerHTML = course[0].innerHTML;
                         row.insertCell(2).innerHTML = credits[0].innerHTML;
                         row.insertCell(3).innerHTML = prof[0].innerHTML;
                         var row1 = element.closest("tr");

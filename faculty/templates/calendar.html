@@ -60,8 +60,7 @@
                     }
 
                 },
-
-
+//events array
 {#            events: [#}
 {#                {#}
 {#                    title: 'Test1',#}
@@ -76,6 +75,7 @@
 {#                }#}
 {##}
 {#            ]#}
+//here is where the magic happens
         events: {{ Events|safe }}
 {#        eventColor:getRandomColor()#}
 
@@ -85,7 +85,7 @@
 
 </script>
 <div id='calendar'>
-calendar
+<!--calendar-->
 </div>
 
 {% endblock %}

@@ -2,10 +2,11 @@
 {% extends 'home/index.html' %}
 {% block content %}
    
-	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<!--	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">-->
 	<meta content="utf-8" http-equiv="encoding">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
     <title>Attendance Register</title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Raleway:400,500,800">
     <style type="text/css">
 		@import url('https://fonts.googleapis.com/css?family=Open+Sans');
     	body
@@ -65,26 +66,12 @@
 		<div class="col-md-12 ">
 			<h1>Attendace Register</h1>
 			
-		 	<!--<div class="row">
-			 	<div class="form-group col-md-2">
-					<label for="sel1">Course</label>
-		  			<select class="form-control" id="sel1" onchange="getData()">
-                        <option value="default">Select a course</option>
-                          {% for i in CourseAttendanceContext %}
-                      <option value="{{i.course.Course_ID.Course_Name}}">{{i.course.Course_ID.Course_Name}}</option>
-                          {% endfor %}
-					 </select>
-				</div>
-
-			</div>
-			<div class="panel-head"> Attendance</div>
-			<div class="info-box col-md-4" style="height:50vh; width:70%">
-			</div>-->
+		 	
 
 			
 	
 
-			<div class="info-box col-md-4" style="width:100vh;height:60vh; position: absolute;left:450px;top:200px;margin:0px auto" >
+			<div class="info-box col-md-4" style="width:100vh;height:60vh; position: relative; margin:0px aut; margin-right: auto; margin-left: aut" >
 
 
 

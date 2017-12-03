@@ -95,7 +95,7 @@ def dashboard(request):
 @login_required(login_url="/login/")
 def viewattendance(request):
     #print("HErE")
-    try:
+    
         user = request.user # getting data of the username
         userPersonnelObj = Personnel.objects.filter(LDAP=user) # getting the data from the table Personnel where LDAP is the username that we got earlier
 
@@ -105,44 +105,57 @@ def viewattendance(request):
 
         #we now are taking data from Students_Courses table using the Person_ID that we got in the userPersonnelObj and putting it in MyCourses
         #MyCourses contains Student_ID, Course_ID, Reg_Date
-
+	AttendanceSessions = Attendance_Session.objects.all()
         CourseAttendanceContext = []
         #classesPresent = 0
-	print(MyCourses)
+	#print(MyCourses)
+	#for c in MyCourses:
+	 #   print(c)
+	i=1
         for course in MyCourses:
+	    print(i)
 	    #print(course)
-	    print(course.Course_ID)
+	    #print("courses check",course.Course_ID)
 	    classesPresent = 0
-            AttendanceSessions = Attendance_Session.objects.all()#filter(Course_Slot=course.Course_ID)
-            #print(AttendanceSessions)
+            #AttendanceSessions = Attendance_Session.objects.all()#filter(Course_Slot=course.Course_ID)
+	    #print("enterCheck1")
+            #print("check attendance sessions for ",course,AttendanceSessions)
             #We are taking data from Attendance_Session table using the course_ID that we got earlier.
             totalClasses = 0
             absentDays = []
-            for sessions in AttendanceSessions: #looping in AttendanceSessions
-	        print(sessions.Course_Slot.Course_ID.Course_Name)
-		print(course.Course_ID)
+	    
+            for sessions in AttendanceSessions:
+		#print (sessions, sessions.Session_ID) #looping in AttendanceSessions
+	        #print("enterCheck2",sessions.Course_Slot.Course_ID.Course_Name)
+		#print("course.Course_ID",course.Course_ID)
 		#try:
-		if sessions.Course_Slot.Course_ID.Course_Name == course.Course_ID:
+		if str(sessions.Course_Slot.Course_ID.Course_Name) == str(course.Course_ID):
+		    print(i)
+		    i+=1
                     attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(ASession_ID=sessions.Session_ID)
-		   # print (attendanceObject)
+		    #print ("check2",attendanceObject)
                     #Select alll the data in Attendance table where Sudent_ID is the Person_ID that is available in  UserPersonnelObj and  ASession_ID is the Session_ID s that are available in AttendanceSessions
-		  # print(attendanceObject[0])
+		    print(attendanceObject[0])
                     totalClasses += 1                    
 
                     if (attendanceObject[0].Marked == 'P'):
                         classesPresent += 1
                     elif (attendanceObject[0].Marked == 'A'):
                         absentDays.append(attendanceObject[0].Date_time)
-	#	else:
-	#	    pass	  
-                
-            retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays, absent = totalClasses-classesPresent, percent = (classesPresent/totalClasses)*100)
+		#else:
+		    #print("passing",sessions.Course_Slot.Course_ID.Course_Name,course.Course_ID)
+	   	    #pass
+	    percent = 0
+	    if totalClasses:	  
+                percent = classesPresent*100/totalClasses     
+	    retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays, absent = totalClasses-classesPresent, percent=percent)
             CourseAttendanceContext.append(retObj)
-	    print (CourseAttendanceContext)
+	    #print (CourseAttendanceContext)
         context = dict(CourseAttendanceContext=CourseAttendanceContext)
-    except:
-        context = dict(ErrorMessage="No Registered Classes")
-    return render(request, "student/ViewAttendance.html", context)  #rendering the attendance page from templates   
+    #except:
+     #   context = dict(ErrorMessage="No Registered Classes")
+    	#print context
+    	return render(request, "student/ViewAttendance.html", context)  #rendering the attendance page from templates   
 
 def AssgnSubStatusPending(request):
     '''

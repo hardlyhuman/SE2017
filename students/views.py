@@ -14,9 +14,10 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 from home.models import *
+from django.core.urlresolvers import reverse
 
 
 @login_required(login_url="/login/")
@@ -25,54 +26,53 @@ def dashboard(request):
     This function finds out the summary reports of attendance and Pending assignments
 
     '''
+
     user = request.user
+    userPersonnelObj = Personnel.objects.filter(LDAP=user)
+    MyCourses = Students_Courses.objects.filter(Student_ID=userPersonnelObj[0].Person_ID)
+    CourseAttendanceContext = []
+    AttendanceSessions = Attendance_Session.objects.all()
 
-    try:
-        user = request.user
-        userPersonnelObj = Personnel.objects.filter(LDAP=user)
-        MyCourses = Students_Courses.objects.filter(Student_ID=userPersonnelObj[0].Person_ID)
-        CourseAttendanceContext = []
+    for course in MyCourses:
 
-        for course in MyCourses:
-            AttendanceSessions = Attendance_Session.objects.filter(Course_Slot=course.Course_ID.Course_ID)
-            classesPresent = 0
-            totalClasses = 0
-            absentDays = []
-            totalClassesIncurrentMonth = 0
-            totalClassesPresentInCurrentMonth = 0
-            for sessions in AttendanceSessions:
-                try:
-                    attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(
+        classesPresent = 0
+        totalClasses = 0
+        absentDays = []
+        totalClassesIncurrentMonth = 0
+        totalClassesPresentInCurrentMonth = 0
+        for sessions in AttendanceSessions:
+
+            if str(sessions.Course_Slot.Course_ID.Course_Name) == str(course.Course_ID):
+                attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(
                         ASession_ID=sessions.Session_ID)
 
-                    totalClasses += 1
+                totalClasses += 1
 
-                    if (attendanceObject[0].Marked == 'P'):
-                        classesPresent += 1
-                        if (datetime.datetime.now().month == attendanceObject[0].Date_time.month):
-                            totalClassesIncurrentMonth += 1
-                            totalClassesPresentInCurrentMonth += 1
+                if (attendanceObject[0].Marked == 'P'):
+                    classesPresent += 1
+                    if (datetime.datetime.now().month == attendanceObject[0].Date_time.month):
+                        totalClassesIncurrentMonth += 1
+                        totalClassesPresentInCurrentMonth += 1
 
 
-                    elif (attendanceObject[0].Marked == 'A'):
-                        absentDays.append(attendanceObject[0].Date_time)
-                        if (datetime.datetime.now().month == attendanceObject[0].Date_time.month):
-                            totalClassesIncurrentMonth += 1
+                elif (attendanceObject[0].Marked == 'A'):
+                    absentDays.append(attendanceObject[0].Date_time)
+                    if (datetime.datetime.now().month == attendanceObject[0].Date_time.month):
+                        totalClassesIncurrentMonth += 1
 
-                except:
-                    pass
-            if (totalClasses == 0):
-                retObj = dict(course=course, totalAttendance="N.A", monthAttendance="N.A")
-            elif (totalClassesIncurrentMonth == 0):
-                retObj = dict(course=course, totalAttendance=(classesPresent * 100.0 / totalClasses),
+
+        if (totalClasses == 0):
+            retObj = dict(course=course, totalAttendance="N.A", monthAttendance="N.A")
+        elif (totalClassesIncurrentMonth == 0):
+            retObj = dict(course=course, totalAttendance=(classesPresent * 100.0 / totalClasses),
                               monthAttendance="N.A")
-            else:
-                retObj = dict(course=course, totalAttendance=(classesPresent * 100.0 / totalClasses),
+        else:
+            retObj = dict(course=course, totalAttendance=(classesPresent * 100.0 / totalClasses),
                               monthAttendance=(totalClassesPresentInCurrentMonth * 100.0 / totalClassesIncurrentMonth))
-            CourseAttendanceContext.append(retObj)
-        attendanceContext = dict(CourseAttendanceContext=CourseAttendanceContext)
-    except:
-        attendanceContext = dict(ErrorMessage="No Registered Classes")
+        CourseAttendanceContext.append(retObj)
+    attendanceContext = dict(CourseAttendanceContext=CourseAttendanceContext)
+
+
     pendingAssignments = []
     StudentObject = Personnel.objects.filter(LDAP=user.id)
     CoursesByStudent = Students_Courses.objects.filter(Student_ID=StudentObject[0].Person_ID)
@@ -94,8 +94,8 @@ def dashboard(request):
 
 @login_required(login_url="/login/")
 def viewattendance(request):
-    #print("HErE")
-    try:
+   
+    
         user = request.user # getting data of the username
         userPersonnelObj = Personnel.objects.filter(LDAP=user) # getting the data from the table Personnel where LDAP is the username that we got earlier
 
@@ -103,42 +103,36 @@ def viewattendance(request):
         
         MyCourses = Students_Courses.objects.filter(Student_ID=userPersonnelObj[0].Person_ID)
 
-        #we now are taking data from Students_Courses table using the Person_ID that we got in the userPersonnelObj and putting it in MyCourses
-        #MyCourses contains Student_ID, Course_ID, Reg_Date
-
+	AttendanceSessions = Attendance_Session.objects.all()
         CourseAttendanceContext = []
-        classesPresent = 0
-	#print(MyCourses)
+        
         for course in MyCourses:
 	    
-            AttendanceSessions = Attendance_Session.objects.all()#(Course_Slot=course.Course_ID.Course_ID)
-            print(AttendanceSessions)
-            #We are taking data from Attendance_Session table using the course_ID that we got earlier.
+	    classesPresent = 0
             totalClasses = 0
             absentDays = []
-            for sessions in AttendanceSessions: #looping in AttendanceSessions
-	        print(sessions.Course_Slot.Course_ID.Course_ID)
-		print(course.Course_ID)
-		try:
-                    attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(
-                        ASession_ID=sessions.Session_ID)
-		   # print (attendanceObject)
-                    #Select alll the data in Attendance table where Sudent_ID is the Person_ID that is available in  UserPersonnelObj and  ASession_ID is the Session_ID s that are available in AttendanceSessions
-		  # print(attendanceObject[0])
-                    totalClasses += 1                    
+	    
+            for sessions in AttendanceSessions:
+		
+		if str(sessions.Course_Slot.Course_ID.Course_Name) == str(course.Course_ID):
+		    
+                    attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(ASession_ID=sessions.Session_ID)
+		    totalClasses += 1                    
+
                     if (attendanceObject[0].Marked == 'P'):
                         classesPresent += 1
                     elif (attendanceObject[0].Marked == 'A'):
                         absentDays.append(attendanceObject[0].Date_time)
-		  
-                except:
-                    pass
-            retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays, absent = totalClasses-classesPresent, percent = (classesPresent/totalClasses)*100)
+		
+	    percent = 0
+	    if totalClasses:	  
+                percent = classesPresent*100/totalClasses     
+	    retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays, absent = totalClasses-classesPresent, percent=percent)
             CourseAttendanceContext.append(retObj)
+	    
         context = dict(CourseAttendanceContext=CourseAttendanceContext)
-    except:
-        context = dict(ErrorMessage="No Registered Classes")
-    return render(request, "student/ViewAttendance.html", context)  #rendering the attendance page from templates   def AssgnSubStatusPending(request):
+    
+    	return render(request, "student/ViewAttendance.html", context)  #rendering the attendance page from templates   
 
 def AssgnSubStatusPending(request):
     '''
@@ -230,7 +224,7 @@ def registerCourses(request):
     '''
     This function allows add/drop a course for a student
     '''
-    print (request.POST)
+    
     user = request.user
     StudentObject = Personnel.objects.filter(LDAP=user.id)
     courses = Courses.objects.all()
@@ -241,15 +235,14 @@ def registerCourses(request):
 	    registerStudent = CourseByStudent.create(Student_ID=StudentObject[0], Course_ID=course,
                                                      Reg_Date=datetime.datetime.now())
 	    registerStudent.save()
-	    print(registerStudent)
+	    
         elif (CourseByStudent.count() != 0 and not request.POST.get(str(course.Course_ID))):
             CourseByStudent.delete()
-#	    registerStudent = CourseByStudent.create(Student_ID=StudentObject[0], Course_ID=course,
-#                                                     Reg_Date=datetime.datetime.now())
 
-    return render(request, "student/index.html", {})
 
-@login_required(login_url="/login/")
+    return redirect(reverse('students:index'))
+
+@login_required
 def upcoming_events(request):
     '''
     This function lists all the events

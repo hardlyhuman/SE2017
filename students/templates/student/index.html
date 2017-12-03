@@ -5,14 +5,14 @@
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Raleway:400,500,800">
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <style>
-        @import 'https://fonts.googleapis.com/css?family=Lato:300,400';
+       
         * {
             margin: 0;
             padding: 0;
         }
         body, html {
-            font-family: 'Lato', sans-serif;
-            font-size: 1.5vw;
+           
+            
             height: 100vh;
             overflow-x: hidden;
         }
@@ -222,8 +222,6 @@ ul, li {
 
 <!-- ICONS -->
 
-
-
 <div class="page-header">
         <h1>Welcome {{user.first_name}}</h1>
       </div>
@@ -242,8 +240,11 @@ ul, li {
                         <tr>
                             <th>Course</th>
 
+
                             <th>Attendance(Overall)</th>
-                            <th>Attendance(Month)</th>                   </tr></thead>
+                            <th>Attendance(Month)</th>
+
+                        </tr></thead>
                         {% for course in attendanceContext.CourseAttendanceContext %}
                             <tr>
                                 <td>
@@ -297,5 +298,6 @@ ul, li {
         </div>
     </div>
     <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+
 
 {% endblock %}

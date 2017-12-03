@@ -32,12 +32,10 @@
             padding: 10px 10px;
         }
         .attendance {
-            width: 40%;
             min-height: 80%;
             font-size: 80%;
         }
         .assignments {
-            width: 40%;
             min-height: 80%;
             font-size: 80%;
         }
@@ -217,29 +215,35 @@ ul, li {
   -webkit-transition: all .6s ease-in-out;
   transition: all .6s ease-in-out;
 }
+.panel-body{
+  background:#e3e5e8;
+}
   </style>
 
 <!-- ICONS -->
 
 
 
-
-
-        <h1 style="width:100%">Welcome {{user.first_name}} </h1>
-        <br />
-        <div class="row" style="width:100%;height: 100%">
-            <div class="panel-wrapper attendance col-md-5 row">
-                <div class="panel-head col-md-12">
+<div class="page-header">
+        <h1>Welcome {{user.first_name}}</h1>
+      </div>
+        <div class="row">
+            <div class="panel-wrapper attendance col-md-5">
+                <div class="row">
+                <div class="panel-heading col-md-12" style="background:#222222;color:white; align:left;">
                     Attendance
                 </div>
-                <div class="panel-body">
+                </div>
+                <div class="row">
+                <div class="panel-body col-md-12">
                     <br />
-                    <table class="table table-striped">
+                    <table id="tblSample" class="table table-bordered" style="background:white; width:100%;">
+                            <thead style="background: #333333;color:white">
                         <tr>
                             <th>Course</th>
 
                             <th>Attendance(Overall)</th>
-                            <th>Attendance(Month)</th>                   </tr>
+                            <th>Attendance(Month)</th>                   </tr></thead>
                         {% for course in attendanceContext.CourseAttendanceContext %}
                             <tr>
                                 <td>
@@ -261,18 +265,24 @@ ul, li {
                         {% endfor %}
                     </table>
                 </div>
+                </div>
             </div>
-            <div class="panel-wrapper assignments col-md-5" style="display: inline-block;margin-left: 5%;">
-                <div class="panel-head">
+            <div class="col-md-2"></div>
+            <div class="panel-wrapper assignments col-md-5">
+                    <div class="row">
+                <div class="panel-heading" style="background:#222222;color:white; align:left;">
                     Pending Assignments
                 </div>
+                </div>
+                <div class="row">
                 <div class="panel-body">
-                    <table class="table">
-                        <tr>
+                        <table id="tblSample" class="table table-bordered" style="background:white; width:100%;">
+                                <thead style="background: #333333;color:white">
+                            <tr>
                             <th>Course</th>
                             <th>Assignment No</th>
                             <th>Submission Due</th>
-                        </tr>
+                        </tr></thead>
                         {% for course in assignmentContext %}
                         <tr>
                             <td>{{course.Course.Course_ID}}</td>
@@ -283,9 +293,9 @@ ul, li {
                     </table>
                 </div>
             </div>
+            </div>
         </div>
     </div>
-
     <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
 
 {% endblock %}

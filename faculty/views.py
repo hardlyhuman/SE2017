@@ -247,31 +247,31 @@ def MyLibrary(request):
     success=0
     libfiles=[]
     if request.method == 'POST':
-	courses = Courses.objects.all()
-	libfiles=request.FILES.getlist("files")
-	for corse in courses:
-		if corse.Course_Name == request.session['course']:
-			course = Courses.objects.get(Course_Name=corse.Course_Name)
-		        break
-	for libfile in libfiles:
-		instance = Assignment(Course_ID=course, Assignment_File=libfile,Start_Time=datetime.datetime.now(),End_Time='1900-01-01')
-		instance.save()
-	success=1
-	asslist = []
-     	Assignments = Assignment.objects.all()
-     	for ass in Assignments:
-		if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.datetime.strptime('1900-01-01',"%Y-%m-%d").date():
-			asslist.append(ass)
-    	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'success':success})
+		courses = Courses.objects.all()
+		libfiles=request.FILES.getlist("files")
+		for corse in courses:
+			if corse.Course_Name == request.session['course']:
+				course = Courses.objects.get(Course_Name=corse.Course_Name)
+				break
+		for libfile in libfiles:
+			instance = Assignment(Course_ID=course, Assignment_File=libfile,Start_Time=datetime.datetime.now(),End_Time='1900-01-01')
+			instance.save()
+		success=1
+		asslist = []
+		Assignments = Assignment.objects.all()
+		for ass in Assignments:
+			if ass.Course_ID.Course_Name ==request.session['course'] and ass.End_Time.date()==datetime.datetime.strptime('1900-01-01',"%Y-%m-%d").date():
+				asslist.append(ass)
+		return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'success':success})
 
 
 
     else:
-	asslist = []
-	success=0
-     	Assignments = Assignment.objects.all()
-     	for assignment in Assignments:
-		if assignment.Course_ID.Course_Name ==request.session['course'] and assignment.End_Time.date()==datetime.datetime.strptime('1900-01-01',"%Y-%m-%d").date():
-			asslist.append(assignment)
-    	return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'success':success})
+		asslist = []
+		success=0
+		Assignments = Assignment.objects.all()
+		for assignment in Assignments:
+			if assignment.Course_ID.Course_Name ==request.session['course'] and assignment.End_Time.date()==datetime.datetime.strptime('1900-01-01',"%Y-%m-%d").date():
+				asslist.append(assignment)
+		return render(request, 'lib.html',{'MyLibList':asslist,'CourseName':request.session['course'],'success':success})
 

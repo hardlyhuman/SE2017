@@ -4,9 +4,10 @@ app_name='students'
 urlpatterns = [
         url(r'^$',views.dashboard,name='index'),
         url(r'^viewattendance/', views.viewattendance , name='ViewAttendance'),
-        url(r'^assgnsubstatuspending/', views.AssgnSubStatusPending, name='AssgnSubmissionStatusPending'),
+        url(r'^assgnsubstatuspending/', views.AssgnSubStatusPending, name='AssgnSubStatusPending'),
         url(r'^assgnsubstatusoverdue/', views.AssgnSubStatusOverdue, name='AssgnSubStatusOverdue'),
         url(r'^assgnsubstatussubmitted/', views.AssgnSubStatusSubmitted, name='AssgnSubStatusSubmitted'),
         url(r'^adddropcourses/', views.addDropCourses, name='addDropCourses'),
+        url(r'^events/', views.upcoming_events, name='event'),
         url(r'^register/', views.registerCourses, name='register'),
 ]

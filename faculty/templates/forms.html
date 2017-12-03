@@ -1,31 +1,15 @@
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
   $( function() {
-    $( "#duration1" ).datepicker();
+    $( "#duration1" ).datepicker({dateFormat:'yy-mm-dd'}).val();
   } );
   </script>
 {% extends "home/index.html" %}
 
 {% block content %}
-
-
-
-
-<script type="text/javascript">
-    var datefield=document.createElement("input")
-    datefield.setAttribute("type", "date")
-    if (datefield.type!="date"){
-            }
-</script>
-<script>
-if (datefield.type!="date"){
-    jQuery(function($){
-        $('#duration1').datepicker({dateFormat:'yy-mm-dd'}).val();
-    })
-}
-</script>
 <style>
 h3,h2{
 font-family:"Times New Roman";
@@ -52,19 +36,32 @@ margin-left:5px;
 input[type=file] {
     display: inline-block;
 }
+.file {
+  visibility: hidden;
+  position: absolute;
+}
 </style>
 <br>
+<script>
+$(document).on('click', '.browse', function(){
+  var file = $(this).parent().parent().parent().find('.file');
+  file.trigger('click');
+});
+$(document).on('change', '.file', function(){
+  $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+});
+</script>
 <p id="demo"></p>
 <script>
-var c={{s}};
+var c={{success}};
 console.log(c);
-var r={{s}};
+var r={{success}};
 if(r==1){
 	var t='<div class="alert alert-success"> <strong>Successfully Uploaded!</strong></div>';
 	document.getElementById("demo").innerHTML=t;
 	window.setTimeout(function() {
     $(".alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove(); 
+        $(this).remove();
     });
 }, 3000);
 }
@@ -73,20 +70,39 @@ else if(r==2){
 	document.getElementById("demo").innerHTML=t;
 	window.setTimeout(function() {
     $(".alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove(); 
+        $(this).remove();
     });
 }, 3000);
 }
 </script>
 
-<center><h3><b>Upload {{CourseName}} Assignment</b> </h3></center>
-<br>
-<center>
+<div class="panel panel-default">
+  <div class="panel-heading" style="background:#222222;color:white;">
+    Upload {{CourseName}} Assignment
+  </div>
+  <div class="panel-body" style="background:#e3e5e8">
 <form action="" method="post" enctype="multipart/form-data">
   {% csrf_token %}
-        <table><tr><td align="right" width="35%"><h3><b>File:</b></h3></td><td width="60%"><input type="file" class="file" name="file" required ></td></tr></table><br>
-	<label><h3><b>End Date</b></h3></label>&nbsp<input  type="date" name="enddate" id="duration1" required><br><br>
-        <input type="submit" class="upload" value="Upload">
-        <input type="reset" value="Reset"class="reset" >
+	<div class="form-group">
+        File:<input type="file" class="file"  name="file" required >
+	<div class="input-group col-xs-12">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-folder-open"></i></span>
+      <input type="text" class="form-control input-lg" disabled placeholder="Upload File">
+      <span class="input-group-btn">
+        <button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+      </span>
+    </div>
+	</div>
+	<div class="form-group">
+	<!--End Date:<input  type="date" name="enddate" id="duration1" required><br>
+	 -->End Date:<div class="input-group datepicker col-xs-12">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+      <input  type="date" name="enddate" id="duration1" required><br>
+	</div>
+	</div>
+	<input type="submit" class="btn btn-default"  value="Upload">
+        <input type="reset" class="btn btn-default" value="Reset" >
+</div>
     </form></center>
+  </div></div>
 {% endblock %}

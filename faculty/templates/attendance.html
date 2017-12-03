@@ -2,19 +2,20 @@
 {% block content %}
 
 <style>
-.abc{
-background-color:black;
-color:white !important;
+.panel-body{
+  background:#e3e5e8;
 }
 h3,h2{
 font-family:"Times New Roman";
 }
 </style>
-<center>
-<h2>{{CourseName}} Attendance</h2>
-<div class="container">
-<table id="tblSample" class="table table-inverse table-hover" border="1">
-<thead class="tabel table-inverse abc">
+<div class="panel panel-default">
+  <div class="panel-heading" style="background:#222222;color:white; align:left;">
+    {{CourseName}} Attendance
+  </div>
+  <div class="panel-body"><center>
+<table id="tblSample" class="table table-bordered" style="background:white; width:80%;">
+<thead style="background: #333333;color:white">
 <tr>
   <th>Session Date</th>
 <th>Students Present</th>
@@ -29,9 +30,9 @@ font-family:"Times New Roman";
 {% endfor %}
 </tbody>
 </table>
-</div>
 </center>
+</div>
+</div>
 <script>
 </script>
 {% endblock %}
-

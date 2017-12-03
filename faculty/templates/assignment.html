@@ -52,6 +52,7 @@ document.getElementById("clicked1").onclick = function () {
 </script>
 </div>
 <br>
+<center><h3><b>{{CourseName}} Assignment Deadlines</b></h3></center>
 <div class="container" id="right">
 {% if Assignments %}
 <table id="tblSample" class="table table-inverse table-hover" border="1">
@@ -64,7 +65,7 @@ document.getElementById("clicked1").onclick = function () {
 <tbody>
 {% for document in Assignments %}
 <tr>
-    <td><a href="{{document.Assignment_File.url}}"><h5><b>{{ document.Assignment_File.name|slice:"18:" }}</b></h5></a></td>
+    <td><a href="{{document.Assignment_File.url}}" target="_blank"><h5><b>{{ document.Assignment_File.name|slice:"18:" }}</b></h5></a></td>
     <td><h5><b>{{document.End_Time.date}}</b></h5></td>
 </tr>
     {% endfor %}

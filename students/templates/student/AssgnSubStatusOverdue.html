@@ -1,119 +1,64 @@
-﻿{% extends 'home/index.html' %}
+{% extends 'home/index.html' %}
 {% block content %}
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style>
-    </style>
 
-    {{overdueAssignments}}
-    <div class="panel panel-default">
-        <div class="panel-body"><h1>View Submission Status</h1></div>
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="form-group col-md-1" style="width:auto">
-                <label for="sel1">Course</label>
-                <select class="form-control" id="selcourse" onchange="setCourses()">
-                    <option value="default">Select a course</option>
-                    {% for i in overdueAssignments %}
-                    <option value="{{i.Course.Course_ID.Course_Name}}">{{i.Course.Course_ID.Course_Name}}</option>
-                    {% endfor %}
-                </select>
-                <!--<a href="#" id="download" download>download</a>-->
-            </div>
-            <div class="form-group col-md-1"style="width:auto">
-                <label for="sel1">Assignment</label>
-                <select class="form-control" id="selassign" onchange="setData()">
-                    <option value="default">Select a Course</option>
-                </select>
-            </div>
-            <div class="col-md-7"></div>
-            <div class='col-sm-3'>
-                <div class="form-group">
-                    <div class='input-group date' id='datetimepicker1'>
-                        <input type='text' class="form-control" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
-        <div class="row align-items-start">
-            <div class="col-md-3"></div>
-            <div class="col-md-6" style="background: grey; width:70%; position: relative">
-                <div class="container-fluid">
-                    <div class="row" style="font-size: 20px">
-                        <div class="col-md-4" style="width: 30%">Assignment No:<span id="assignno" class="label label-info">None</span></div>
-                        <div class="col-md-4" style="width: 30%">Course Name:<span id="coursename" class="label label-info">None</span></div>
-                        <div class="col-md-4" style="width: 30%">Score:<span id="score" class="label label-info">None</span></div>
-                    </div>
-                    <br>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-3"></div>
-                        <div class="col-md-6" style="font-size: 28px; width:60%">Submission status:<span id="status" class="label label-danger">Overdue</span></div>
-                        <div class="col-md-3"></div>
-                    </div>
-                    <br>
-                    <br>
-                    <div class="row" style="font-size: 20px">
-                        <div class="col-md-6">Deadline:<span id="deadline" class="label label-danger">None</span></div>
-                        <div class="col-md-6"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3"></div>
-            <br>
-        </div>
-    </div>
-    <script>
-        //recording data
-        assign_details = [];
-        sub_details = [];
-        courses = [];
-        id = 0;
-        {% for submission in overdueAssignments %}
-        assign_details[id] = [];
-        sub_details[id] = [];
-        courses.push("{{submission.Course.Course_ID.Course_Name}}");
-        assign_details[id].push("{{submission.assignment.Assign_ID}}");
-        assign_details[id].push("{{submission.assignment.End_Time}}");
-        sub_details[id].push("{{submission.submission.0.Score}}");
-        assign_details[id].push("{{submission.assignment.Assignment_File}}");
-        id = id + 1;
-        {% endfor %}
-    </script>
-    <script>
-        //Changing data based on input
-        function setCourses() {
-            var course = document.getElementById("selcourse").value;
-            var id = courses.indexOf(course);
-            document.getElementById("selassign").innerHTML = setAssign(course);
-        }
-        function setAssign(course) {
-            text = "<option value=default>Select a Assignment</option>";
-            for (i = 0; i < assign_details.length; i++) {
-                if (courses[i] == course) {
-                    text += "<option value=" + i + ">" + assign_details[i][0] + "</option>";
-                }
-            }
-            return text;
-        }
-        function setData() {
-            var id = document.getElementById("selassign").value;
-            document.getElementById("assignno").innerHTML = assign_details[id][0];
-            document.getElementById("coursename").innerHTML = courses[id];
-            document.getElementById("deadline").innerHTML = assign_details[id][1];
-            document.getElementById("score").innerHTML = sub_details[id][0];
-            document.getElementById("download").href = assign_details[id][2];
 
-        }
-    </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="jquery-ui.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <title>OverdueAssignments</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<body>
+
+<div class="container">
+  <ul class="nav nav-tabs">
+
+	<li><a data-toggle="tab" href="{% url 'students:AssgnSubStatusPending' %}">Pending Assignments</a></li>
+	<li><a data-toggle="tab" href="{% url 'students:AssgnSubStatusSubmitted' %}">Submitted Assignments</a></li>
+    <li class="active"><a data-toggle="tab" href="{% url 'students:AssgnSubStatusOverdue' %}">Overdue Assignments</a></li>
+
+
+
+
+
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane fade in active">
+		<h1>View Overdue Assignments</h1>
+		<div class="row">
+			<div class="col-md-2">
+			</div>
+			<div class="col-md-8" style="margin-top:2%">
+				<div class="container-fluid">                                                                                  
+					<div class="table-responsive">          
+						<form action="/student/register/" method="post">
+						<table class="table table-striped">
+							{% csrf_token %}
+							<tr>
+								<th style="width: 15%"><center>AssignmentID</center></th>
+								<th style="width: 45%"><center>CourseName</center></th>
+								<th style="width: 40%"><center>Download</center></th>
+							</tr>
+							{% for k in overdueAssignments %}
+							<tr>
+								<td><center>{{k.assignment.Assign_ID}}</center></td>
+								<td><center>{{k.Course.Course_ID}}</center></td>
+								<td><center><a href={{k.assignment.Assignment_File}} id="download" download>download</a></center></td>
+							</tr>
+							{% endfor %}	
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2">
+			</div>
+		</div>
+    </div>
+  </div>
+</div>
+</body>
 {% endblock %}
+
+
+

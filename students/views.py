@@ -14,9 +14,10 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 from home.models import *
+from django.core.urlresolvers import reverse
 
 
 @login_required(login_url="/login/")
@@ -223,7 +224,7 @@ def registerCourses(request):
     '''
     This function allows add/drop a course for a student
     '''
-    print (request.POST)
+    
     user = request.user
     StudentObject = Personnel.objects.filter(LDAP=user.id)
     courses = Courses.objects.all()
@@ -234,15 +235,14 @@ def registerCourses(request):
 	    registerStudent = CourseByStudent.create(Student_ID=StudentObject[0], Course_ID=course,
                                                      Reg_Date=datetime.datetime.now())
 	    registerStudent.save()
-	    print(registerStudent)
+	    
         elif (CourseByStudent.count() != 0 and not request.POST.get(str(course.Course_ID))):
             CourseByStudent.delete()
-#	    registerStudent = CourseByStudent.create(Student_ID=StudentObject[0], Course_ID=course,
-#                                                     Reg_Date=datetime.datetime.now())
 
-    return render(request, "student/index.html", {})
 
-@login_required(login_url="/login/")
+    return redirect(reverse('students:index'))
+
+@login_required
 def upcoming_events(request):
     '''
     This function lists all the events

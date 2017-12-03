@@ -1,4 +1,6 @@
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 {% extends "home/index.html" %}
 {% load static %}
 {% load faculty_extras %}
@@ -23,26 +25,16 @@ color:black;
 h3,h2{
 font-family:"Times New Roman";
 }
-#clicked1{
-background-color:black !important;
-color:white !important;
-border-radius:10px;
-height:35px;
-}
-#deadlines{
-background-color:#999999 !important;
-color:white !important;
-border-radius:10px;
-height:35px;
-}
 div#left {
     width:15%;
     float:left;
 }
-#file{
-position:absolute;
-top:100px;
-right:0px;
+.file {
+    visibility: hidden;
+    position: absolute;
+  }
+  .file{
+margin-left:15px;
 }
 .upload{
 position:relative;
@@ -56,6 +48,9 @@ text-align:center;
 }
 #main div{
 display:inline-block;
+}
+.panel-body{
+  background:#e3e5e8;
 }
 </style>
 <br>
@@ -72,15 +67,16 @@ if(r==1){
 }, 3000);
 }
 </script>
-<center><h3><b>{{CourseName}} Library</b></h3></center>
-<div id="tab">
-<table>
-<tr>
-<button id="deadlines" >Deadlines</button>
-<button id="clicked1"  >My Library</button>
-</tr>
-</table>
-</div>
+
+<div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-default" id="deadlines" >Deadlines</button>
+        <button type="button" class="btn btn-default" id="clicked1"  >My Library</button>
+      </div>
+      <div class="panel panel-default">
+            <div class="panel-heading" style="background:#222222;color:white; align:left;">
+                    {{CourseName}} Library
+            </div>
+    <div class="panel-body">
 <script type="text/javascript">
     document.getElementById("deadlines").onclick = function () {
         location.href = "{% url 'faculty:ViewAssignment' %}";
@@ -88,13 +84,35 @@ if(r==1){
 document.getElementById("clicked1").onclick = function () {
         location.href = "{% url 'faculty:MyLibrary' %}";
     };
+    $(document).on('click', '.browse', function(){
+          var file = $(this).parent().parent().parent().find('.file');
+          file.trigger('click');
+        });
+        $(document).on('change', '.file', function(){
+          $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+        });
 </script>
-</div>
+<form action="{% url 'faculty:MyLibrary' %}" method="post" enctype="multipart/form-data">
+    <!--{% csrf_token %}
+      <input type="file"  id="file" onchange="this.form.submit()" name='files' multiple />
+      </form></center>-->
+      {% csrf_token %}
+      <div class="form-group">
+              File:<input type="file" class="file" onchange="this.form.submit()"  name="files" multiple required >
+              <div class="input-group col-xs-12">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-folder-open"></i></span>
+            <input type="text" class="form-control input-lg" disabled placeholder="Upload File">
+            <span class="input-group-btn">
+              <button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+            </span>
+          </div>
+      </div>
+  </form>
+  <center>
 {% if MyLibList %}
-<center>
-<div class="container">
-<table class="table table-inverse table-hover" >
-<thead class="tabel table-inverse abc">
+
+<table id="tblSample" class="table table-bordered" style="background:white; width:80%;">
+<thead style="background: #333333;color:white">
 
 <th width="50%">File Name</th>
 <th width="20%">Size</th>
@@ -113,13 +131,9 @@ document.getElementById("clicked1").onclick = function () {
 
     {% endfor %}
 </table>
-</div>
-</center>
 
 {% endif %}
-<center>
-<form action="{% url 'faculty:MyLibrary' %}" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-	<input type="file"  id="file" onchange="this.form.submit()" name='files' multiple />
-    </form></center>
-{% endblock %}
+</center>
+</div>
+</div>
+    {% endblock %}

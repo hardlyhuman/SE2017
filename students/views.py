@@ -107,38 +107,42 @@ def viewattendance(request):
         #MyCourses contains Student_ID, Course_ID, Reg_Date
 
         CourseAttendanceContext = []
-        classesPresent = 0
-	#print(MyCourses)
+        #classesPresent = 0
+	print(MyCourses)
         for course in MyCourses:
-	    
-            AttendanceSessions = Attendance_Session.objects.all()#(Course_Slot=course.Course_ID.Course_ID)
-            print(AttendanceSessions)
+	    #print(course)
+	    print(course.Course_ID)
+	    classesPresent = 0
+            AttendanceSessions = Attendance_Session.objects.all()#filter(Course_Slot=course.Course_ID)
+            #print(AttendanceSessions)
             #We are taking data from Attendance_Session table using the course_ID that we got earlier.
             totalClasses = 0
             absentDays = []
             for sessions in AttendanceSessions: #looping in AttendanceSessions
-	        print(sessions.Course_Slot.Course_ID.Course_ID)
+	        print(sessions.Course_Slot.Course_ID.Course_Name)
 		print(course.Course_ID)
-		try:
-                    attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(
-                        ASession_ID=sessions.Session_ID)
+		#try:
+		if sessions.Course_Slot.Course_ID.Course_Name == course.Course_ID:
+                    attendanceObject = Attendance.objects.filter(Student_ID=userPersonnelObj[0].Person_ID).filter(ASession_ID=sessions.Session_ID)
 		   # print (attendanceObject)
                     #Select alll the data in Attendance table where Sudent_ID is the Person_ID that is available in  UserPersonnelObj and  ASession_ID is the Session_ID s that are available in AttendanceSessions
 		  # print(attendanceObject[0])
                     totalClasses += 1                    
+
                     if (attendanceObject[0].Marked == 'P'):
                         classesPresent += 1
                     elif (attendanceObject[0].Marked == 'A'):
                         absentDays.append(attendanceObject[0].Date_time)
-		  
-                except:
-                    pass
-            retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays, absent = totalClasses-classesPresent, percent = (classesPresent/totalClasses)*100)
+		else:
+		    pass	  
+                
+                retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays, absent = totalClasses-classesPresent, percent = (classesPresent/totalClasses)*100)
             CourseAttendanceContext.append(retObj)
+	print (CourseAttendanceContext)
         context = dict(CourseAttendanceContext=CourseAttendanceContext)
     except:
         context = dict(ErrorMessage="No Registered Classes")
-    return render(request, "student/ViewAttendance.html", context)  #rendering the attendance page from templates   def AssgnSubStatusPending(request):
+    return render(request, "student/ViewAttendance.html", context)  #rendering the attendance page from templates   
 
 def AssgnSubStatusPending(request):
     '''

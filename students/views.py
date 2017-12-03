@@ -133,12 +133,12 @@ def viewattendance(request):
                         classesPresent += 1
                     elif (attendanceObject[0].Marked == 'A'):
                         absentDays.append(attendanceObject[0].Date_time)
-		else:
-		    pass	  
+	#	else:
+	#	    pass	  
                 
-                retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays, absent = totalClasses-classesPresent, percent = (classesPresent/totalClasses)*100)
+            retObj = dict(course=course, present=classesPresent, total=totalClasses, absentDays=absentDays, absent = totalClasses-classesPresent, percent = (classesPresent/totalClasses)*100)
             CourseAttendanceContext.append(retObj)
-	print (CourseAttendanceContext)
+	    print (CourseAttendanceContext)
         context = dict(CourseAttendanceContext=CourseAttendanceContext)
     except:
         context = dict(ErrorMessage="No Registered Classes")

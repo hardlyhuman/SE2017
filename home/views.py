@@ -930,31 +930,3 @@ def change_stat(request):
 			tot.save()
 		print(atten_data)
 		return JsonResponse(status=200)
-def EditProfile(request):
-    obj = Personnel.objects.get(LDAP_id=request.user.id)
-    personID=obj.Person_ID
-    pObj = Personnel.objects.get(Person_ID=personID)
-    fObj , created = NotificationTime.objects.get_or_create(Personnel_ID=pObj)
-    #print fObj,'********************'
-    form = ProfileForm( request.POST, user = request.user, instance = fObj)
-    form2 = PasswordChangeForm(request.user, request.POST)
-    if request.method == 'POST':
-        if "name1" in request.POST:
-            if form.is_valid():
-                model_instance = form.save(commit=False)
-                #print personID, request.user.username
-                #print '########################'
-                model_instance.Personnel_ID = pObj
-                model_instance.save()
-                return redirect('../profile')
-            else:
-                form = ProfileForm(None,user = request.user, instance = fObj)
-        elif "name2" in request.POST:
-            if form2.is_valid():
-                user = form2.save()
-                update_session_auth_hash(request, user)  # Important!
-                messages.success(request, 'Your password was successfully updated!')
-                return redirect('../profile')
-            else:
-                messages.error(request, 'Please correct the error below.')
-    return render(request, 'home/profile.html', {'form':form,'form2': form2})

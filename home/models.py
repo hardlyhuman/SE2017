@@ -172,3 +172,11 @@ class Student_Attendance(models.Model):
     Absent = models.IntegerField(default=0)
     def __str__(self):
         return str(self.Student_ID) + ' ' + str(self.Course_ID)
+
+class NotificationTime(models.Model):
+    notification_time_choices =((15,15),
+                                (30,30),
+                                (60,60),
+                                (120,120))
+    Personnel_ID = models.ForeignKey(Personnel, to_field = 'Person_ID')
+    Notification_time = models.IntegerField(choices=notification_time_choices,default=30)
